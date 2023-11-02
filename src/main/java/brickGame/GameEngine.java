@@ -17,7 +17,7 @@ public class GameEngine {
      * @param fps set fps and we convert it to millisecond
      */
     public void setFps(int fps) {
-        this.fps = (int) 1000 / fps;
+        this.fps = (int)  2;
     }
 
     private synchronized void Update() {

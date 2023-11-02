@@ -1,36 +1,41 @@
 package brickGame;
 
-import java.io.File;
+
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 
+
+
 public class LoadSave {
-    public boolean          isExistHeartBlock;
-    public boolean          isGoldStauts;
-    public boolean          goDownBall;
-    public boolean          goRightBall;
-    public boolean          colideToBreak;
-    public boolean          colideToBreakAndMoveToRight;
-    public boolean          colideToRightWall;
-    public boolean          colideToLeftWall;
-    public boolean          colideToRightBlock;
-    public boolean          colideToBottomBlock;
-    public boolean          colideToLeftBlock;
-    public boolean          colideToTopBlock;
-    public int              level;
-    public int              score;
-    public int              heart;
-    public int              destroyedBlockCount;
-    public double           xBall;
-    public double           yBall;
-    public double           xBreak;
-    public double           yBreak;
-    public double           centerBreakX;
-    public long             time;
-    public long             goldTime;
-    public double           vX;
+    public boolean isExistHeartBlock;
+    public boolean isGoldStatus;
+    public boolean goDownBall;
+    public boolean goRightBall;
+    public boolean colideToBreak;
+    public boolean colideToBreakAndMoveToRight;
+    public boolean colideToRightWall;
+    public boolean colideToLeftWall;
+    public boolean colideToRightBlock;
+    public boolean colideToBottomBlock;
+    public boolean colideToLeftBlock;
+    public boolean colideToTopBlock;
+    public int level;
+    public int score;
+    public int heart;
+    public int destroyedBlockCount;
+    public double xBall;
+    public double yBall;
+    public double xBreak;
+    public double yBreak;
+    public double centerBreakX;
+    public long time;
+    public long goldTime;
+    public double vX;
     public ArrayList<BlockSerializable> blocks = new ArrayList<BlockSerializable>();
 
 
@@ -38,7 +43,7 @@ public class LoadSave {
 
 
         try {
-            ObjectInputStream inputStream = new ObjectInputStream(new FileInputStream(new File(Main.savePath)));
+            ObjectInputStream inputStream = new ObjectInputStream(new FileInputStream((Main.savePath)));
 
 
             level = inputStream.readInt();
@@ -58,7 +63,7 @@ public class LoadSave {
 
 
             isExistHeartBlock = inputStream.readBoolean();
-            isGoldStauts = inputStream.readBoolean();
+            isGoldStatus = inputStream.readBoolean();
             goDownBall = inputStream.readBoolean();
             goRightBall = inputStream.readBoolean();
             colideToBreak = inputStream.readBoolean();
@@ -81,5 +86,15 @@ public class LoadSave {
             e.printStackTrace();
         }
 
+    }
+
+    public static boolean check_mdds(String savePath) {
+
+        return checkFile(savePath);
+    }
+
+    public static boolean checkFile(String savePath){
+        Path path = Paths.get(savePath);
+        return Files.exists(path) && Files.isRegularFile(path);
     }
 }
