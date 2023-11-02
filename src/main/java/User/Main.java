@@ -1,5 +1,6 @@
-package brickGame;
+package User;
 
+import brickGame.*;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
@@ -18,9 +19,11 @@ import javafx.stage.Stage;
 
 import java.io.*;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 import static brickGame.LoadSave.check_mdds;
+
 
 public class Main extends Application implements EventHandler<KeyEvent>, GameEngine.OnAction {
 
@@ -49,7 +52,7 @@ public class Main extends Application implements EventHandler<KeyEvent>, GameEng
     private boolean isExistHeartBlock = false;
 
     private Rectangle rect;
-    private final int ballRadius = 10;
+    private final double ballRadius = 10;
 
     private int destroyedBlockCount = 0;
 
@@ -105,7 +108,7 @@ public class Main extends Application implements EventHandler<KeyEvent>, GameEng
             }
             if (level == 18) {
                 new Score().showWin(this);
-                return;
+                return ;
             }
 
             initBall();
@@ -273,6 +276,8 @@ public class Main extends Application implements EventHandler<KeyEvent>, GameEng
             }
         }).start();
 
+//        engine.stopTimeThread();
+
 
     }
 
@@ -372,7 +377,7 @@ public class Main extends Application implements EventHandler<KeyEvent>, GameEng
                 colideToBreak = true;
                 goDownBall = false;
 
-                double relation = (xBall - centerBreakX) / (breakWidth / 2);
+                double relation = (xBall - centerBreakX) / ((double) breakWidth / 2);
 
                 if (Math.abs(relation) <= 0.3) {
                     //vX = 0;
@@ -459,8 +464,9 @@ public class Main extends Application implements EventHandler<KeyEvent>, GameEng
         new Thread(new Runnable() {
             @Override
             public void run() {
-                if (new File(savePathDir).mkdirs()){
-                    File file = new File(savePath);
+                List<Block> blocks = new ArrayList<>();
+                new File(savePathDir).mkdirs();
+                File file = new File(savePath);
                 ObjectOutputStream outputStream = null;
                 try {
                     outputStream = new ObjectOutputStream(new FileOutputStream(file));
@@ -495,6 +501,7 @@ public class Main extends Application implements EventHandler<KeyEvent>, GameEng
                     outputStream.writeBoolean(colideToTopBlock);
 
                     ArrayList<BlockSerializable> blockSerializables = new ArrayList<BlockSerializable>();
+                    //List<Block> blocks = new ArrayList<>();
                     for (Block block : blocks) {
                         if (block.isDestroyed) {
                             continue;
@@ -507,8 +514,6 @@ public class Main extends Application implements EventHandler<KeyEvent>, GameEng
                     new Score().showMessage("Game Saved", Main.this);
 
 
-                } catch (FileNotFoundException e) {
-                    e.printStackTrace();
                 } catch (IOException e) {
                     e.printStackTrace();
                 } finally {
@@ -522,9 +527,10 @@ public class Main extends Application implements EventHandler<KeyEvent>, GameEng
                     }
                 }
             }
-            }
+
         }).start();
 
+//        engine.stopTimeThread();
     }
 
     private void loadGame() {

@@ -7,6 +7,8 @@ public class GameEngine {
     private int fps = 15;
     private Thread updateThread;
     private Thread physicsThread;
+
+    private volatile boolean isTimeThreadRunning = true;
     public boolean isStopped = true;
 
     public void setOnAction(OnAction onAction) {
@@ -17,7 +19,7 @@ public class GameEngine {
      * @param fps set fps and we convert it to millisecond
      */
     public void setFps(int fps) {
-        this.fps = (int)  2;
+        this.fps = 800/fps;
     }
 
     private synchronized void Update() {
@@ -83,11 +85,10 @@ public class GameEngine {
     private Thread timeThread;
 
     private void TimeStart() {
-        timeThread = new Thread(new Runnable() {
-            @Override
-            public void run() {
+        timeThread = new Thread(()-> {
+
                 try {
-                    while (true) {
+                    while (isTimeThreadRunning) {
                         time++;
                         onAction.onTime(time);
                         Thread.sleep(1);
@@ -95,11 +96,15 @@ public class GameEngine {
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
-            }
+
         });
         timeThread.start();
     }
 
+//    public void stopTimeThread() {
+//        isTimeThreadRunning = false;
+//        timeThread.interrupt();
+//    }
 
     public interface OnAction {
         void onUpdate();

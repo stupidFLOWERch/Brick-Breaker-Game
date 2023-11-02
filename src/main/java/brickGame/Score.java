@@ -1,5 +1,6 @@
 package brickGame;
 
+import User.Main;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -8,6 +9,7 @@ import javafx.scene.control.Label;
 //import sun.plugin2.message.Message;
 
 public class Score {
+
     public void show(final double x, final double y, int score, final Main main) {
         String sign;
         if (score >= 0) {
@@ -31,9 +33,12 @@ public class Score {
             public void run() {
                 for (int i = 0; i < 21; i++) {
                     try {
-                        label.setScaleX(i);
-                        label.setScaleY(i);
-                        label.setOpacity((20 - i) / 20.0);
+                        final int currentIndex = i;
+                        Platform.runLater(() -> {
+                                    label.setScaleX(currentIndex);
+                                    label.setScaleY(currentIndex);
+                                    label.setOpacity((20 - currentIndex) / 20.0);
+                                });
                         Thread.sleep(15);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
@@ -41,6 +46,7 @@ public class Score {
                 }
             }
         }).start();
+
     }
 
     public void showMessage(String message, final Main main) {
@@ -48,11 +54,10 @@ public class Score {
         label.setTranslateX(220);
         label.setTranslateY(340);
 
-        Platform.runLater(new Runnable() {
-            @Override
-            public void run() {
+        Platform.runLater(()-> {
+
                 main.root.getChildren().add(label);
-            }
+
         });
 
         new Thread(new Runnable() {
@@ -60,9 +65,13 @@ public class Score {
             public void run() {
                 for (int i = 0; i < 21; i++) {
                     try {
-                        label.setScaleX(Math.abs(i-10));
-                        label.setScaleY(Math.abs(i-10));
-                        label.setOpacity((20 - i) / 20.0);
+                        final int currentIndex = i;
+                        Platform.runLater(() -> {
+                            label.setScaleX(Math.abs(currentIndex-10));
+                            label.setScaleY(Math.abs(currentIndex-10));
+                            label.setOpacity((20 - currentIndex) / 20.0);
+                        });
+
                         Thread.sleep(15);
                     } catch (InterruptedException e) {
                         e.printStackTrace();

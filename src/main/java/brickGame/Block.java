@@ -42,6 +42,8 @@ public class Block implements Serializable {
     public static int BLOCK_HEART = 102;
 
 
+
+
     public Block(int row, int column, Color color, int type) {
         this.row = row;
         this.column = column;
@@ -82,23 +84,30 @@ public class Block implements Serializable {
 
     public int checkHitToBlock(double xBall, double yBall) {
 
+        double ballRadius = 10;
+
+        double brickLeft = x;
+        double brickRight = x + width;
+        double brickTop = y;
+        double brickBottom = y + height;
+
         if (isDestroyed) {
             return NO_HIT;
         }
 
-        if (xBall >= x && xBall <= x + width && yBall == y + height) {
-            return HIT_BOTTOM;
-        }
-
-        if (xBall >= x && xBall <= x + width && yBall == y) {
+        if (xBall  >= brickLeft - ballRadius&& xBall <= brickRight + ballRadius&& yBall  == brickTop + ballRadius) {
             return HIT_TOP;
         }
 
-        if (yBall >= y && yBall <= y + height && xBall == x + width) {
+        if (xBall  >= brickLeft - ballRadius&& xBall  <= brickRight + ballRadius&& yBall  == brickBottom - ballRadius) {
+            return HIT_BOTTOM;
+        }
+
+        if (yBall  >= brickTop + ballRadius && yBall  <= brickBottom - ballRadius && xBall  == brickRight + ballRadius) {
             return HIT_RIGHT;
         }
 
-        if (yBall >= y && yBall <= y + height && xBall == x) {
+        if (yBall >= brickTop + ballRadius&& yBall  <= brickBottom - ballRadius && xBall  == brickLeft- ballRadius) {
             return HIT_LEFT;
         }
 
