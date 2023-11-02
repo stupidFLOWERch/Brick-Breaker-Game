@@ -25,6 +25,7 @@ public class GameEngine {
     private synchronized void Update() {
         updateThread = new Thread(new Runnable() {
             @Override
+
             public void run() {
                 while (!updateThread.isInterrupted()) {
                     try {

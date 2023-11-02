@@ -22,7 +22,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import Sound.Sound;
 import static brickGame.LoadSave.check_mdds;
+
+
+
 
 
 public class Main extends Application implements EventHandler<KeyEvent>, GameEngine.OnAction {
@@ -674,6 +678,7 @@ public class Main extends Application implements EventHandler<KeyEvent>, GameEng
                     block.rect.setVisible(false);
                     block.isDestroyed = true;
                     destroyedBlockCount++;
+                    new Sound();
                     //System.out.println("size is " + blocks.size());
                     resetColideFlags();
 
