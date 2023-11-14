@@ -24,7 +24,11 @@ public class Score {
         Platform.runLater(new Runnable() {
             @Override
             public void run() {
-                main.root.getChildren().add(label);
+                Platform.runLater(() -> {
+                    if (main.root != null) {
+                        main.root.getChildren().addAll(label);
+                    }
+                });
             }
         });
 
@@ -54,10 +58,10 @@ public class Score {
         label.setTranslateX(220);
         label.setTranslateY(340);
 
-        Platform.runLater(()-> {
-
-                main.root.getChildren().add(label);
-
+        Platform.runLater(() -> {
+            if (main.root != null) {
+                main.root.getChildren().addAll(label);
+            }
         });
 
         new Thread(new Runnable() {
@@ -101,7 +105,11 @@ public class Score {
                     }
                 });
 
-                main.root.getChildren().addAll(label, restart);
+                Platform.runLater(() -> {
+                    if (main.root != null) {
+                        main.root.getChildren().addAll(label, restart);
+                    }
+                });
 
             }
         });
@@ -118,7 +126,11 @@ public class Score {
                 label.setScaleY(2);
 
 
-                main.root.getChildren().addAll(label);
+                Platform.runLater(() -> {
+                    if (main.root != null) {
+                        main.root.getChildren().addAll(label);
+                    }
+                });
 
             }
         });

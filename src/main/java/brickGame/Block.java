@@ -85,7 +85,7 @@ public class Block implements Serializable {
     public int checkHitToBlock(double xBall, double yBall) {
 
         double ballRadius = 10;
-        double epsilon = 1e-15;
+        double epsilon = 0.01 * height;
         double brickLeft = x;
         double brickRight = x + width;
         double brickTop = y;
