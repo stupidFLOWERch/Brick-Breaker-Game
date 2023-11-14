@@ -85,7 +85,7 @@ public class Block implements Serializable {
     public int checkHitToBlock(double xBall, double yBall) {
 
         double ballRadius = 10;
-
+        double epsilon = 1e-15;
         double brickLeft = x;
         double brickRight = x + width;
         double brickTop = y;
@@ -95,19 +95,19 @@ public class Block implements Serializable {
             return NO_HIT;
         }
 
-        if (xBall  >= brickLeft - ballRadius&& xBall <= brickRight + ballRadius&& yBall  == brickTop + ballRadius) {
+        if (xBall  >= brickLeft - ballRadius && xBall <= brickRight + ballRadius && yBall >= brickTop && yBall <= brickTop + ballRadius + epsilon) {
             return HIT_TOP;
         }
 
-        if (xBall  >= brickLeft - ballRadius&& xBall  <= brickRight + ballRadius&& yBall  == brickBottom - ballRadius) {
+        if (xBall  >= brickLeft - ballRadius && xBall  <= brickRight + ballRadius && yBall  <= brickBottom + epsilon && yBall >= brickBottom - ballRadius) {
             return HIT_BOTTOM;
         }
 
-        if (yBall  >= brickTop + ballRadius && yBall  <= brickBottom - ballRadius && xBall  == brickRight + ballRadius) {
+        if (yBall  >= brickTop - epsilon && yBall  <= brickBottom + epsilon && xBall  >= brickRight && xBall <= brickRight + ballRadius) {
             return HIT_RIGHT;
         }
 
-        if (yBall >= brickTop + ballRadius&& yBall  <= brickBottom - ballRadius && xBall  == brickLeft- ballRadius) {
+        if (yBall >= brickTop - epsilon && yBall  <= brickBottom + epsilon && xBall  <= brickLeft + ballRadius && xBall >= brickLeft - ballRadius) {
             return HIT_LEFT;
         }
 

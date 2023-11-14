@@ -280,7 +280,7 @@ public class Main extends Application implements EventHandler<KeyEvent>, GameEng
             }
         }).start();
 
-//        engine.stopTimeThread();
+
 
 
     }
@@ -440,7 +440,7 @@ public class Main extends Application implements EventHandler<KeyEvent>, GameEng
         }
 
         if (colideToLeftBlock) {
-            goRightBall = true;
+            goRightBall = false;
         }
 
         if (colideToTopBlock) {
@@ -520,6 +520,7 @@ public class Main extends Application implements EventHandler<KeyEvent>, GameEng
 
                 } catch (IOException e) {
                     e.printStackTrace();
+
                 } finally {
                     try {
                         if (outputStream != null) {
@@ -528,6 +529,7 @@ public class Main extends Application implements EventHandler<KeyEvent>, GameEng
                         }
                     } catch (IOException e) {
                         e.printStackTrace();
+
                     }
                 }
             }
@@ -642,6 +644,7 @@ public class Main extends Application implements EventHandler<KeyEvent>, GameEng
             start(primaryStage);
         } catch (Exception e) {
             e.printStackTrace();
+
         }
     }
 
