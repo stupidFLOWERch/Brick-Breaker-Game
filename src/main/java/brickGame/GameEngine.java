@@ -8,7 +8,7 @@ public class GameEngine {
     private Thread updateThread;
     private Thread physicsThread;
 
-    private volatile boolean isTimeThreadRunning = true;
+    private boolean isTimeThreadRunning = true;
     public boolean isStopped = true;
 
     public void setOnAction(OnAction onAction) {
@@ -32,7 +32,9 @@ public class GameEngine {
                         onAction.onUpdate();
                         Thread.sleep(fps);
                     } catch (InterruptedException e) {
-                        e.printStackTrace();
+                        Thread.currentThread().interrupt();
+                        //e.printStackTrace();
+                        break;
                     }
                 }
             }
@@ -48,12 +50,14 @@ public class GameEngine {
         physicsThread = new Thread(new Runnable() {
             @Override
             public void run() {
-                while (!physicsThread.isInterrupted()) {
+                while (!Thread.interrupted()) {
                     try {
                         onAction.onPhysicsUpdate();
                         Thread.sleep(fps);
                     } catch (InterruptedException e) {
-                        e.printStackTrace();
+                        Thread.currentThread().interrupt();
+                        //e.printStackTrace();
+                        break;
                     }
                 }
             }
@@ -75,9 +79,10 @@ public class GameEngine {
     public void stop() {
         if (!isStopped) {
             isStopped = true;
-            updateThread.stop();
-            physicsThread.stop();
-            timeThread.stop();
+            updateThread.interrupt();
+            physicsThread.interrupt();
+            timeThread.interrupt();
+            stopTimeThread();
         }
     }
 
@@ -87,25 +92,25 @@ public class GameEngine {
 
     private void TimeStart() {
         timeThread = new Thread(()-> {
-
+            while (isTimeThreadRunning) {
                 try {
-                    while (isTimeThreadRunning) {
-                        time++;
-                        onAction.onTime(time);
-                        Thread.sleep(1);
-                    }
+                    time++;
+                    onAction.onTime(time);
+                    Thread.sleep(1);
                 } catch (InterruptedException e) {
-                    e.printStackTrace();
+                    Thread.currentThread().interrupt();
+                    //e.printStackTrace();
+                    break;
                 }
-
+            }
         });
         timeThread.start();
     }
 
-//    public void stopTimeThread() {
-//        isTimeThreadRunning = false;
-//        timeThread.interrupt();
-//    }
+    public void stopTimeThread() {
+        isTimeThreadRunning = false;
+        timeThread.interrupt();
+    }
 
     public interface OnAction {
         void onUpdate();
