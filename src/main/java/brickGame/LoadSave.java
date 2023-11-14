@@ -84,16 +84,12 @@ public class LoadSave {
 
         } catch (IOException e) {
             e.printStackTrace();
+            // Handle the exception appropriately
         }
 
     }
 
     public static boolean check_mdds(String savePath) {
-
-        return checkFile(savePath);
-    }
-
-    public static boolean checkFile(String savePath){
         Path path = Paths.get(savePath);
         return Files.exists(path) && Files.isRegularFile(path);
     }
