@@ -78,6 +78,7 @@ public class LoadSave {
 
             try {
                 blocks = (ArrayList<BlockSerializable>) inputStream.readObject();
+                initializeBonusObjects(blocks);
             } catch (ClassNotFoundException e) {
                 e.printStackTrace();
             }
@@ -87,6 +88,14 @@ public class LoadSave {
             // Handle the exception appropriately
         }
 
+    }
+    private void initializeBonusObjects(ArrayList<BlockSerializable> blockSerializables) {
+        for (BlockSerializable ser : blockSerializables) {
+            if (ser.type == Block.BLOCK_CHOCO) {
+                Bonus bonus = new Bonus(ser.row, ser.column);
+                bonus.initializeChoco();
+            }
+        }
     }
 
     public static boolean check_mdds(String savePath) {

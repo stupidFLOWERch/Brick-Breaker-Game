@@ -23,19 +23,15 @@ public class GameEngine {
     }
 
     private synchronized void Update() {
-        updateThread = new Thread(new Runnable() {
-            @Override
-
-            public void run() {
-                while (!updateThread.isInterrupted()) {
-                    try {
-                        onAction.onUpdate();
-                        Thread.sleep(fps);
-                    } catch (InterruptedException e) {
-                        Thread.currentThread().interrupt();
-                        //e.printStackTrace();
-                        break;
-                    }
+        updateThread = new Thread(() -> {
+            while (!updateThread.isInterrupted()) {
+                try {
+                    onAction.onUpdate();
+                    Thread.sleep(fps);
+                } catch (InterruptedException e) {
+                    Thread.currentThread().interrupt();
+                    //e.printStackTrace();
+                    break;
                 }
             }
         });
@@ -47,18 +43,15 @@ public class GameEngine {
     }
 
     private synchronized void PhysicsCalculation() {
-        physicsThread = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                while (!Thread.interrupted()) {
-                    try {
-                        onAction.onPhysicsUpdate();
-                        Thread.sleep(fps);
-                    } catch (InterruptedException e) {
-                        Thread.currentThread().interrupt();
-                        //e.printStackTrace();
-                        break;
-                    }
+        physicsThread = new Thread(() -> {
+            while (!Thread.interrupted()) {
+                try {
+                    onAction.onPhysicsUpdate();
+                    Thread.sleep(fps);
+                } catch (InterruptedException e) {
+                    Thread.currentThread().interrupt();
+                    //e.printStackTrace();
+                    break;
                 }
             }
         });
