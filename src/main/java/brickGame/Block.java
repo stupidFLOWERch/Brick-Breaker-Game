@@ -1,6 +1,7 @@
 package brickGame;
 
 
+import javafx.application.Platform;
 import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
@@ -66,17 +67,17 @@ public class Block implements Serializable {
         if (type == BLOCK_CHOCO) {
             Image image = new Image("choco.jpg");
             ImagePattern pattern = new ImagePattern(image);
-            rect.setFill(pattern);
+            Platform.runLater(() -> rect.setFill(pattern));
         } else if (type == BLOCK_HEART) {
             Image image = new Image("heart.jpg");
             ImagePattern pattern = new ImagePattern(image);
-            rect.setFill(pattern);
+            Platform.runLater(() -> rect.setFill(pattern));
         } else if (type == BLOCK_STAR) {
             Image image = new Image("star.jpg");
             ImagePattern pattern = new ImagePattern(image);
-            rect.setFill(pattern);
+            Platform.runLater(() -> rect.setFill(pattern));
         } else {
-            rect.setFill(color);
+            Platform.runLater(() -> rect.setFill(color));
         }
 
     }

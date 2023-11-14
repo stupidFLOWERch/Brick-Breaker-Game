@@ -93,6 +93,7 @@ public class Main extends Application implements EventHandler<KeyEvent>, GameEng
     private Label            scoreLabel;
     private Label            heartLabel;
     private Label            levelLabel;
+    private final Random random = new Random();
 
     private boolean loadFromSave = false;
 
@@ -103,7 +104,6 @@ public class Main extends Application implements EventHandler<KeyEvent>, GameEng
     @Override
     public void start(Stage primaryStage) {
         this.primaryStage = primaryStage;
-        root = new Pane();
 
         if (!loadFromSave) {
             level++;
@@ -129,7 +129,7 @@ public class Main extends Application implements EventHandler<KeyEvent>, GameEng
         }
 
 
-
+        root = new Pane();
         scoreLabel = new Label("Score: " + score);
         levelLabel = new Label("Level: " + level);
         levelLabel.setTranslateY(20);
@@ -196,10 +196,28 @@ public class Main extends Application implements EventHandler<KeyEvent>, GameEng
 
     }
 
+    private void initBall() {
+        xBall = random.nextInt(sceneWidth) + 1;
+        yBall = random.nextInt(sceneHeight - 200) + ((level + 1) * Block.getHeight()) + 15;
+        ball = new Circle();
+        ball.setRadius(ballRadius);
+        ball.setFill(new ImagePattern(new Image("ball.png")));
+    }
+    private void initBreak() {
+        rect = new Rectangle();
+        rect.setWidth(breakWidth);
+        rect.setHeight(breakHeight);
+        rect.setX(xBreak);
+        rect.setY(yBreak);
+
+        ImagePattern pattern = new ImagePattern(new Image("block.jpg"));
+
+        rect.setFill(pattern);
+    }
     private void initBoard() {
         for (int i = 0; i < 4; i++) {
             for (int j = 0; j < level + 1; j++) {
-                int r = new Random().nextInt(500);
+                int r = random.nextInt(500);
                 if (r % 5 == 0) {
                     continue;
                 }
@@ -283,28 +301,6 @@ public class Main extends Application implements EventHandler<KeyEvent>, GameEng
 
 
 
-    }
-
-
-    private void initBall() {
-        Random random = new Random();
-        xBall = random.nextInt(sceneWidth) + 1;
-        yBall = random.nextInt(sceneHeight - 200) + ((level + 1) * Block.getHeight()) + 15;
-        ball = new Circle();
-        ball.setRadius(ballRadius);
-        ball.setFill(new ImagePattern(new Image("ball.png")));
-    }
-
-    private void initBreak() {
-        rect = new Rectangle();
-        rect.setWidth(breakWidth);
-        rect.setHeight(breakHeight);
-        rect.setX(xBreak);
-        rect.setY(yBreak);
-
-        ImagePattern pattern = new ImagePattern(new Image("block.jpg"));
-
-        rect.setFill(pattern);
     }
 
 
@@ -504,13 +500,14 @@ public class Main extends Application implements EventHandler<KeyEvent>, GameEng
                     outputStream.writeBoolean(collideToTopBlock);
 
                     ArrayList<BlockSerializable> blockSerializables = new ArrayList<BlockSerializable>();
-                    for (Block block : blocks) {
-                        if (block.isDestroyed) {
-                            continue;
+                    if(!blocks.isEmpty()) {
+                        for (Block block : blocks) {
+                            if (block.isDestroyed) {
+                                continue;
+                            }
+                            blockSerializables.add(new BlockSerializable(block.row, block.column, block.type));
                         }
-                        blockSerializables.add(new BlockSerializable(block.row, block.column, block.type));
                     }
-
                     outputStream.writeObject(blockSerializables);
 
                     new Score().showMessage("Game Saved", Main.this);
@@ -571,13 +568,14 @@ public class Main extends Application implements EventHandler<KeyEvent>, GameEng
         chocos.clear();
 
         for (BlockSerializable ser : loadSave.blocks) {
-            int r = new Random().nextInt(200);
-            blocks.add(new Block(ser.row, ser.j, colors[r % colors.length], ser.type));
+            int r = random.nextInt(200);
+            blocks.add(new Block(ser.row, ser.column, colors[r % colors.length], ser.type));
         }
 
 
         try {
             loadFromSave = true;
+            root.getChildren().clear();
             start(primaryStage);
         } catch (Exception e) {
             e.printStackTrace();
@@ -587,8 +585,6 @@ public class Main extends Application implements EventHandler<KeyEvent>, GameEng
     }
 
     private void nextLevel() {
-        Platform.runLater(()-> {
-                try {
                     vX = 1.000;
                     // stop the engine
                     engine.stop();
@@ -608,6 +604,9 @@ public class Main extends Application implements EventHandler<KeyEvent>, GameEng
                     blocks.clear();
                     chocos.clear();
                     destroyedBlockCount = 0;
+
+        Platform.runLater(()-> {
+            try {
                     start(primaryStage);
 
                 } catch (Exception e) {
