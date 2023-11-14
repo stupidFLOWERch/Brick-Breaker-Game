@@ -10,6 +10,9 @@ import javafx.scene.control.Label;
 
 public class Score {
 
+    private static final int ANIMATION_DURATION = 21;
+    private static final int ANIMATION_DELAY = 15;
+
     public void show(final double x, final double y, int score, final Main main) {
         String sign;
         if (score >= 0) {
@@ -21,32 +24,22 @@ public class Score {
         label.setTranslateX(x);
         label.setTranslateY(y);
 
-        Platform.runLater(new Runnable() {
-            @Override
-            public void run() {
-                Platform.runLater(() -> {
-                    if (main.root != null) {
-                        main.root.getChildren().addAll(label);
-                    }
-                });
-            }
+        Platform.runLater(() -> {
+        main.root.getChildren().add(label);
         });
 
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                for (int i = 0; i < 21; i++) {
-                    try {
-                        final int currentIndex = i;
-                        Platform.runLater(() -> {
-                                    label.setScaleX(currentIndex);
-                                    label.setScaleY(currentIndex);
-                                    label.setOpacity((20 - currentIndex) / 20.0);
-                                });
-                        Thread.sleep(15);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
+        new Thread(() -> {
+            for (int i = 0; i < ANIMATION_DURATION; i++) {
+                try {
+                    final int currentIndex = i;
+                    Platform.runLater(() -> {
+                        label.setScaleX(currentIndex);
+                        label.setScaleY(currentIndex);
+                        label.setOpacity((20 - currentIndex) / 20.0);
+                    });
+                    Thread.sleep(ANIMATION_DELAY);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
                 }
             }
         }).start();
@@ -58,16 +51,16 @@ public class Score {
         label.setTranslateX(220);
         label.setTranslateY(340);
 
-        Platform.runLater(() -> {
-            if (main.root != null) {
-                main.root.getChildren().addAll(label);
-            }
+        Platform.runLater(()-> {
+
+            main.root.getChildren().add(label);
+
         });
 
         new Thread(new Runnable() {
             @Override
             public void run() {
-                for (int i = 0; i < 21; i++) {
+                for (int i = 0; i < ANIMATION_DURATION; i++) {
                     try {
                         final int currentIndex = i;
                         Platform.runLater(() -> {
@@ -76,7 +69,7 @@ public class Score {
                             label.setOpacity((20 - currentIndex) / 20.0);
                         });
 
-                        Thread.sleep(15);
+                        Thread.sleep(ANIMATION_DELAY);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
@@ -86,52 +79,34 @@ public class Score {
     }
 
     public void showGameOver(final Main main) {
-        Platform.runLater(new Runnable() {
-            @Override
-            public void run() {
-                Label label = new Label("Game Over :(");
-                label.setTranslateX(200);
-                label.setTranslateY(250);
-                label.setScaleX(2);
-                label.setScaleY(2);
+        Platform.runLater(() -> {
+            Label label = new Label("Game Over :(");
+            label.setTranslateX(200);
+            label.setTranslateY(250);
+            label.setScaleX(2);
+            label.setScaleY(2);
 
-                Button restart = new Button("Restart");
-                restart.setTranslateX(220);
-                restart.setTranslateY(300);
-                restart.setOnAction(new EventHandler<ActionEvent>() {
-                    @Override
-                    public void handle(ActionEvent event) {
-                        main.restartGame();
-                    }
-                });
+            Button restart = new Button("Restart");
+            restart.setTranslateX(220);
+            restart.setTranslateY(300);
+            restart.setOnAction(event -> main.restartGame());
 
-                Platform.runLater(() -> {
-                    if (main.root != null) {
-                        main.root.getChildren().addAll(label, restart);
-                    }
-                });
+            main.root.getChildren().addAll(label, restart);
 
-            }
         });
     }
 
     public void showWin(final Main main) {
-        Platform.runLater(new Runnable() {
-            @Override
-            public void run() {
-                Label label = new Label("You Win :)");
-                label.setTranslateX(200);
-                label.setTranslateY(250);
-                label.setScaleX(2);
-                label.setScaleY(2);
+        Platform.runLater(() -> {
+            Label label = new Label("You Win :)");
+            label.setTranslateX(200);
+            label.setTranslateY(250);
+            label.setScaleX(2);
+            label.setScaleY(2);
 
 
-                Platform.runLater(() -> {
-                    if (main.root != null) {
-                        main.root.getChildren().addAll(label);
-                    }
-                });
-
+            if (main.root != null) {
+                main.root.getChildren().addAll(label);
             }
         });
     }
