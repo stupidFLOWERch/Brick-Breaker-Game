@@ -468,7 +468,6 @@ public class Main extends Application implements EventHandler<KeyEvent>, GameEng
         new Thread(new Runnable() {
             @Override
             public void run() {
-                List<Block> blocks = new ArrayList<>();
                 new File(savePathDir).mkdirs();
                 File file = new File(savePath);
                 ObjectOutputStream outputStream = null;
@@ -478,7 +477,7 @@ public class Main extends Application implements EventHandler<KeyEvent>, GameEng
                     outputStream.writeInt(level);
                     outputStream.writeInt(score);
                     outputStream.writeInt(heart);
-                    outputStream.writeInt(destroyedBlockCount);
+                    outputStream.writeInt(0);
 
 
                     outputStream.writeDouble(xBall);
@@ -505,7 +504,6 @@ public class Main extends Application implements EventHandler<KeyEvent>, GameEng
                     outputStream.writeBoolean(colideToTopBlock);
 
                     ArrayList<BlockSerializable> blockSerializables = new ArrayList<BlockSerializable>();
-                    //List<Block> blocks = new ArrayList<>();
                     for (Block block : blocks) {
                         if (block.isDestroyed) {
                             continue;
@@ -536,7 +534,6 @@ public class Main extends Application implements EventHandler<KeyEvent>, GameEng
 
         }).start();
 
-//        engine.stopTimeThread();
     }
 
     private void loadGame() {
@@ -654,17 +651,21 @@ public class Main extends Application implements EventHandler<KeyEvent>, GameEng
         Platform.runLater(new Runnable() {
             @Override
             public void run() {
+                try {
+                    scoreLabel.setText("Score: " + score);
+                    heartLabel.setText("Heart : " + heart);
 
-                scoreLabel.setText("Score: " + score);
-                heartLabel.setText("Heart : " + heart);
+                    rect.setX(xBreak);
+                    rect.setY(yBreak);
+                    ball.setCenterX(xBall);
+                    ball.setCenterY(yBall);
 
-                rect.setX(xBreak);
-                rect.setY(yBreak);
-                ball.setCenterX(xBall);
-                ball.setCenterY(yBall);
+                    for (Bonus choco : chocos) {
+                        choco.choco.setY(choco.y);
+                    }
+                }catch(Exception e){
+                    e.printStackTrace();
 
-                for (Bonus choco : chocos) {
-                    choco.choco.setY(choco.y);
                 }
             }
         });
@@ -672,55 +673,58 @@ public class Main extends Application implements EventHandler<KeyEvent>, GameEng
 
         if (yBall >= Block.getPaddingTop() && yBall <= (Block.getHeight() * (level + 1)) + Block.getPaddingTop()) {
             for (final Block block : blocks) {
-                int hitCode = block.checkHitToBlock(xBall, yBall);
-                if (hitCode != Block.NO_HIT) {
-                    score += 1;
+                try {
+                    int hitCode = block.checkHitToBlock(xBall, yBall);
+                    if (hitCode != Block.NO_HIT) {
+                        score += 1;
 
-                    new Score().show(block.x, block.y, 1, this);
+                        new Score().show(block.x, block.y, 1, this);
 
-                    block.rect.setVisible(false);
-                    block.isDestroyed = true;
-                    destroyedBlockCount++;
-                    new Sound();
-                    //System.out.println("size is " + blocks.size());
-                    resetColideFlags();
+                        block.rect.setVisible(false);
+                        block.isDestroyed = true;
+                        destroyedBlockCount++;
+                        new Sound();
+                        //System.out.println("size is " + blocks.size());
+                        resetColideFlags();
 
-                    if (block.type == Block.BLOCK_CHOCO) {
-                        final Bonus choco = new Bonus(block.row, block.column);
-                        choco.timeCreated = time;
-                        Platform.runLater(new Runnable() {
-                            @Override
-                            public void run() {
-                                root.getChildren().add(choco.choco);
-                            }
-                        });
-                        chocos.add(choco);
+                        if (block.type == Block.BLOCK_CHOCO) {
+                            final Bonus choco = new Bonus(block.row, block.column);
+                            choco.timeCreated = time;
+                            Platform.runLater(new Runnable() {
+                                @Override
+                                public void run() {
+                                    root.getChildren().add(choco.choco);
+                                }
+                            });
+                            chocos.add(choco);
+                        }
+
+                        if (block.type == Block.BLOCK_STAR) {
+                            goldTime = time;
+                            ball.setFill(new ImagePattern(new Image("goldball.png")));
+                            System.out.println("gold ball");
+                            root.getStyleClass().add("goldRoot");
+                            isGoldStatus = true;
+                        }
+
+                        if (block.type == Block.BLOCK_HEART) {
+                            heart++;
+                        }
+
+                        if (hitCode == Block.HIT_RIGHT) {
+                            colideToRightBlock = true;
+                        } else if (hitCode == Block.HIT_BOTTOM) {
+                            colideToBottomBlock = true;
+                        } else if (hitCode == Block.HIT_LEFT) {
+                            colideToLeftBlock = true;
+                        } else if (hitCode == Block.HIT_TOP) {
+                            colideToTopBlock = true;
+                        }
+
                     }
-
-                    if (block.type == Block.BLOCK_STAR) {
-                        goldTime = time;
-                        ball.setFill(new ImagePattern(new Image("goldball.png")));
-                        System.out.println("gold ball");
-                        root.getStyleClass().add("goldRoot");
-                        isGoldStatus = true;
-                    }
-
-                    if (block.type == Block.BLOCK_HEART) {
-                        heart++;
-                    }
-
-                    if (hitCode == Block.HIT_RIGHT) {
-                        colideToRightBlock = true;
-                    } else if (hitCode == Block.HIT_BOTTOM) {
-                        colideToBottomBlock = true;
-                    } else if (hitCode == Block.HIT_LEFT) {
-                        colideToLeftBlock = true;
-                    } else if (hitCode == Block.HIT_TOP) {
-                        colideToTopBlock = true;
-                    }
-
+                }catch(Exception e){
+                    e.printStackTrace();
                 }
-
                 //TODO hit to break and some work here....
                 //System.out.println("Break in row:" + block.row + " and column:" + block.column + " hit");
             }
