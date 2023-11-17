@@ -91,9 +91,9 @@ public class LoadSave {
     }
     private void initializeBonusObjects(ArrayList<BlockSerializable> blockSerializables) {
         for (BlockSerializable ser : blockSerializables) {
-            if (ser.type == Block.BLOCK_CHOCO) {
+            if (ser.type == Block.BLOCK_CHEESE) {
                 Bonus bonus = new Bonus(ser.row, ser.column);
-                bonus.initializeChoco(ser.row, ser.column);
+                bonus.initializeCheese(ser.row, ser.column);
             }
         }
     }
