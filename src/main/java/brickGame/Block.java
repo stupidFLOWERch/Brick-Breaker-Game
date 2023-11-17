@@ -38,7 +38,7 @@ public class Block implements Serializable {
     public static int HIT_TOP = 3;
 
     public static int BLOCK_NORMAL = 99;
-    public static int BLOCK_CHOCO = 100;
+    public static int BLOCK_CHEESE = 100;
     public static int BLOCK_STAR = 101;
     public static int BLOCK_HEART = 102;
 
@@ -64,7 +64,7 @@ public class Block implements Serializable {
         rect.setX(x);
         rect.setY(y);
 
-        if (type == BLOCK_CHOCO) {
+        if (type == BLOCK_CHEESE) {
             Image image = new Image("cheese.jpg");
             ImagePattern pattern = new ImagePattern(image);
             Platform.runLater(() -> rect.setFill(pattern));
