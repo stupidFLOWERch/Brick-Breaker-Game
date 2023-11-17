@@ -109,10 +109,14 @@ public class Main extends Application implements EventHandler<KeyEvent>, GameEng
         if (!loadFromSave) {
             level++;
             if (level >1){
+                Platform.runLater(()->{
                 new Score().showMessage("Level Up :)", this);
+                });
             }
             if (level == 18) {
+                Platform.runLater(()->{
                 new Score().showWin(this);
+                });
                 return ;
             }
 
@@ -350,13 +354,13 @@ public class Main extends Application implements EventHandler<KeyEvent>, GameEng
             xBall -= vX;
         }
 
-        if (yBall <= 0) {
+        if (yBall <= ballRadius) {
             //vX = 1.000;
             resetCollideFlags();
             goDownBall = true;
             return;
         }
-        if (yBall >= sceneHeight) {
+        if (yBall >= sceneHeight - ballRadius) {
             goDownBall = false;
             if (!isGoldStatus) {
                 //TODO gameover
@@ -402,13 +406,13 @@ public class Main extends Application implements EventHandler<KeyEvent>, GameEng
             }
         }
 
-        if (xBall >= sceneWidth) {
+        if (xBall >= sceneWidth - ballRadius) {
             resetCollideFlags();
             //vX = 1.000;
             collideToRightWall = true;
         }
 
-        if (xBall <= 0) {
+        if (xBall <= ballRadius) {
             resetCollideFlags();
             //vX = 1.000;
             collideToLeftWall = true;
