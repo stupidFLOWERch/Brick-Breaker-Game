@@ -19,6 +19,7 @@ import javafx.stage.Stage;
 
 import java.io.*;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
 
@@ -45,8 +46,8 @@ public class Main extends Application implements EventHandler<KeyEvent>, GameEng
     private final int sceneWidth = 500;
     private final int sceneHeight = 700;
 
-    private static int LEFT  = 1;
-    private static int RIGHT = 2;
+    private static final int LEFT  = 1;
+    private static final int RIGHT = 2;
 
     private Circle ball;
     private double xBall;
@@ -60,7 +61,7 @@ public class Main extends Application implements EventHandler<KeyEvent>, GameEng
 
     private int destroyedBlockCount = 0;
 
-    private double v = 1.000;
+    //private double v = 1.000;
 
     private int  heart    = 3;
     private int  score    = 0;
@@ -151,8 +152,8 @@ public class Main extends Application implements EventHandler<KeyEvent>, GameEng
         scene.getStylesheets().add("style.css");
         scene.setOnKeyPressed(this);
 
-        primaryStage.setTitle("Game");
         primaryStage.setScene(scene);
+        primaryStage.setTitle("Game");
         primaryStage.show();
 
         if (!loadFromSave) {
@@ -219,33 +220,34 @@ public class Main extends Application implements EventHandler<KeyEvent>, GameEng
         rect.setFill(pattern);
     }
     private void initBoard() {
-        for (int i = 0; i < 4; i++) {
-            for (int j = 0; j < level + 1; j++) {
-                int r = random.nextInt(500);
-                if (r % 5 == 0) {
-                    continue;
-                }
-                int type;
-                if (r % 10 == 1) {
-                    type = Block.BLOCK_CHOCO;
-                } else if (r % 10 == 2) {
-                    if (!isExistHeartBlock) {
-                        type = Block.BLOCK_HEART;
-                        isExistHeartBlock = true;
+        synchronized (this) {
+            for (int i = 0; i < 4; i++) {
+                for (int j = 0; j < level + 1; j++) {
+                    int r = random.nextInt(500);
+                    if (r % 5 == 0) {
+                        continue;
+                    }
+                    int type;
+                    if (r % 10 == 1) {
+                        type = Block.BLOCK_CHOCO;
+                    } else if (r % 10 == 2) {
+                        if (!isExistHeartBlock) {
+                            type = Block.BLOCK_HEART;
+                            isExistHeartBlock = true;
+                        } else {
+                            type = Block.BLOCK_NORMAL;
+                        }
+                    } else if (r % 10 == 3) {
+                        type = Block.BLOCK_STAR;
                     } else {
                         type = Block.BLOCK_NORMAL;
                     }
-                } else if (r % 10 == 3) {
-                    type = Block.BLOCK_STAR;
-                } else {
-                    type = Block.BLOCK_NORMAL;
+                    blocks.add(new Block(j, i, colors[r % (colors.length)], type));
+                    //System.out.println("colors " + r % (colors.length));
                 }
-                blocks.add(new Block(j, i, colors[r % (colors.length)], type));
-                //System.out.println("colors " + r % (colors.length));
             }
         }
     }
-
 
     public static void main(String[] args) {
         launch(args);
@@ -258,7 +260,6 @@ public class Main extends Application implements EventHandler<KeyEvent>, GameEng
                 move(LEFT);
                 break;
             case RIGHT:
-
                 move(RIGHT);
                 break;
             case DOWN:
@@ -274,19 +275,21 @@ public class Main extends Application implements EventHandler<KeyEvent>, GameEng
         new Thread(() -> {
             int sleepTime = 4;
             for (int i = 0; i < 30; i++) {
-                if (xBreak == (sceneWidth - breakWidth) && direction == RIGHT) {
-                    return;
-                }
-                if (xBreak == 0 && direction == LEFT) {
-                    return;
-                }
-                if (direction == RIGHT && xBreak < (sceneWidth - breakWidth)) {
-                    xBreak++;
-                }
-                if (direction == LEFT && xBreak > 0){
-                    xBreak--;
-                }
-                centerBreakX = xBreak + halfBreakWidth;
+                    synchronized (this) {
+                        if (xBreak == (sceneWidth - breakWidth) && direction == RIGHT) {
+                            return;
+                        }
+                        if (xBreak == 0 && direction == LEFT) {
+                            return;
+                        }
+                        if (direction == RIGHT && xBreak < (sceneWidth - breakWidth)) {
+                            xBreak++;
+                        }
+                        if (direction == LEFT && xBreak > 0) {
+                            xBreak--;
+                        }
+                        centerBreakX = xBreak + halfBreakWidth;
+                    }
                 try {
                     Thread.sleep(sleepTime);
                 } catch (InterruptedException e) {
@@ -334,7 +337,7 @@ public class Main extends Application implements EventHandler<KeyEvent>, GameEng
 
     private void setPhysicsToBall() {
         //v = ((time - hitTime) / 1000.000) + 1.000;
-
+        synchronized (this) {
         if (goDownBall) {
             yBall += vY;
         } else {
@@ -364,8 +367,8 @@ public class Main extends Application implements EventHandler<KeyEvent>, GameEng
                     new Score().showGameOver(this);
                     engine.stop();
                 }
-
             }
+        }
             //return;
         }
 
@@ -511,10 +514,10 @@ public class Main extends Application implements EventHandler<KeyEvent>, GameEng
                     outputStream.writeObject(blockSerializables);
 
 
-                    if(root !=null) {
-                        Platform.runLater(() -> new Score().showMessage("Game Saved", Main.this));
-                    }
-
+                    Platform.runLater(() -> {
+                        Main main = Main.this;
+                        new Score().showMessage("Game Saved", main);
+                    });
 
 
                 } catch (IOException e) {
@@ -589,29 +592,29 @@ public class Main extends Application implements EventHandler<KeyEvent>, GameEng
     }
 
     private void nextLevel() {
-                    vX = 1.000;
-                    // stop the engine
-                    engine.stop();
-                    // reset flags and game state
-                    resetCollideFlags();
-                    goDownBall = true;
+        vX = 1.000;
+        // stop the engine
+        engine.stop();
+        // reset flags and game state
+        resetCollideFlags();
+        goDownBall = true;
 
-                    isGoldStatus = false;
-                    isExistHeartBlock = false;
-
-
-                    hitTime = 0;
-                    time = 0;
-                    goldTime = 0;
+        isGoldStatus = false;
+        isExistHeartBlock = false;
 
 
-                    blocks.clear();
-                    chocos.clear();
-                    destroyedBlockCount = 0;
+         hitTime = 0;
+         time = 0;
+         goldTime = 0;
+         Platform.runLater(()-> {
+            root.getChildren().clear();
+            blocks.clear();
+            chocos.clear();
+            destroyedBlockCount = 0;
 
-        Platform.runLater(()-> {
+
             try {
-                    start(primaryStage);
+                start(primaryStage);
 
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -650,93 +653,80 @@ public class Main extends Application implements EventHandler<KeyEvent>, GameEng
 
     @Override
     public void onUpdate() {
-        Platform.runLater(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    scoreLabel.setText("Score: " + score);
-                    heartLabel.setText("Heart : " + heart);
+        Platform.runLater(() -> {
+            scoreLabel.setText("Score: " + score);
+            heartLabel.setText("Heart : " + heart);
 
-                    rect.setX(xBreak);
-                    rect.setY(yBreak);
-                    ball.setCenterX(xBall);
-                    ball.setCenterY(yBall);
+            rect.setX(xBreak);
+            rect.setY(yBreak);
+            ball.setCenterX(xBall);
+            ball.setCenterY(yBall);
+        });
+                for (Bonus choco : chocos) {
+                    choco.choco.setY(choco.y);
+                }
 
-                    for (Bonus choco : chocos) {
-                        choco.choco.setY(choco.y);
-                    }
-
-                    List<Block> blocksCopy = new ArrayList<>(blocks);
+                List<Block> blocksCopy = new ArrayList<>(blocks);
 
 
-                    if (yBall >= Block.getPaddingTop() && yBall <= (Block.getHeight() * (level + 1)) + Block.getPaddingTop()) {
-                        for (final Block block : blocksCopy) {
-                            try {
-                                int hitCode = block.checkHitToBlock(xBall, yBall);
-                                if (hitCode != Block.NO_HIT) {
-                                    score += 1;
+                if (yBall >= Block.getPaddingTop() && yBall <= (Block.getHeight() * (level + 1)) + Block.getPaddingTop()) {
+                    for (final Block block : blocksCopy) {
+                        try {
+                            int hitCode = block.checkHitToBlock(xBall, yBall);
+                            if (hitCode != Block.NO_HIT) {
+                                score += 1;
 
-                                    new Score().show(block.x, block.y, 1, Main.this);
+                                new Score().show(block.x, block.y, 1, Main.this);
 
-                                    block.rect.setVisible(false);
-                                    block.isDestroyed = true;
-                                    destroyedBlockCount++;
-                                    new Sound();
-                                    //System.out.println("size is " + blocks.size());
-                                    resetCollideFlags();
+                                block.rect.setVisible(false);
+                                block.isDestroyed = true;
+                                destroyedBlockCount++;
+                                new Sound();
+                                //System.out.println("size is " + blocks.size());
+                                resetCollideFlags();
 
-                                    if (block.type == Block.BLOCK_CHOCO) {
-                                        final Bonus choco = new Bonus(block.row, block.column);
-                                        choco.timeCreated = time;
-                                        Platform.runLater(new Runnable() {
-                                            @Override
-                                            public void run() {
-                                                Platform.runLater(()-> {
-                                                    root.getChildren().add(choco.choco);
-                                                });
-                                            }
-                                        });
-                                        chocos.add(choco);
-                                    }
-
-                                    if (block.type == Block.BLOCK_STAR) {
-                                        goldTime = time;
-                                        ball.setFill(new ImagePattern(new Image("goldball.png")));
-                                        System.out.println("gold ball");
-                                        root.getStyleClass().add("goldRoot");
-                                        isGoldStatus = true;
-                                    }
-
-                                    if (block.type == Block.BLOCK_HEART) {
-                                        heart++;
-                                    }
-
-                                    if (hitCode == Block.HIT_RIGHT) {
-                                        collideToRightBlock = true;
-                                    } else if (hitCode == Block.HIT_BOTTOM) {
-                                        collideToBottomBlock = true;
-                                    } else if (hitCode == Block.HIT_LEFT) {
-                                        collideToLeftBlock = true;
-                                    } else if (hitCode == Block.HIT_TOP) {
-                                        collideToTopBlock = true;
-                                    }
-
+                                if (block.type == Block.BLOCK_CHOCO) {
+                                    final Bonus choco = new Bonus(block.row, block.column);
+                                    choco.timeCreated = time;
+                                    Platform.runLater(() -> Platform.runLater(()-> {
+                                        root.getChildren().add(choco.choco);
+                                    }));
+                                    chocos.add(choco);
                                 }
-                            } catch (Exception e) {
-                                e.printStackTrace();
+
+                                if (block.type == Block.BLOCK_STAR) {
+                                    goldTime = time;
+                                    ball.setFill(new ImagePattern(new Image("goldball.png")));
+                                    System.out.println("gold ball");
+                                    root.getStyleClass().add("goldRoot");
+                                    isGoldStatus = true;
+                                }
+
+                                if (block.type == Block.BLOCK_HEART) {
+                                    heart++;
+                                }
+
+                                if (hitCode == Block.HIT_RIGHT) {
+                                    collideToRightBlock = true;
+                                } else if (hitCode == Block.HIT_BOTTOM) {
+                                    collideToBottomBlock = true;
+                                } else if (hitCode == Block.HIT_LEFT) {
+                                    collideToLeftBlock = true;
+                                } else if (hitCode == Block.HIT_TOP) {
+                                    collideToTopBlock = true;
+                                }
+
                             }
-                            //TODO hit to break and some work here....
-                            //System.out.println("Break in row:" + block.row + " and column:" + block.column + " hit");
+                        } catch (Exception e) {
+                            e.printStackTrace();
                         }
+                        //TODO hit to break and some work here....
+                        //System.out.println("Break in row:" + block.row + " and column:" + block.column + " hit");
                     }
-
-                } catch (Exception e) {
-                    e.printStackTrace();
-
                 }
             }
-        });
-    }
+
+
 
 
     @Override
@@ -751,12 +741,19 @@ public class Main extends Application implements EventHandler<KeyEvent>, GameEng
 
 
         if (time - goldTime > 5000) {
+            Platform.runLater(()->{
             ball.setFill(new ImagePattern(new Image("ball.png")));
             root.getStyleClass().remove("goldRoot");
+        });
             isGoldStatus = false;
         }
 
-        for (Bonus choco : chocos) {
+
+        Iterator<Bonus> chocoIterator = chocos.iterator();
+        while (chocoIterator.hasNext()) {
+            Bonus choco = chocoIterator.next();
+
+            //for (Bonus choco : chocos) {
             if (choco.y > sceneHeight || choco.taken) {
                 continue;
             }
@@ -765,7 +762,9 @@ public class Main extends Application implements EventHandler<KeyEvent>, GameEng
                 choco.taken = true;
                 choco.choco.setVisible(false);
                 score += 3;
-                new Score().show(choco.x, choco.y, 3, this);
+                Platform.runLater(()->{new Score().show(choco.x, choco.y, 3, this);});
+                // Remove the element using the iterator
+                chocoIterator.remove();
             }
             choco.y += ((time - choco.timeCreated) / 1000.000) + 1.000;
         }
