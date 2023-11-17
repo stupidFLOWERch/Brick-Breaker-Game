@@ -65,7 +65,7 @@ public class Block implements Serializable {
         rect.setY(y);
 
         if (type == BLOCK_CHOCO) {
-            Image image = new Image("choco.jpg");
+            Image image = new Image("cheese.jpg");
             ImagePattern pattern = new ImagePattern(image);
             Platform.runLater(() -> rect.setFill(pattern));
         } else if (type == BLOCK_HEART) {

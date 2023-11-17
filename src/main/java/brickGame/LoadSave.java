@@ -93,7 +93,7 @@ public class LoadSave {
         for (BlockSerializable ser : blockSerializables) {
             if (ser.type == Block.BLOCK_CHOCO) {
                 Bonus bonus = new Bonus(ser.row, ser.column);
-                bonus.initializeChoco();
+                bonus.initializeChoco(ser.row, ser.column);
             }
         }
     }
