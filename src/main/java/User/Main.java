@@ -5,7 +5,6 @@ import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyEvent;
@@ -24,7 +23,7 @@ import java.util.Random;
 
 import Sound.Sound;
 import Sound.Bgm;
-
+import static brickGame.LoadSave.check_mdds;
 
 
 
@@ -98,8 +97,9 @@ public class Main extends Application implements EventHandler<KeyEvent>, GameEng
     private boolean BreakMoveAllow = true;
 
     Stage  primaryStage;
-    Button load    = null;
-    Button newGame = null;
+    private PauseMenu pauseMenu;
+    private Main main;
+    private Scene scene;
 
     public static void main(String[] args) {
         launch(args);
@@ -107,13 +107,30 @@ public class Main extends Application implements EventHandler<KeyEvent>, GameEng
     @Override
     public void start(Stage primaryStage) {
         this.primaryStage = primaryStage;
-        MainMenu mainMenu = new MainMenu(primaryStage, this);
-        mainMenu.showMainMenu();
+        MainMenu mainMenu = new MainMenu(this);
+
+        // Create the main menu scene
+        Scene mainMenuScene = new Scene(mainMenu.MainMenuLayout(), 500, 700); // Adjust the size
+        mainMenuScene.getStylesheets().add("style.css"); // Add your stylesheets if needed
+
+        // Show the main menu
+        mainMenu.showMainMenu(mainMenuScene);
+
+        // Show the stage
+        primaryStage.setScene(mainMenuScene);
+        primaryStage.setTitle("Your Game Title");
+        primaryStage.show();
     }
+
+    public void showMainMenu(Scene mainMenuScene) {
+        primaryStage.setScene(mainMenuScene);
+    }
+
 
     public void clearBlocks() {
         Platform.runLater(() -> root.getChildren().clear());
            }
+
 
     public void startGame() {
         new Bgm();
@@ -135,12 +152,7 @@ public class Main extends Application implements EventHandler<KeyEvent>, GameEng
             initBreak();
             initBoard();
 
-            load = new Button("Load Game");
-            newGame = new Button("Start New Game");
-            load.setTranslateX(220);
-            load.setTranslateY(300);
-            newGame.setTranslateX(220);
-            newGame.setTranslateY(340);
+
 
         }
 
@@ -151,13 +163,12 @@ public class Main extends Application implements EventHandler<KeyEvent>, GameEng
         levelLabel.setTranslateY(20);
         heartLabel = new Label("Heart : " + heart);
         heartLabel.setTranslateX(sceneWidth - 70);
-        if (!loadFromSave) {
-            root.getChildren().clear();
-            Platform.runLater(() -> root.getChildren().addAll(rect, ball, scoreLabel, heartLabel, levelLabel, newGame, load));
-        } else {
-            root.getChildren().clear();
-            Platform.runLater(() -> root.getChildren().addAll(rect, ball, scoreLabel, heartLabel, levelLabel));
-        }
+
+        root.getChildren().clear();
+        Platform.runLater(() -> root.getChildren().addAll(rect, ball, scoreLabel, heartLabel, levelLabel));
+
+        boolean b = check_mdds(savePath);
+
         for (Block block : blocks) {
             Platform.runLater(() -> root.getChildren().add(block.rect));
         }
@@ -174,14 +185,6 @@ public class Main extends Application implements EventHandler<KeyEvent>, GameEng
             if (level > 1 && level < 18) {
                 restartGameEngine();
             }
-
-            load.setOnAction(event -> {
-                loadGame();
-
-                hideButton();
-            });
-
-            newGame.setOnAction(event -> restartGameEngine());
         } else {
             engine = new GameEngine();
             engine.setOnAction(this);
@@ -197,13 +200,9 @@ public class Main extends Application implements EventHandler<KeyEvent>, GameEng
         engine.setOnAction(this);
         engine.setFps(120);
         engine.start();
-        hideButton();
     }
 
-    public void hideButton(){
-        load.setVisible(false);
-        newGame.setVisible(false);
-    }
+
     private void initBall() {
         xBall = sceneWidth/2.0;
         yBall = 500;
@@ -270,14 +269,41 @@ public class Main extends Application implements EventHandler<KeyEvent>, GameEng
                     Bgm.pause();
                     GameEngine.setPaused(true);
                     BreakMoveAllow = false;
+                    showPauseMenu();
                 }
                 else{
                     Bgm.resume();
                     GameEngine.setPaused(false);
                     BreakMoveAllow = true;
+                    hidePauseMenu();
                 }
                 break;
         }
+    }
+
+    // Method to show pause menu
+    public void showPauseMenu() {
+        pauseMenu = new PauseMenu(primaryStage, this);
+        // Add the pause menu to your game root or scene
+        root.getChildren().add(pauseMenu);
+    }
+
+    // Method to hide the pause menu
+    public void hidePauseMenu() {
+        // Remove the pause menu from your game root or scene
+        root.getChildren().remove(pauseMenu);
+    }
+    public void resumeGame() {
+        hidePauseMenu();
+        BreakMoveAllow = true;
+        GameEngine.setPaused(false);  // Resume the game engine
+        Bgm.resume();  // Resume background music if applicable
+
+        PauseGame.resetState();
+    }
+
+    public void exitGame() {
+        Platform.exit();
     }
 
     private void move(final int direction) {
@@ -360,7 +386,7 @@ public class Main extends Application implements EventHandler<KeyEvent>, GameEng
         }
 
         if (yBall <= ballRadius) {
-            //vX = 1.000;
+            vX = 1.000;
             resetCollideFlags();
             goDownBall = true;
             return;
@@ -414,13 +440,13 @@ public class Main extends Application implements EventHandler<KeyEvent>, GameEng
 
         if (xBall >= sceneWidth - ballRadius) {
             resetCollideFlags();
-            //vX = 1.000;
+            vX = 1.000;
             collideToRightWall = true;
         }
 
         if (xBall <= ballRadius) {
             resetCollideFlags();
-            //vX = 1.000;
+            vX = 1.000;
             collideToLeftWall = true;
         }
 
@@ -653,7 +679,7 @@ public class Main extends Application implements EventHandler<KeyEvent>, GameEng
             blocks.clear();
             cheeses.clear();
 
-            startGame();
+            start(primaryStage);
         } catch (Exception e) {
             e.printStackTrace();
 
@@ -736,18 +762,24 @@ public class Main extends Application implements EventHandler<KeyEvent>, GameEng
                 }
             }
 
+    private long lastUpdateTime = 0;
+
     @Override
     public void onPhysicsUpdate() {
+        long currentTime = System.currentTimeMillis();
+        double elapsedTime = (currentTime - lastUpdateTime) / 1000.0;  // Convert to seconds
+        lastUpdateTime = currentTime;
+
         checkDestroyedCount();
         setPhysicsToBall();
 
-            if (time - goldTime > 5000) {
-                Platform.runLater(() -> {
-                    ball.setFill(new ImagePattern(new Image("ball.png")));
-                    root.getStyleClass().remove("goldRoot");
-                });
-                isGoldStatus = false;
-            }
+        if (time - goldTime > 5000) {
+            Platform.runLater(() -> {
+                ball.setFill(new ImagePattern(new Image("ball.png")));
+                root.getStyleClass().remove("goldRoot");
+            });
+            isGoldStatus = false;
+        }
 
         List<Bonus> cheesesToRemove = new ArrayList<>();
         Iterator<Bonus> cheeseIterator = cheeses.iterator();
@@ -765,7 +797,7 @@ public class Main extends Application implements EventHandler<KeyEvent>, GameEng
                 score += 3;
                 Platform.runLater(()->{new Score().show(cheese.x, cheese.y, 3, this);});
             }
-            cheese.y += ((time - cheese.timeCreated) / 1000.000) + 1.000;
+            cheese.y += elapsedTime * ((time - cheese.timeCreated) / 1000.0) + 1.0;
         }
         cheeses.removeAll(cheesesToRemove);
 

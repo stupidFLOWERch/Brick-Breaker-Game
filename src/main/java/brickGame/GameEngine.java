@@ -7,6 +7,8 @@ public class GameEngine {
     private OnAction onAction;
     private boolean isStopped = true;
     private static boolean isPaused = false;
+    private AnimationTimer animationTimer;
+
     public void setOnAction(OnAction onAction) {
         this.onAction = onAction;
     }
@@ -37,6 +39,10 @@ public class GameEngine {
 
     public void stop() {
         isStopped = true;
+
+//        if (animationTimer != null) {
+//            animationTimer.stop();
+//        }
     }
 
     public static void setPaused(boolean paused) {
