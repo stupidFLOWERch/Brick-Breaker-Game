@@ -41,15 +41,6 @@ public class Bgm {
                 AudioInputStream sound = AudioSystem.getAudioInputStream(file);
                 clip = AudioSystem.getClip();
                 clip.open(sound);
-
-                // Add LineListener to handle STOP event
-                clip.addLineListener(event -> {
-                    if (event.getType() == LineEvent.Type.STOP) {
-                        // When STOP event is received, reset frame position and restart
-                        clip.setFramePosition(0);
-                        clip.start();
-                    }
-                });
             }
 
             catch(Exception e){

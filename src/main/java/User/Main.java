@@ -95,6 +95,7 @@ public class Main extends Application implements EventHandler<KeyEvent>, GameEng
     private Label            levelLabel;
     private final Random random = new Random();
     private boolean loadFromSave = false;
+    private boolean BreakMoveAllow = true;
 
     Stage  primaryStage;
     Button load    = null;
@@ -268,20 +269,26 @@ public class Main extends Application implements EventHandler<KeyEvent>, GameEng
                 if(PauseGame.pauseGame()){
                     Bgm.pause();
                     GameEngine.setPaused(true);
+                    BreakMoveAllow = false;
                 }
                 else{
                     Bgm.resume();
                     GameEngine.setPaused(false);
+                    BreakMoveAllow = true;
                 }
                 break;
         }
     }
 
     private void move(final int direction) {
-        new Thread(() -> {
-            int sleepTime = 4;
-            for (int i = 0; i < 30; i++) {
+        if(BreakMoveAllow) {
+            new Thread(() -> {
+                int sleepTime = 4;
+                for (int i = 0; i < 30; i++) {
                     synchronized (this) {
+                        if (!BreakMoveAllow) {
+                            return;
+                        }
                         if (xBreak == (sceneWidth - breakWidth) && direction == RIGHT) {
                             return;
                         }
@@ -296,22 +303,18 @@ public class Main extends Application implements EventHandler<KeyEvent>, GameEng
                         }
                         centerBreakX = xBreak + halfBreakWidth;
                     }
-                try {
-                    Thread.sleep(sleepTime);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
+                    try {
+                        Thread.sleep(sleepTime);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    if (i >= 20) {
+                        sleepTime = i;
+                    }
                 }
-                if (i >= 20) {
-                    sleepTime = i;
-                }
-            }
-        }).start();
-
-
-
-
+            }).start();
+        }
     }
-
 
     private boolean goDownBall = true;
     private boolean goRightBall = true;
@@ -746,14 +749,13 @@ public class Main extends Application implements EventHandler<KeyEvent>, GameEng
         checkDestroyedCount();
         setPhysicsToBall();
 
-
-        if (time - goldTime > 5000) {
-            Platform.runLater(()->{
-            ball.setFill(new ImagePattern(new Image("ball.png")));
-            root.getStyleClass().remove("goldRoot");
-        });
-            isGoldStatus = false;
-        }
+            if (time - goldTime > 5000) {
+                Platform.runLater(() -> {
+                    ball.setFill(new ImagePattern(new Image("ball.png")));
+                    root.getStyleClass().remove("goldRoot");
+                });
+                isGoldStatus = false;
+            }
 
         List<Bonus> cheesesToRemove = new ArrayList<>();
         Iterator<Bonus> cheeseIterator = cheeses.iterator();

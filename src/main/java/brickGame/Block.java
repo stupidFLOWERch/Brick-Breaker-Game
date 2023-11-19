@@ -97,22 +97,18 @@ public class Block implements Serializable {
         }
 
         if (yBall  >= brickTop - epsilon && yBall  <= brickBottom + epsilon && xBall >= brickRight && xBall <= brickRight + ballRadius) {
-            System.out.println("right");
             return HIT_RIGHT;
         }
 
         if (yBall >= brickTop - epsilon && yBall  <= brickBottom + epsilon && xBall <= brickLeft && xBall >= brickLeft - ballRadius) {
-            System.out.println("left");
             return HIT_LEFT;
         }
 
         if (xBall  >= brickLeft - ballRadius && xBall <= brickRight + ballRadius && yBall >= brickTop && yBall <= brickTop + ballRadius + epsilon) {
-            System.out.println("TOP");
             return HIT_TOP;
         }
 
         if (xBall  >= brickLeft - ballRadius && xBall  <= brickRight + ballRadius && yBall  <= brickBottom + epsilon && yBall >= brickBottom - ballRadius) {
-            System.out.println("Bottom");
             return HIT_BOTTOM;
         }
 
