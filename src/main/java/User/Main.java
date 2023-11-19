@@ -110,7 +110,7 @@ public class Main extends Application implements EventHandler<KeyEvent>, GameEng
     @Override
     public void start(Stage primaryStage) {
         this.primaryStage = primaryStage;
-        MainMenu mainMenu = new MainMenu(this);
+        MainMenu mainMenu = new MainMenu(this, primaryStage);
 
         // Create the main menu scene
         Scene mainMenuScene = new Scene(mainMenu.MainMenuLayout(), 500, 700); // Adjust the size
@@ -167,10 +167,8 @@ public class Main extends Application implements EventHandler<KeyEvent>, GameEng
         heartLabel = new Label("Heart : " + heart);
         heartLabel.setTranslateX(sceneWidth - 70);
 
-        root.getChildren().clear();
+        clearBlocks();
         Platform.runLater(() -> root.getChildren().addAll(rect, ball, scoreLabel, heartLabel, levelLabel));
-
-        boolean b = check_mdds(savePath);
 
         for (Block block : blocks) {
             Platform.runLater(() -> root.getChildren().add(block.rect));

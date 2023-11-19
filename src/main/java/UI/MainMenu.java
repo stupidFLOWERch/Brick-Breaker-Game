@@ -4,18 +4,23 @@ import User.Main;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
 
 import static User.Main.savePath;
 import static brickGame.LoadSave.check_mdds;
 
 public class MainMenu {
     private final Main main;
+    private final Stage primaryStage;
 
     private final Button load = new Button("Load a Game");
     private final Button newGame = new Button("Start a New Game");
 
-    public MainMenu(Main main) {
+    private final Button instruction = new Button("Instruction");
+
+    public MainMenu(Main main, Stage primaryStage) {
         this.main = main;
+        this.primaryStage = primaryStage;
         initialize();
     }
 
@@ -24,6 +29,8 @@ public class MainMenu {
         load.setTranslateY(300);
         newGame.setTranslateX(220);
         newGame.setTranslateY(340);
+        instruction.setTranslateX(220);
+        instruction.setTranslateY(380);
 
 
         boolean b = check_mdds(savePath);
@@ -41,11 +48,16 @@ public class MainMenu {
             main.startGame();
             main.restartGameEngine();
         });
+
+        instruction.setOnAction(event->{
+            InstructionMenu instructionMenu = new InstructionMenu();
+            InstructionMenu.showInstructionMenu(primaryStage);
+        });
     }
 
     public VBox MainMenuLayout() {
         VBox mainMenuLayout = new VBox(20); // Adjust the spacing between buttons if needed
-        mainMenuLayout.getChildren().addAll(load, newGame);
+        mainMenuLayout.getChildren().addAll(load, newGame, instruction);
 
         return mainMenuLayout;
     }
