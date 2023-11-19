@@ -24,6 +24,7 @@ import java.util.List;
 import java.util.Random;
 
 import Sound.Sound;
+import Sound.Bgm;
 import static brickGame.LoadSave.check_mdds;
 
 
@@ -58,7 +59,6 @@ public class Main extends Application implements EventHandler<KeyEvent>, GameEng
 
     private Rectangle rect;
     private final double ballRadius = 10;
-
     private int destroyedBlockCount = 0;
 
     //private double v = 1.000;
@@ -74,7 +74,7 @@ public class Main extends Application implements EventHandler<KeyEvent>, GameEng
     public static String savePathDir = "C:/save/";
 
     private ArrayList<Block> blocks = new ArrayList<Block>();
-    private ArrayList<Bonus> chocos = new ArrayList<Bonus>();
+    private ArrayList<Bonus> cheeses = new ArrayList<Bonus>();
     private Color[]          colors = new Color[]{
             Color.MAGENTA,
             Color.RED,
@@ -95,7 +95,6 @@ public class Main extends Application implements EventHandler<KeyEvent>, GameEng
     private Label            heartLabel;
     private Label            levelLabel;
     private final Random random = new Random();
-
     private boolean loadFromSave = false;
 
     Stage  primaryStage;
@@ -105,6 +104,7 @@ public class Main extends Application implements EventHandler<KeyEvent>, GameEng
     @Override
     public void start(Stage primaryStage) {
         this.primaryStage = primaryStage;
+        new Bgm();
 
         if (!loadFromSave) {
             level++;
@@ -233,7 +233,7 @@ public class Main extends Application implements EventHandler<KeyEvent>, GameEng
                     }
                     int type;
                     if (r % 10 == 1) {
-                        type = Block.BLOCK_CHOCO;
+                        type = Block.BLOCK_CHEESE;
                     } else if (r % 10 == 2) {
                         if (!isExistHeartBlock) {
                             type = Block.BLOCK_HEART;
@@ -256,7 +256,6 @@ public class Main extends Application implements EventHandler<KeyEvent>, GameEng
     public static void main(String[] args) {
         launch(args);
     }
-
     @Override
     public void handle(KeyEvent event) {
         switch (event.getCode()) {
@@ -360,7 +359,7 @@ public class Main extends Application implements EventHandler<KeyEvent>, GameEng
             goDownBall = true;
             return;
         }
-        if (yBall >= sceneHeight - ballRadius) {
+        if (yBall >= sceneHeight - ballRadius && goDownBall) {
             goDownBall = false;
             if (!isGoldStatus) {
                 //TODO gameover
@@ -577,7 +576,7 @@ public class Main extends Application implements EventHandler<KeyEvent>, GameEng
 
         root.getChildren().clear();
         blocks.clear();
-        chocos.clear();
+        cheeses.clear();
 
         for (BlockSerializable ser : loadSave.blocks) {
             int r = random.nextInt(200);
@@ -613,7 +612,7 @@ public class Main extends Application implements EventHandler<KeyEvent>, GameEng
          Platform.runLater(()-> {
             root.getChildren().clear();
             blocks.clear();
-            chocos.clear();
+            cheeses.clear();
             destroyedBlockCount = 0;
 
 
@@ -645,7 +644,7 @@ public class Main extends Application implements EventHandler<KeyEvent>, GameEng
 
             root.getChildren().clear();
             blocks.clear();
-            chocos.clear();
+            cheeses.clear();
 
             start(primaryStage);
         } catch (Exception e) {
@@ -666,8 +665,8 @@ public class Main extends Application implements EventHandler<KeyEvent>, GameEng
             ball.setCenterX(xBall);
             ball.setCenterY(yBall);
         });
-                for (Bonus choco : chocos) {
-                    choco.choco.setY(choco.y);
+                for (Bonus cheese : cheeses) {
+                    cheese.cheese.setY(cheese.y);
                 }
 
                 List<Block> blocksCopy = new ArrayList<>(blocks);
@@ -689,13 +688,13 @@ public class Main extends Application implements EventHandler<KeyEvent>, GameEng
                                 //System.out.println("size is " + blocks.size());
                                 resetCollideFlags();
 
-                                if (block.type == Block.BLOCK_CHOCO) {
-                                    final Bonus choco = new Bonus(block.row, block.column);
-                                    choco.timeCreated = time;
+                                if (block.type == Block.BLOCK_CHEESE) {
+                                    final Bonus cheese = new Bonus(block.row, block.column);
+                                    cheese.timeCreated = time;
                                     Platform.runLater(() -> Platform.runLater(()-> {
-                                        root.getChildren().add(choco.choco);
+                                        root.getChildren().add(cheese.cheese);
                                     }));
-                                    chocos.add(choco);
+                                    cheeses.add(cheese);
                                 }
 
                                 if (block.type == Block.BLOCK_STAR) {
@@ -733,10 +732,10 @@ public class Main extends Application implements EventHandler<KeyEvent>, GameEng
 
 
 
-    @Override
-    public void onInit() {
-
-    }
+//    @Override
+//    public void onInit() {
+//
+//    }
 
     @Override
     public void onPhysicsUpdate() {
@@ -752,26 +751,26 @@ public class Main extends Application implements EventHandler<KeyEvent>, GameEng
             isGoldStatus = false;
         }
 
+        List<Bonus> cheesesToRemove = new ArrayList<>();
+        Iterator<Bonus> cheeseIterator = cheeses.iterator();
+        while (cheeseIterator.hasNext()) {
+            Bonus cheese = cheeseIterator.next();
 
-        Iterator<Bonus> chocoIterator = chocos.iterator();
-        while (chocoIterator.hasNext()) {
-            Bonus choco = chocoIterator.next();
-
-            //for (Bonus choco : chocos) {
-            if (choco.y > sceneHeight || choco.taken) {
+            if (cheese.y > sceneHeight || cheese.taken) {
+                cheesesToRemove.add(cheese);
                 continue;
             }
-            if (choco.y >= yBreak && choco.y <= yBreak + breakHeight && choco.x >= xBreak && choco.x <= xBreak + breakWidth) {
-                System.out.println("You Got it and +3 score for you");
-                choco.taken = true;
-                choco.choco.setVisible(false);
+            if (cheese.y >= yBreak && cheese.y <= yBreak + breakHeight && cheese.x >= xBreak && cheese.x <= xBreak + breakWidth) {
+                System.out.println("You Got the cheese! +3 score for you");
+                cheese.taken = true;
+                cheese.cheese.setVisible(false);
                 score += 3;
-                Platform.runLater(()->{new Score().show(choco.x, choco.y, 3, this);});
-                // Remove the element using the iterator
-                chocoIterator.remove();
+                Platform.runLater(()->{new Score().show(cheese.x, cheese.y, 3, this);});
             }
-            choco.y += ((time - choco.timeCreated) / 1000.000) + 1.000;
+            cheese.y += ((time - cheese.timeCreated) / 1000.000) + 1.000;
         }
+        cheeses.removeAll(cheesesToRemove);
+
 
         //System.out.println("time is:" + time + " goldTime is " + goldTime);
 
