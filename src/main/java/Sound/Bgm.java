@@ -7,12 +7,29 @@ public class Bgm {
 
     private static Clip clip;
     private static String BgmSound = "Sound/Bgm.wav";
-    private static SoundEffect se = new SoundEffect();
+    private static final SoundEffect se = new SoundEffect();
+    private static long savedBgmPosition;
 
     public Bgm(){
         if(clip == null) {
             se.setFile(BgmSound);
             se.play();
+        }
+    }
+
+    public static void pause() {
+        if(clip != null  && clip.isRunning()){
+            savedBgmPosition = clip.getMicrosecondPosition();
+            clip.stop();
+        }
+
+    }
+
+    public static void resume() {
+        if(clip != null){
+            clip.setMicrosecondPosition(savedBgmPosition);
+            clip.start();
+
         }
     }
 
@@ -26,14 +43,11 @@ public class Bgm {
                 clip.open(sound);
 
                 // Add LineListener to handle STOP event
-                clip.addLineListener(new LineListener() {
-                    @Override
-                    public void update(LineEvent event) {
-                        if (event.getType() == LineEvent.Type.STOP) {
-                            // When STOP event is received, reset frame position and restart
-                            clip.setFramePosition(0);
-                            clip.start();
-                        }
+                clip.addLineListener(event -> {
+                    if (event.getType() == LineEvent.Type.STOP) {
+                        // When STOP event is received, reset frame position and restart
+                        clip.setFramePosition(0);
+                        clip.start();
                     }
                 });
             }

@@ -6,7 +6,7 @@ public class GameEngine {
 
     private OnAction onAction;
     private boolean isStopped = true;
-
+    private static boolean isPaused = false;
     public void setOnAction(OnAction onAction) {
         this.onAction = onAction;
     }
@@ -26,10 +26,11 @@ public class GameEngine {
                     return;
                 }
 
-                onAction.onUpdate();
-                onAction.onPhysicsUpdate();
-                onAction.onTime(System.currentTimeMillis());
-
+                if(!isPaused) {
+                    onAction.onUpdate();
+                    onAction.onPhysicsUpdate();
+                    onAction.onTime(System.currentTimeMillis());
+                }
             }
         }.start();
     }
@@ -38,6 +39,9 @@ public class GameEngine {
         isStopped = true;
     }
 
+    public static void setPaused(boolean paused) {
+        isPaused = paused;
+    }
     public interface OnAction {
         void onUpdate();
 

@@ -3,7 +3,6 @@ package User;
 import brickGame.*;
 import javafx.application.Application;
 import javafx.application.Platform;
-import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -170,27 +169,21 @@ public class Main extends Application implements EventHandler<KeyEvent>, GameEng
                 engine.start();
             }
 
-            load.setOnAction(new EventHandler<ActionEvent>() {
-                @Override
-                public void handle(ActionEvent event) {
-                    loadGame();
+            load.setOnAction(event -> {
+                loadGame();
 
-                    load.setVisible(false);
-                    newGame.setVisible(false);
-                }
+                load.setVisible(false);
+                newGame.setVisible(false);
             });
 
-            newGame.setOnAction(new EventHandler<ActionEvent>() {
-                @Override
-                public void handle(ActionEvent event) {
-                    engine = new GameEngine();
-                    engine.setOnAction(Main.this);
-                    engine.setFps(120);
-                    engine.start();
+            newGame.setOnAction(event -> {
+                engine = new GameEngine();
+                engine.setOnAction(Main.this);
+                engine.setFps(120);
+                engine.start();
 
-                    load.setVisible(false);
-                    newGame.setVisible(false);
-                }
+                load.setVisible(false);
+                newGame.setVisible(false);
             });
         } else {
             engine = new GameEngine();
@@ -265,11 +258,21 @@ public class Main extends Application implements EventHandler<KeyEvent>, GameEng
             case RIGHT:
                 move(RIGHT);
                 break;
-            case DOWN:
-                //setPhysicsToBall();
-                break;
+//            case DOWN:
+//                setPhysicsToBall();
+//                break;
             case S:
                 saveGame();
+                break;
+            case P:
+                if(PauseGame.pauseGame()){
+                    Bgm.pause();
+                    GameEngine.setPaused(true);
+                }
+                else{
+                    Bgm.resume();
+                    GameEngine.setPaused(false);
+                }
                 break;
         }
     }
@@ -310,8 +313,8 @@ public class Main extends Application implements EventHandler<KeyEvent>, GameEng
     }
 
 
-    private boolean goDownBall                  = true;
-    private boolean goRightBall                 = true;
+    private boolean goDownBall = true;
+    private boolean goRightBall = true;
     private boolean collideToBreak = false;
     private boolean collideToBreakAndMoveToRight = true;
     private boolean collideToRightWall = false;
@@ -368,6 +371,7 @@ public class Main extends Application implements EventHandler<KeyEvent>, GameEng
 
                 if (heart == 0) {
                     new Score().showGameOver(this);
+                    System.out.println("Lol so noob loss the game");
                     engine.stop();
                 }
             }
