@@ -1,9 +1,8 @@
-package User;
+package UI;
 
 
-import brickGame.GameEngine;
+import User.Main;
 import javafx.geometry.Pos;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
@@ -58,17 +57,17 @@ public class PauseMenu extends VBox {
         main.exitGame();  // Call a method in your Main class to exit the game
     }
 
-   private void showMainMenu() {
-        // Create an instance of MainMenu
-        MainMenu mainMenu = new MainMenu(main);
-
-        // Create the main menu scene
-        Scene mainMenuScene = new Scene(mainMenu.MainMenuLayout(), 800, 600); // Adjust the size
-        mainMenuScene.getStylesheets().add("style.css"); // Add your stylesheets if needed
-
-        // Set the main menu scene as the root of the stage
-        stage.setScene(mainMenuScene);
-    }
+//   private void showMainMenu() {
+//        // Create an instance of MainMenu
+//        MainMenu mainMenu = new MainMenu(main);
+//
+//        // Create the main menu scene
+//        Scene mainMenuScene = new Scene(mainMenu.MainMenuLayout(), 800, 600); // Adjust the size
+//        mainMenuScene.getStylesheets().add("style.css"); // Add your stylesheets if needed
+//
+//        // Set the main menu scene as the root of the stage
+//        stage.setScene(mainMenuScene);
+//    }
 
 
 

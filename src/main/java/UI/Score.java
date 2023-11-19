@@ -1,4 +1,4 @@
-package brickGame;
+package UI;
 
 import User.Main;
 import javafx.application.Platform;

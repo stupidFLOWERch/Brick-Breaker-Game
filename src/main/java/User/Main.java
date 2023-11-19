@@ -1,5 +1,8 @@
 package User;
 
+import UI.MainMenu;
+import UI.PauseMenu;
+import UI.Score;
 import brickGame.*;
 import javafx.application.Application;
 import javafx.application.Platform;
@@ -122,9 +125,9 @@ public class Main extends Application implements EventHandler<KeyEvent>, GameEng
         primaryStage.show();
     }
 
-    public void showMainMenu(Scene mainMenuScene) {
-        primaryStage.setScene(mainMenuScene);
-    }
+//    public void showMainMenu(Scene mainMenuScene) {
+//        primaryStage.setScene(mainMenuScene);
+//    }
 
 
     public void clearBlocks() {
