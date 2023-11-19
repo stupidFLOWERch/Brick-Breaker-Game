@@ -24,7 +24,7 @@ import java.util.Random;
 
 import Sound.Sound;
 import Sound.Bgm;
-import static brickGame.LoadSave.check_mdds;
+
 
 
 
@@ -158,8 +158,6 @@ public class Main extends Application implements EventHandler<KeyEvent>, GameEng
             root.getChildren().clear();
             Platform.runLater(() -> root.getChildren().addAll(rect, ball, scoreLabel, heartLabel, levelLabel));
         }
-        boolean b = check_mdds(savePath);
-        load.setVisible(b);
         for (Block block : blocks) {
             Platform.runLater(() -> root.getChildren().add(block.rect));
         }
@@ -180,7 +178,7 @@ public class Main extends Application implements EventHandler<KeyEvent>, GameEng
             load.setOnAction(event -> {
                 loadGame();
 
-                hideButton();;
+                hideButton();
             });
 
             newGame.setOnAction(event -> restartGameEngine());
@@ -264,9 +262,6 @@ public class Main extends Application implements EventHandler<KeyEvent>, GameEng
             case RIGHT:
                 move(RIGHT);
                 break;
-//            case DOWN:
-//                setPhysicsToBall();
-//                break;
             case S:
                 saveGame();
                 break;
@@ -740,14 +735,6 @@ public class Main extends Application implements EventHandler<KeyEvent>, GameEng
                     }
                 }
             }
-
-
-
-
-//    @Override
-//    public void onInit() {
-//
-//    }
 
     @Override
     public void onPhysicsUpdate() {
