@@ -2,6 +2,7 @@ package User;
 
 
 import brickGame.GameEngine;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.layout.VBox;
@@ -11,7 +12,6 @@ public class PauseMenu extends VBox {
 
     private final Main main;  // Reference to the main game class
     private final Stage stage;
-    //private final MainMenu mainMenu;
 
     public PauseMenu(Stage stage , Main main) {
         this.main = main;
@@ -29,18 +29,23 @@ public class PauseMenu extends VBox {
         exitButton.setOnAction(event -> exitGame());
 
 
-        Button mainmenuButton = new Button("Main Menu");
-        mainmenuButton.setOnAction(event -> {
-            //main.engine.setPaused(false);
-            //main.restartGame();
-            main.restartGameEngine();
-            main.start(stage);
-        });
+//        Button mainmenuButton = new Button("Main Menu");
+//        mainmenuButton.setOnAction(event -> {
+//            main.clearBlocks();
+//            GameEngine.setPaused(true);
+//            main.restartGameEngine();
+//            main.restartGame();;
+//
+//            main.start(stage);
+//        });
 
-        // Add buttons to the VBox
+        setSpacing(10);
 
+        // Set the position of PauseMenu to the center of the screen
+        setTranslateX((400 - getWidth()) / 2);
+        setTranslateY((600 - getHeight()) / 2);
         getChildren().addAll(resumeButton, exitButton);
-
+        setAlignment(Pos.CENTER);
         // Customize the appearance of the pause menu if needed
         setStyle("-fx-background-color: rgba(255, 255, 255, 0.8); -fx-padding: 20;");
     }
@@ -53,7 +58,7 @@ public class PauseMenu extends VBox {
         main.exitGame();  // Call a method in your Main class to exit the game
     }
 
-    private void showMainMenu() {
+   private void showMainMenu() {
         // Create an instance of MainMenu
         MainMenu mainMenu = new MainMenu(main);
 
@@ -64,6 +69,8 @@ public class PauseMenu extends VBox {
         // Set the main menu scene as the root of the stage
         stage.setScene(mainMenuScene);
     }
+
+
 
 
 }

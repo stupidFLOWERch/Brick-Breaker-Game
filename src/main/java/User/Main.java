@@ -118,7 +118,7 @@ public class Main extends Application implements EventHandler<KeyEvent>, GameEng
 
         // Show the stage
         primaryStage.setScene(mainMenuScene);
-        primaryStage.setTitle("Your Game Title");
+        primaryStage.setTitle("Main Menu");
         primaryStage.show();
     }
 
@@ -129,7 +129,7 @@ public class Main extends Application implements EventHandler<KeyEvent>, GameEng
 
     public void clearBlocks() {
         Platform.runLater(() -> root.getChildren().clear());
-           }
+        }
 
 
     public void startGame() {
@@ -373,39 +373,40 @@ public class Main extends Application implements EventHandler<KeyEvent>, GameEng
     private void setPhysicsToBall() {
         //v = ((time - hitTime) / 1000.000) + 1.000;
         synchronized (this) {
-        if (goDownBall) {
-            yBall += vY;
-        } else {
-            yBall -= vY;
-        }
+            if (yBall >= sceneHeight - ballRadius && goDownBall) {
+                goDownBall = false;
+                if (!isGoldStatus) {
+                    //TODO gameover
+                    heart--;
+                    new Score().show(sceneWidth / 2.0, sceneHeight / 2.0, -1, this);
 
-        if (goRightBall) {
-            xBall += vX;
-        } else {
-            xBall -= vX;
-        }
-
-        if (yBall <= ballRadius) {
-            vX = 1.000;
-            resetCollideFlags();
-            goDownBall = true;
-            return;
-        }
-        if (yBall >= sceneHeight - ballRadius && goDownBall) {
-            goDownBall = false;
-            if (!isGoldStatus) {
-                //TODO gameover
-                heart--;
-                new Score().show(sceneWidth / 2.0, sceneHeight / 2.0, -1, this);
-
-                if (heart == 0) {
-                    new Score().showGameOver(this);
-                    System.out.println("Lol so noob loss the game");
-                    engine.stop();
+                    if (heart == 0) {
+                        new Score().showGameOver(this);
+                        System.out.println("Lol so noob loss the game");
+                        engine.stop();
+                        return;
+                    }
                 }
             }
-        }
-            //return;
+
+            if (goDownBall) {
+                yBall += vY;
+            } else {
+                yBall -= vY;
+            }
+
+            if (goRightBall) {
+                xBall += vX;
+            } else {
+                xBall -= vX;
+            }
+
+            if (yBall <= ballRadius) {
+                vX = 1.000;
+                resetCollideFlags();
+                goDownBall = true;
+                return;
+            }
         }
 
         if (yBall >= yBreak - ballRadius) {
@@ -440,13 +441,13 @@ public class Main extends Application implements EventHandler<KeyEvent>, GameEng
 
         if (xBall >= sceneWidth - ballRadius) {
             resetCollideFlags();
-            vX = 1.000;
+            //vX = 1.000;
             collideToRightWall = true;
         }
 
         if (xBall <= ballRadius) {
             resetCollideFlags();
-            vX = 1.000;
+            //vX = 1.000;
             collideToLeftWall = true;
         }
 
@@ -639,10 +640,10 @@ public class Main extends Application implements EventHandler<KeyEvent>, GameEng
         isExistHeartBlock = false;
 
 
-         hitTime = 0;
-         time = 0;
-         goldTime = 0;
-         Platform.runLater(()-> {
+        hitTime = 0;
+        time = 0;
+        goldTime = 0;
+        Platform.runLater(()-> {
             root.getChildren().clear();
             blocks.clear();
             cheeses.clear();
@@ -652,9 +653,9 @@ public class Main extends Application implements EventHandler<KeyEvent>, GameEng
             try {
                 startGame();
 
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         });
     }
 
@@ -698,69 +699,69 @@ public class Main extends Application implements EventHandler<KeyEvent>, GameEng
             ball.setCenterX(xBall);
             ball.setCenterY(yBall);
         });
-                for (Bonus cheese : cheeses) {
-                    cheese.cheese.setY(cheese.y);
-                }
+        for (Bonus cheese : cheeses) {
+            cheese.cheese.setY(cheese.y);
+        }
 
-                List<Block> blocksCopy = new ArrayList<>(blocks);
+        List<Block> blocksCopy = new ArrayList<>(blocks);
 
 
-                if (yBall >= Block.getPaddingTop() && yBall <= (Block.getHeight() * (level + 1)) + Block.getPaddingTop()) {
-                    for (final Block block : blocksCopy) {
-                        try {
-                            int hitCode = block.checkHitToBlock(xBall, yBall);
-                            if (hitCode != Block.NO_HIT) {
-                                score += 1;
+        if (yBall >= Block.getPaddingTop() && yBall <= (Block.getHeight() * (level + 1)) + Block.getPaddingTop()) {
+            for (final Block block : blocksCopy) {
+                try {
+                    int hitCode = block.checkHitToBlock(xBall, yBall);
+                    if (hitCode != Block.NO_HIT) {
+                        score += 1;
 
-                                new Score().show(block.x, block.y, 1, Main.this);
+                        new Score().show(block.x, block.y, 1, Main.this);
 
-                                block.rect.setVisible(false);
-                                block.isDestroyed = true;
-                                destroyedBlockCount++;
-                                new Sound();
-                                //System.out.println("size is " + blocks.size());
-                                resetCollideFlags();
+                        block.rect.setVisible(false);
+                        block.isDestroyed = true;
+                        destroyedBlockCount++;
+                        new Sound();
+                        //System.out.println("size is " + blocks.size());
+                        resetCollideFlags();
 
-                                if (block.type == Block.BLOCK_CHEESE) {
-                                    final Bonus cheese = new Bonus(block.row, block.column);
-                                    cheese.timeCreated = time;
-                                    Platform.runLater(() -> Platform.runLater(()-> {
-                                        root.getChildren().add(cheese.cheese);
-                                    }));
-                                    cheeses.add(cheese);
-                                }
-
-                                if (block.type == Block.BLOCK_STAR) {
-                                    goldTime = time;
-                                    ball.setFill(new ImagePattern(new Image("goldball.png")));
-                                    System.out.println("gold ball");
-                                    root.getStyleClass().add("goldRoot");
-                                    isGoldStatus = true;
-                                }
-
-                                if (block.type == Block.BLOCK_HEART) {
-                                    heart++;
-                                }
-
-                                if (hitCode == Block.HIT_RIGHT) {
-                                    collideToRightBlock = true;
-                                } else if (hitCode == Block.HIT_BOTTOM) {
-                                    collideToBottomBlock = true;
-                                } else if (hitCode == Block.HIT_LEFT) {
-                                    collideToLeftBlock = true;
-                                } else if (hitCode == Block.HIT_TOP) {
-                                    collideToTopBlock = true;
-                                }
-
-                            }
-                        } catch (Exception e) {
-                            e.printStackTrace();
+                        if (block.type == Block.BLOCK_CHEESE) {
+                            final Bonus cheese = new Bonus(block.row, block.column);
+                            cheese.timeCreated = time;
+                            Platform.runLater(() -> Platform.runLater(()-> {
+                                root.getChildren().add(cheese.cheese);
+                            }));
+                            cheeses.add(cheese);
                         }
-                        //TODO hit to break and some work here....
-                        //System.out.println("Break in row:" + block.row + " and column:" + block.column + " hit");
+
+                        if (block.type == Block.BLOCK_STAR) {
+                            goldTime = time;
+                            ball.setFill(new ImagePattern(new Image("goldball.png")));
+                            System.out.println("gold ball");
+                            root.getStyleClass().add("goldRoot");
+                            isGoldStatus = true;
+                        }
+
+                        if (block.type == Block.BLOCK_HEART) {
+                            heart++;
+                        }
+
+                        if (hitCode == Block.HIT_RIGHT) {
+                            collideToRightBlock = true;
+                        } else if (hitCode == Block.HIT_BOTTOM) {
+                            collideToBottomBlock = true;
+                        } else if (hitCode == Block.HIT_LEFT) {
+                            collideToLeftBlock = true;
+                        } else if (hitCode == Block.HIT_TOP) {
+                            collideToTopBlock = true;
+                        }
+
                     }
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
+                //TODO hit to break and some work here....
+                //System.out.println("Break in row:" + block.row + " and column:" + block.column + " hit");
             }
+        }
+    }
 
     private long lastUpdateTime = 0;
 
