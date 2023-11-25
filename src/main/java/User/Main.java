@@ -68,7 +68,9 @@ public class Main extends Application implements EventHandler<KeyEvent>, GameEng
     private long time     = 0;
     private long hitTime  = 0;
     private long goldTime = 0;
-
+    private int restartFromLevel = 1;
+    private int restartFromHeart = 3;
+    private int restartFromScore = 0;
     private GameEngine engine;
     public static String savePath    = "C:/save/save.mdds";
     public static String savePathDir = "C:/save/";
@@ -97,6 +99,7 @@ public class Main extends Application implements EventHandler<KeyEvent>, GameEng
     private final Random random = new Random();
     private boolean loadFromSave = false;
     private boolean BreakMoveAllow = true;
+    private boolean fromRestartGame = false;
 
     Stage  primaryStage;
     private PauseMenu pauseMenu;
@@ -112,7 +115,11 @@ public class Main extends Application implements EventHandler<KeyEvent>, GameEng
 
         // Create the main menu scene
         mainScene = new Scene(mainMenu.createMainMenuLayout(), 500, 700);
-        mainScene.getStylesheets().add("style.css"); // Add your stylesheets if needed
+        mainScene.getStylesheets().add("style.css");
+
+        // Disable the resizeable button
+        primaryStage.setResizable(false);
+
         // Show the stage
         primaryStage.setScene(mainScene);
         primaryStage.setTitle("Main Menu");
@@ -130,23 +137,24 @@ public class Main extends Application implements EventHandler<KeyEvent>, GameEng
     public void startGame() {
         new Bgm();
         if (!loadFromSave) {
-            level++;
-            if (level > 1) {
-                Platform.runLater(() -> {
-                    new Score().showMessage("Level Up :)", this);
-                });
-            }
-            if (level == 18) {
-                Platform.runLater(() -> {
-                    new Score().showWin(this);
-                });
-                return;
+            if(!fromRestartGame) {
+                level++;
+                if (level > 1) {
+                    Platform.runLater(() -> {
+                        new Score().showMessage("Level Up :)", this);
+                    });
+                }
+                if (level == 18) {
+                    Platform.runLater(() -> {
+                        new Score().showWin(this);
+                    });
+                    return;
+                }
             }
 
             initBall();
             initBreak();
             initBoard();
-
 
 
         }
@@ -174,17 +182,19 @@ public class Main extends Application implements EventHandler<KeyEvent>, GameEng
         primaryStage.setTitle("Game");
         primaryStage.show();
 
-        if (!loadFromSave) {
+        if (!loadFromSave && !fromRestartGame) {
             if (level > 1 && level < 18) {
                 restartGameEngine();
             }
-        } else {
+        }
+        else if(loadFromSave) {
             engine = new GameEngine();
             engine.setOnAction(this);
             engine.setFps(120);
             engine.start();
             loadFromSave = false;
         }
+        fromRestartGame = false;
 
     }
 
@@ -297,6 +307,20 @@ public class Main extends Application implements EventHandler<KeyEvent>, GameEng
 
     public void exitGame() {
         Platform.exit();
+    }
+
+    public void restartLevel(){
+        ;
+        restartGame();
+        level = restartFromLevel;
+        heart = restartFromHeart;
+        score = restartFromScore;
+        loadFromSave = false;
+        resumeGame();
+        fromRestartGame = true;
+
+        startGame();
+
     }
 
     private void move(final int direction) {
@@ -622,13 +646,16 @@ public class Main extends Application implements EventHandler<KeyEvent>, GameEng
     }
 
     private void nextLevel() {
+        restartFromScore = score;
+        restartFromHeart = heart;
+        restartFromLevel = level + 1;
         vX = 1.000;
         // stop the engine
         engine.stop();
         // reset flags and game state
         resetCollideFlags();
         goDownBall = true;
-
+        goRightBall = true;
         isGoldStatus = false;
         isExistHeartBlock = false;
 
@@ -662,7 +689,7 @@ public class Main extends Application implements EventHandler<KeyEvent>, GameEng
             destroyedBlockCount = 0;
             resetCollideFlags();
             goDownBall = true;
-
+            goRightBall = true;
             isGoldStatus = false;
             isExistHeartBlock = false;
             hitTime = 0;

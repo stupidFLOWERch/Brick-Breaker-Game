@@ -27,23 +27,22 @@ public class PauseMenu extends VBox {
         Button exitButton = new Button("Exit");
         exitButton.setOnAction(event -> exitGame());
 
-
 //        Button mainmenuButton = new Button("Main Menu");
 //        mainmenuButton.setOnAction(event -> {
-//            main.clearBlocks();
-//            GameEngine.setPaused(true);
-//            main.restartGameEngine();
-//            main.restartGame();;
+//            System.out.println("Main Menu Button Clicked");
+//            MainMenu.setMainSceneRoot();
 //
-//            main.start(stage);
 //        });
 
-        setSpacing(10);
+        Button restartButton = new Button("Restart Level");
+        restartButton.setOnAction(event -> restartLevel());
+
+        setSpacing(20);
 
         // Set the position of PauseMenu to the center of the screen
         setTranslateX((400 - getWidth()) / 2);
         setTranslateY((600 - getHeight()) / 2);
-        getChildren().addAll(resumeButton, exitButton);
+        getChildren().addAll(resumeButton, exitButton, restartButton);
         setAlignment(Pos.CENTER);
         // Customize the appearance of the pause menu if needed
         setStyle("-fx-background-color: rgba(255, 255, 255, 0.8); -fx-padding: 20;");
@@ -57,20 +56,9 @@ public class PauseMenu extends VBox {
         main.exitGame();  // Call a method in your Main class to exit the game
     }
 
-//   private void showMainMenu() {
-//        // Create an instance of MainMenu
-//        MainMenu mainMenu = new MainMenu(main);
-//
-//        // Create the main menu scene
-//        Scene mainMenuScene = new Scene(mainMenu.MainMenuLayout(), 800, 600); // Adjust the size
-//        mainMenuScene.getStylesheets().add("style.css"); // Add your stylesheets if needed
-//
-//        // Set the main menu scene as the root of the stage
-//        stage.setScene(mainMenuScene);
-//    }
-
-
-
+    public void restartLevel(){
+        main.restartLevel();
+    }
 
 }
 
