@@ -1,42 +1,30 @@
 package UI;
 
 import User.Main;
-import javafx.scene.Scene;
+import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.layout.VBox;
-import javafx.stage.Stage;
+import javafx.scene.layout.Pane;
 
 import static User.Main.savePath;
 import static brickGame.LoadSave.check_mdds;
 
 public class MainMenu {
     private final Main main;
-    private final Stage primaryStage;
 
     private final Button load = new Button("Load a Game");
     private final Button newGame = new Button("Start a New Game");
-
     private final Button instruction = new Button("Instruction");
 
-    public MainMenu(Main main, Stage primaryStage) {
+    public MainMenu(Main main) {
         this.main = main;
-        this.primaryStage = primaryStage;
         initialize();
     }
 
     private void initialize() {
-        load.setTranslateX(220);
-        load.setTranslateY(300);
-        newGame.setTranslateX(220);
-        newGame.setTranslateY(340);
-        instruction.setTranslateX(220);
-        instruction.setTranslateY(380);
-
-
         boolean b = check_mdds(savePath);
         load.setVisible(b);
 
-        // Set the button actions
         load.setOnAction(event -> {
             main.startGame();
             main.clearBlocks();
@@ -49,23 +37,17 @@ public class MainMenu {
             main.restartGameEngine();
         });
 
-        instruction.setOnAction(event->{
-            InstructionMenu instructionMenu = new InstructionMenu();
-            InstructionMenu.showInstructionMenu(primaryStage);
+        instruction.setOnAction(event -> {
+            Pane instructionLayout = InstructionMenu.createInstructionLayout(main);
+            main.getMainScene().setRoot(instructionLayout);
         });
     }
 
-    public VBox MainMenuLayout() {
-        VBox mainMenuLayout = new VBox(20); // Adjust the spacing between buttons if needed
-        mainMenuLayout.getChildren().addAll(load, newGame, instruction);
+    public VBox createMainMenuLayout() {
+        VBox mainMenuLayout = new VBox(20, load, newGame, instruction);
+        mainMenuLayout.setAlignment(Pos.CENTER);
+        mainMenuLayout.setSpacing(30);
 
         return mainMenuLayout;
-    }
-
-    public void showMainMenu(Scene currentScene) {
-        if (currentScene != null) {
-            // Set the main menu layout as the scene content
-            currentScene.setRoot(MainMenuLayout());
-        }
     }
 }

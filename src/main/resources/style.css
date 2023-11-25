@@ -12,6 +12,11 @@
     -fx-background-image: url('goldbg.jpg');
 }
 
+
+.instruction {
+   -fx-background-image: url('instruction.jpg');
+}
+
 .label {
     -fx-text-fill: #FFF;
     -fx-label-padding: 8px;
