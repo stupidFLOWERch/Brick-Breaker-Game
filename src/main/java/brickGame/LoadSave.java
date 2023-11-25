@@ -38,6 +38,9 @@ public class LoadSave {
     public long time;
     public long goldTime;
     public double vX;
+    public int restartFromScore;
+    public int restartFromLevel;
+    public int restartFromHeart;
     public ArrayList<BlockSerializable> blocks = new ArrayList<BlockSerializable>();
 
 
@@ -52,6 +55,9 @@ public class LoadSave {
             score = inputStream.readInt();
             heart = inputStream.readInt();
             destroyedBlockCount = inputStream.readInt();
+            restartFromHeart = inputStream.readInt();
+            restartFromLevel = inputStream.readInt();
+            restartFromScore = inputStream.readInt();
             xBall = inputStream.readDouble();
             yBall = inputStream.readDouble();
             xBreak = inputStream.readDouble();
