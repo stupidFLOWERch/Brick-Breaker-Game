@@ -1,40 +1,31 @@
 package UI;
 
-import javafx.scene.Scene;
-import javafx.scene.image.Image;
+import javafx.scene.control.Button;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundImage;
 import javafx.scene.layout.BackgroundRepeat;
 import javafx.scene.layout.BackgroundSize;
 import javafx.scene.layout.BackgroundPosition;
 import javafx.scene.layout.Pane;
-import javafx.stage.Stage;
+import User.Main;
+
 
 public class InstructionMenu {
 
-    public static void showInstructionMenu(Stage primaryStage) {
-        // Create a Pane as the root
+    public static Pane createInstructionLayout(Main main) {
         Pane root = new Pane();
+        root.setPrefSize(600, 400);
 
-        // Load the image
-        Image backgroundImage = new Image("instruction.jpg");
+        root.getStyleClass().add("instruction");
 
-        // Set the background image
-        BackgroundImage background = new BackgroundImage(
-                backgroundImage,
-                BackgroundRepeat.NO_REPEAT,
-                BackgroundRepeat.NO_REPEAT,
-                BackgroundPosition.DEFAULT,
-                BackgroundSize.DEFAULT);
+        Button backButton = new Button("Back to Main Menu");
+        backButton.setTranslateX(200);
+        backButton.setTranslateY(630);
+        backButton.setOnAction(event -> {
+            main.getMainScene().setRoot(new MainMenu(main).createMainMenuLayout());
+        });
 
-        root.setBackground(new Background(background));
-
-        // Create the scene
-        Scene scene = new Scene(root, 500, 700); // Adjust the size as needed
-
-        // Set the scene and show the stage
-        primaryStage.setScene(scene);
-        primaryStage.setTitle("Instruction Menu");
-        primaryStage.show();
+        root.getChildren().add(backButton);
+        return root;
     }
 }
