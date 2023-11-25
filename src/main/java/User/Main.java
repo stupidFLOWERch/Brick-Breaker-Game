@@ -26,7 +26,6 @@ import java.util.Random;
 
 import Sound.Sound;
 import Sound.Bgm;
-import static brickGame.LoadSave.check_mdds;
 
 
 
@@ -101,8 +100,7 @@ public class Main extends Application implements EventHandler<KeyEvent>, GameEng
 
     Stage  primaryStage;
     private PauseMenu pauseMenu;
-    private Main main;
-    private Scene scene;
+    private Scene mainScene;
 
     public static void main(String[] args) {
         launch(args);
@@ -110,26 +108,20 @@ public class Main extends Application implements EventHandler<KeyEvent>, GameEng
     @Override
     public void start(Stage primaryStage) {
         this.primaryStage = primaryStage;
-        MainMenu mainMenu = new MainMenu(this, primaryStage);
+        MainMenu mainMenu = new MainMenu(this);
 
         // Create the main menu scene
-        Scene mainMenuScene = new Scene(mainMenu.MainMenuLayout(), 500, 700); // Adjust the size
-        mainMenuScene.getStylesheets().add("style.css"); // Add your stylesheets if needed
-
-        // Show the main menu
-        mainMenu.showMainMenu(mainMenuScene);
-
+        mainScene = new Scene(mainMenu.createMainMenuLayout(), 500, 700);
+        mainScene.getStylesheets().add("style.css"); // Add your stylesheets if needed
         // Show the stage
-        primaryStage.setScene(mainMenuScene);
+        primaryStage.setScene(mainScene);
         primaryStage.setTitle("Main Menu");
         primaryStage.show();
     }
 
-//    public void showMainMenu(Scene mainMenuScene) {
-//        primaryStage.setScene(mainMenuScene);
-//    }
-
-
+    public Scene getMainScene() {
+        return mainScene;
+    }
     public void clearBlocks() {
         Platform.runLater(() -> root.getChildren().clear());
         }
