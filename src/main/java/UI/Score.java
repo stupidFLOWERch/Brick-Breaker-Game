@@ -112,15 +112,18 @@ public class Score {
 
             Button bonusLevel = new Button("Bonus Level");
             bonusLevel.setTranslateX(200);
-            bonusLevel.setTranslateY(300);
+            bonusLevel.setTranslateY(310);
             bonusLevel.setOnAction(event -> main.startGame());
 
-            Button exit = new Button("Exit");
-            exit.setTranslateX(220);
-            exit.setTranslateY(350);
-            exit.setOnAction(event -> main.exitGame());
+            Button restart = new Button("Restart");
+            restart.setTranslateX(210);
+            restart.setTranslateY(360);
+            restart.setOnAction(event -> {
+                main.restartGame();
+            });
+
             if (main.root != null) {
-                main.root.getChildren().addAll(label, bonusLevel, exit);
+                main.root.getChildren().addAll(label, bonusLevel, restart);
             }
         });
     }
