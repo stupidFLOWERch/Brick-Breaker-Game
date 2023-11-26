@@ -26,6 +26,7 @@ import java.util.Random;
 
 import Sound.Sound;
 import Sound.Bgm;
+import Sound.Win;
 
 
 
@@ -145,9 +146,15 @@ public class Main extends Application implements EventHandler<KeyEvent>, GameEng
                     });
                 }
                 if (level == 18) {
+                    restartFromLevel = 1;
+                    restartFromHeart = 3;
+                    restartFromScore = 0;
                     Platform.runLater(() -> {
                         new Score().showWin(this);
+                        root.getStyleClass().add("win");
                     });
+                    new Win();
+                    System.out.println("Congratulations! You win the game");
                     return;
                 }
             }

@@ -12,7 +12,9 @@
     -fx-background-image: url('goldbg.jpg');
 }
 
-
+.win{
+   -fx-background-image: url('win.jpg');
+}
 .instruction {
    -fx-background-image: url('instruction.jpg');
 }
