@@ -90,8 +90,9 @@ public class Score {
             restart.setTranslateX(220);
             restart.setTranslateY(300);
             restart.setOnAction(event -> main.restartGame());
-
+            if (main.root != null) {
             main.root.getChildren().addAll(label, restart);
+            }
 
         });
     }
@@ -104,9 +105,13 @@ public class Score {
             label.setScaleX(2);
             label.setScaleY(2);
 
+            Button restart = new Button("Restart");
+            restart.setTranslateX(220);
+            restart.setTranslateY(300);
+            restart.setOnAction(event -> main.restartGame());
 
             if (main.root != null) {
-                main.root.getChildren().addAll(label);
+                main.root.getChildren().addAll(label, restart);
             }
         });
     }
