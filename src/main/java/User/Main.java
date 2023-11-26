@@ -199,8 +199,8 @@ public class Main extends Application implements EventHandler<KeyEvent>, GameEng
             loadFromSave = false;
         }
         fromRestartGame = false;
-
     }
+
 
     public void restartGameEngine() {
         engine = new GameEngine();
@@ -227,7 +227,6 @@ public class Main extends Application implements EventHandler<KeyEvent>, GameEng
         rect.setY(yBreak);
 
         ImagePattern pattern = new ImagePattern(new Image("block.jpg"));
-
         rect.setFill(pattern);
     }
     private void initBoard() {
@@ -328,7 +327,6 @@ public class Main extends Application implements EventHandler<KeyEvent>, GameEng
     }
 
     public void restartLevel() {
-        ;
         restartGame();
         level = restartFromLevel;
         heart = restartFromHeart;
@@ -338,7 +336,6 @@ public class Main extends Application implements EventHandler<KeyEvent>, GameEng
         fromRestartGame = true;
 
         startGame();
-
     }
 
     private void move(final int direction) {
@@ -523,7 +520,6 @@ public class Main extends Application implements EventHandler<KeyEvent>, GameEng
         if (collideToBottomBlock) {
             goDownBall = true;
         }
-
 
     }
 
