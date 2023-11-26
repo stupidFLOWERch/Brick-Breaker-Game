@@ -86,10 +86,15 @@ public class Score {
             label.setScaleX(2);
             label.setScaleY(2);
 
+            main.root.getChildren().clear();
+
             Button restart = new Button("Restart");
             restart.setTranslateX(220);
             restart.setTranslateY(300);
-            restart.setOnAction(event -> main.restartGame());
+            restart.setOnAction(event -> {
+                main.restartGame();
+            });
+
             if (main.root != null) {
             main.root.getChildren().addAll(label, restart);
             }
@@ -130,16 +135,16 @@ public class Score {
 
             main.root.getChildren().clear();
 
-            Button restart = new Button("Restart");
-            restart.setTranslateX(220);
-            restart.setTranslateY(600);
-            restart.setOnAction(event -> {
-                    main.restartGame();
+            Button exit = new Button("Exit Game");
+            exit.setTranslateX(220);
+            exit.setTranslateY(600);
+            exit.setOnAction(event -> {
+                    main.exitGame();
 
             });
 
             if (main.root != null) {
-                main.root.getChildren().addAll(label, restart);
+                main.root.getChildren().addAll(label, exit);
             }
 
         });

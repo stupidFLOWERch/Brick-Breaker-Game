@@ -144,9 +144,7 @@ public class Main extends Application implements EventHandler<KeyEvent>, GameEng
                         });
                     }
                     if (level == 18) {
-//                    restartFromLevel = 1;
-//                    restartFromHeart = 3;
-//                    restartFromScore = 0;
+
                         Platform.runLater(() -> {
                             new Score().showWin(this);
                         });
@@ -655,7 +653,8 @@ public class Main extends Application implements EventHandler<KeyEvent>, GameEng
         goldTime = loadSave.goldTime;
         vX = loadSave.vX;
 
-        root.getChildren().clear();
+        clearBlocks();
+
         blocks.clear();
         cheeses.clear();
 
@@ -734,11 +733,12 @@ public class Main extends Application implements EventHandler<KeyEvent>, GameEng
             goRightBall = true;
             isGoldStatus = false;
             isExistHeartBlock = false;
+            getHeart = false;
             hitTime = 0;
             time = 0;
             goldTime = 0;
 
-            root.getChildren().clear();
+            clearBlocks();
             blocks.clear();
             cheeses.clear();
 
