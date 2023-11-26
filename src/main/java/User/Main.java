@@ -62,7 +62,7 @@ public class Main extends Application implements EventHandler<KeyEvent>, GameEng
     private int destroyedBlockCount = 0;
 
     //private double v = 1.000;
-
+    private boolean getHeart = false;
     private int  heart    = 3;
     private int  score    = 0;
     private long time     = 0;
@@ -509,87 +509,92 @@ public class Main extends Application implements EventHandler<KeyEvent>, GameEng
 
     private void checkDestroyedCount() {
         if (destroyedBlockCount == blocks.size()) {
+            if(getHeart && heart > restartFromHeart){
+                System.out.println("Well done! You pass the level without losing any heart. +10 score for you");
+                score += 10;
+            }
+            if((!getHeart) && heart == restartFromHeart){
+                System.out.println("Well done! You pass the level without losing any heart. +10 score for you");
+                score += 10;
+            }
             //TODO win level todo...
             //System.out.println("You Win");
-
+            getHeart = false;
             nextLevel();
         }
     }
 
     private void saveGame() {
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                new File(savePathDir).mkdirs();
-                File file = new File(savePath);
-                ObjectOutputStream outputStream = null;
-                try {
-                    outputStream = new ObjectOutputStream(new FileOutputStream(file));
+        new Thread(() -> {
+            new File(savePathDir).mkdirs();
+            File file = new File(savePath);
+            ObjectOutputStream outputStream = null;
+            try {
+                outputStream = new ObjectOutputStream(new FileOutputStream(file));
 
-                    outputStream.writeInt(level);
-                    outputStream.writeInt(score);
-                    outputStream.writeInt(heart);
-                    outputStream.writeInt(0);
-                    outputStream.writeInt(restartFromHeart);
-                    outputStream.writeInt(restartFromLevel);
-                    outputStream.writeInt(restartFromScore);
-                    outputStream.writeDouble(xBall);
-                    outputStream.writeDouble(yBall);
-                    outputStream.writeDouble(xBreak);
-                    outputStream.writeDouble(yBreak);
-                    outputStream.writeDouble(centerBreakX);
-                    outputStream.writeLong(time);
-                    outputStream.writeLong(goldTime);
-                    outputStream.writeDouble(vX);
+                outputStream.writeInt(level);
+                outputStream.writeInt(score);
+                outputStream.writeInt(heart);
+                outputStream.writeBoolean(getHeart);
+                outputStream.writeInt(0);
+                outputStream.writeInt(restartFromHeart);
+                outputStream.writeInt(restartFromLevel);
+                outputStream.writeInt(restartFromScore);
+                outputStream.writeDouble(xBall);
+                outputStream.writeDouble(yBall);
+                outputStream.writeDouble(xBreak);
+                outputStream.writeDouble(yBreak);
+                outputStream.writeDouble(centerBreakX);
+                outputStream.writeLong(time);
+                outputStream.writeLong(goldTime);
+                outputStream.writeDouble(vX);
 
 
-                    outputStream.writeBoolean(isExistHeartBlock);
-                    outputStream.writeBoolean(isGoldStatus);
-                    outputStream.writeBoolean(goDownBall);
-                    outputStream.writeBoolean(goRightBall);
-                    outputStream.writeBoolean(collideToBreak);
-                    outputStream.writeBoolean(collideToBreakAndMoveToRight);
-                    outputStream.writeBoolean(collideToRightWall);
-                    outputStream.writeBoolean(collideToLeftWall);
-                    outputStream.writeBoolean(collideToRightBlock);
-                    outputStream.writeBoolean(collideToBottomBlock);
-                    outputStream.writeBoolean(collideToLeftBlock);
-                    outputStream.writeBoolean(collideToTopBlock);
+                outputStream.writeBoolean(isExistHeartBlock);
+                outputStream.writeBoolean(isGoldStatus);
+                outputStream.writeBoolean(goDownBall);
+                outputStream.writeBoolean(goRightBall);
+                outputStream.writeBoolean(collideToBreak);
+                outputStream.writeBoolean(collideToBreakAndMoveToRight);
+                outputStream.writeBoolean(collideToRightWall);
+                outputStream.writeBoolean(collideToLeftWall);
+                outputStream.writeBoolean(collideToRightBlock);
+                outputStream.writeBoolean(collideToBottomBlock);
+                outputStream.writeBoolean(collideToLeftBlock);
+                outputStream.writeBoolean(collideToTopBlock);
 
-                    ArrayList<BlockSerializable> blockSerializables = new ArrayList<BlockSerializable>();
-                    if(!blocks.isEmpty()) {
-                        for (Block block : blocks) {
-                            if (block.isDestroyed) {
-                                continue;
-                            }
-                            blockSerializables.add(new BlockSerializable(block.row, block.column, block.type));
+                ArrayList<BlockSerializable> blockSerializables = new ArrayList<BlockSerializable>();
+                if(!blocks.isEmpty()) {
+                    for (Block block : blocks) {
+                        if (block.isDestroyed) {
+                            continue;
                         }
+                        blockSerializables.add(new BlockSerializable(block.row, block.column, block.type));
                     }
-                    outputStream.writeObject(blockSerializables);
+                }
+                outputStream.writeObject(blockSerializables);
 
 
-                    Platform.runLater(() -> {
-                        Main main = Main.this;
-                        new Score().showMessage("Game Saved", main);
-                    });
+                Platform.runLater(() -> {
+                    Main main = Main.this;
+                    new Score().showMessage("Game Saved", main);
+                });
 
 
+            } catch (IOException e) {
+                e.printStackTrace();
+
+            } finally {
+                try {
+                    if (outputStream != null) {
+                        outputStream.flush();
+                        outputStream.close();
+                    }
                 } catch (IOException e) {
                     e.printStackTrace();
 
-                } finally {
-                    try {
-                        if (outputStream != null) {
-                            outputStream.flush();
-                            outputStream.close();
-                        }
-                    } catch (IOException e) {
-                        e.printStackTrace();
-
-                    }
                 }
             }
-
         }).start();
 
     }
@@ -602,6 +607,7 @@ public class Main extends Application implements EventHandler<KeyEvent>, GameEng
 
         isExistHeartBlock = loadSave.isExistHeartBlock;
         isGoldStatus = loadSave.isGoldStatus;
+        getHeart = loadSave.getHeart;
         goDownBall = loadSave.goDownBall;
         goRightBall = loadSave.goRightBall;
         collideToBreak = loadSave.collideToBreak;
@@ -764,6 +770,7 @@ public class Main extends Application implements EventHandler<KeyEvent>, GameEng
 
                         if (block.type == Block.BLOCK_HEART) {
                             heart++;
+                            getHeart = true;
                         }
 
                         if (hitCode == Block.HIT_RIGHT) {

@@ -29,6 +29,7 @@ public class LoadSave {
     public int level;
     public int score;
     public int heart;
+    public boolean getHeart;
     public int destroyedBlockCount;
     public double xBall;
     public double yBall;
@@ -54,6 +55,7 @@ public class LoadSave {
             level = inputStream.readInt();
             score = inputStream.readInt();
             heart = inputStream.readInt();
+            getHeart = inputStream.readBoolean();
             destroyedBlockCount = inputStream.readInt();
             restartFromHeart = inputStream.readInt();
             restartFromLevel = inputStream.readInt();
