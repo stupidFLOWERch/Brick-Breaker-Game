@@ -105,14 +105,44 @@ public class Score {
             label.setScaleX(2);
             label.setScaleY(2);
 
+            Button bonusLevel = new Button("Bonus Level");
+            bonusLevel.setTranslateX(200);
+            bonusLevel.setTranslateY(300);
+            bonusLevel.setOnAction(event -> main.startGame());
+
+            Button exit = new Button("Exit");
+            exit.setTranslateX(220);
+            exit.setTranslateY(350);
+            exit.setOnAction(event -> main.exitGame());
+            if (main.root != null) {
+                main.root.getChildren().addAll(label, bonusLevel, exit);
+            }
+        });
+    }
+
+    public void showCongrat(final Main main) {
+        Platform.runLater(() -> {
+            Label label = new Label("Congratulations!");
+            label.setTranslateX(200);
+            label.setTranslateY(40);
+            label.setScaleX(2);
+            label.setScaleY(2);
+
+            main.root.getChildren().clear();
+
             Button restart = new Button("Restart");
             restart.setTranslateX(220);
-            restart.setTranslateY(300);
-            restart.setOnAction(event -> main.restartGame());
+            restart.setTranslateY(600);
+            restart.setOnAction(event -> {
+                    main.restartGame();
+
+            });
 
             if (main.root != null) {
                 main.root.getChildren().addAll(label, restart);
             }
+
         });
+
     }
 }

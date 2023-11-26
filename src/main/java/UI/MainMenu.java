@@ -29,12 +29,14 @@ public class MainMenu {
             main.startGame();
             main.clearBlocks();
             main.loadGame();
+            main.resumeGame();
         });
 
         newGame.setOnAction(event -> {
             main.clearBlocks();
             main.startGame();
             main.restartGameEngine();
+            main.resumeGame();
         });
 
         instruction.setOnAction(event -> {

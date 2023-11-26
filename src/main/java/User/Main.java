@@ -29,9 +29,6 @@ import Sound.Bgm;
 import Sound.Win;
 
 
-
-
-
 public class Main extends Application implements EventHandler<KeyEvent>, GameEngine.OnAction {
 
 
@@ -41,14 +38,14 @@ public class Main extends Application implements EventHandler<KeyEvent>, GameEng
     private double centerBreakX;
     private double yBreak = 640.0f;
 
-    private final int breakWidth     = 130;
-    private final int breakHeight    = 30;
+    private final int breakWidth = 130;
+    private final int breakHeight = 30;
     private final int halfBreakWidth = breakWidth / 2;
 
     private final int sceneWidth = 500;
     private final int sceneHeight = 700;
 
-    private static final int LEFT  = 1;
+    private static final int LEFT = 1;
     private static final int RIGHT = 2;
 
     private Circle ball;
@@ -64,21 +61,21 @@ public class Main extends Application implements EventHandler<KeyEvent>, GameEng
 
     //private double v = 1.000;
     private boolean getHeart = false;
-    private int  heart    = 3;
-    private int  score    = 0;
-    private long time     = 0;
-    private long hitTime  = 0;
+    private int heart = 3;
+    private int score = 0;
+    private long time = 0;
+    private long hitTime = 0;
     private long goldTime = 0;
     private int restartFromLevel = 1;
     private int restartFromHeart = 3;
     private int restartFromScore = 0;
     private GameEngine engine;
-    public static String savePath    = "C:/save/save.mdds";
+    public static String savePath = "C:/save/save.mdds";
     public static String savePathDir = "C:/save/";
 
     private ArrayList<Block> blocks = new ArrayList<Block>();
     private ArrayList<Bonus> cheeses = new ArrayList<Bonus>();
-    private Color[]          colors = new Color[]{
+    private Color[] colors = new Color[]{
             Color.MAGENTA,
             Color.RED,
             Color.GOLD,
@@ -93,16 +90,16 @@ public class Main extends Application implements EventHandler<KeyEvent>, GameEng
             Color.TOMATO,
             Color.TAN,
     };
-    public  Pane             root;
-    private Label            scoreLabel;
-    private Label            heartLabel;
-    private Label            levelLabel;
+    public Pane root;
+    private Label scoreLabel;
+    private Label heartLabel;
+    private Label levelLabel;
     private final Random random = new Random();
     private boolean loadFromSave = false;
     private boolean BreakMoveAllow = true;
     private boolean fromRestartGame = false;
 
-    Stage  primaryStage;
+    Stage primaryStage;
     private PauseMenu pauseMenu;
     private Scene mainScene;
 
@@ -132,37 +129,38 @@ public class Main extends Application implements EventHandler<KeyEvent>, GameEng
     }
     public void clearBlocks() {
         Platform.runLater(() -> root.getChildren().clear());
-        }
+    }
 
 
     public void startGame() {
         new Bgm();
         if (!loadFromSave) {
-            if(!fromRestartGame) {
-                level++;
-                if (level > 1) {
-                    Platform.runLater(() -> {
-                        new Score().showMessage("Level Up :)", this);
-                    });
-                }
-                if (level == 18) {
-                    restartFromLevel = 1;
-                    restartFromHeart = 3;
-                    restartFromScore = 0;
-                    Platform.runLater(() -> {
-                        new Score().showWin(this);
-                        root.getStyleClass().add("win");
-                    });
-                    new Win();
-                    System.out.println("Congratulations! You win the game");
-                    return;
+            if (!fromRestartGame) {
+                if (level < 18) {
+                    level++;
+                    if (level > 1) {
+                        Platform.runLater(() -> {
+                            new Score().showMessage("Level Up :)", this);
+                        });
+                    }
+                    if (level == 18) {
+//                    restartFromLevel = 1;
+//                    restartFromHeart = 3;
+//                    restartFromScore = 0;
+                        Platform.runLater(() -> {
+                            new Score().showWin(this);
+                        });
+
+                        System.out.println("You win the game!");
+                        System.out.println("Do you want to play bonus level ?");
+                        return;
+                    }
                 }
             }
 
             initBall();
             initBreak();
             initBoard();
-
 
         }
 
@@ -190,11 +188,10 @@ public class Main extends Application implements EventHandler<KeyEvent>, GameEng
         primaryStage.show();
 
         if (!loadFromSave && !fromRestartGame) {
-            if (level > 1 && level < 18) {
+            if (level > 1 && level <= 18) {
                 restartGameEngine();
             }
-        }
-        else if(loadFromSave) {
+        } else if (loadFromSave) {
             engine = new GameEngine();
             engine.setOnAction(this);
             engine.setFps(120);
@@ -205,7 +202,7 @@ public class Main extends Application implements EventHandler<KeyEvent>, GameEng
 
     }
 
-    public void restartGameEngine(){
+    public void restartGameEngine() {
         engine = new GameEngine();
         engine.setOnAction(this);
         engine.setFps(120);
@@ -214,7 +211,7 @@ public class Main extends Application implements EventHandler<KeyEvent>, GameEng
 
 
     private void initBall() {
-        xBall = sceneWidth/2.0;
+        xBall = sceneWidth / 2.0;
         yBall = 500;
         //yBall = random.nextInt(sceneHeight - 200) + ((level + 1) * Block.getHeight()) + 15;
         ball = new Circle();
@@ -225,7 +222,7 @@ public class Main extends Application implements EventHandler<KeyEvent>, GameEng
         rect = new Rectangle();
         rect.setWidth(breakWidth);
         rect.setHeight(breakHeight);
-        xBreak = sceneWidth/2.0 - halfBreakWidth;
+        xBreak = sceneWidth / 2.0 - halfBreakWidth;
         rect.setX(xBreak);
         rect.setY(yBreak);
 
@@ -235,33 +232,47 @@ public class Main extends Application implements EventHandler<KeyEvent>, GameEng
     }
     private void initBoard() {
         synchronized (this) {
-            for (int i = 0; i < 4; i++) {
-                for (int j = 0; j < level + 1; j++) {
-                    int r = random.nextInt(500);
-                    if (r % 5 == 0) {
-                        continue;
-                    }
-                    int type;
-                    if (r % 10 == 1) {
-                        type = Block.BLOCK_CHEESE;
-                    } else if (r % 10 == 2) {
-                        if (!isExistHeartBlock) {
-                            type = Block.BLOCK_HEART;
-                            isExistHeartBlock = true;
+            int type;
+            if (level < 18) {
+                for (int i = 0; i < 4; i++) {
+                    for (int j = 0; j < level + 1; j++) {
+                        int r = random.nextInt(500);
+                        if (r % 5 == 0) {
+                            continue;
+                        }
+
+
+                        if (r % 10 == 1) {
+                            type = Block.BLOCK_CHEESE;
+                        } else if (r % 10 == 2) {
+                            if (!isExistHeartBlock) {
+                                type = Block.BLOCK_HEART;
+                                isExistHeartBlock = true;
+                            } else {
+                                type = Block.BLOCK_NORMAL;
+                            }
+                        } else if (r % 10 == 3) {
+                            type = Block.BLOCK_STAR;
                         } else {
                             type = Block.BLOCK_NORMAL;
                         }
-                    } else if (r % 10 == 3) {
-                        type = Block.BLOCK_STAR;
-                    } else {
-                        type = Block.BLOCK_NORMAL;
+                        blocks.add(new Block(j, i, colors[r % (colors.length)], type));
+                        //System.out.println("colors " + r % (colors.length));
                     }
-                    blocks.add(new Block(j, i, colors[r % (colors.length)], type));
-                    //System.out.println("colors " + r % (colors.length));
+                }
+            }
+            if (level == 18) {
+                for (int i = 0; i < 4; i++) {
+                    for (int j = 0; j < 10; j++) {
+
+                        type = Block.BLOCK_CHEESE;
+                        blocks.add(new Block(j, i, colors[1 % (colors.length)], type));
+                    }
                 }
             }
         }
     }
+
     @Override
     public void handle(KeyEvent event) {
         switch (event.getCode()) {
@@ -275,13 +286,13 @@ public class Main extends Application implements EventHandler<KeyEvent>, GameEng
                 saveGame();
                 break;
             case P:
-                if(PauseGame.pauseGame()){
+                if (PauseGame.pauseGame()) {
                     Bgm.pause();
                     GameEngine.setPaused(true);
                     BreakMoveAllow = false;
                     showPauseMenu();
                 }
-                else{
+                else {
                     Bgm.resume();
                     GameEngine.setPaused(false);
                     BreakMoveAllow = true;
@@ -316,7 +327,7 @@ public class Main extends Application implements EventHandler<KeyEvent>, GameEng
         Platform.exit();
     }
 
-    public void restartLevel(){
+    public void restartLevel() {
         ;
         restartGame();
         level = restartFromLevel;
@@ -331,7 +342,7 @@ public class Main extends Application implements EventHandler<KeyEvent>, GameEng
     }
 
     private void move(final int direction) {
-        if(BreakMoveAllow) {
+        if (BreakMoveAllow) {
             new Thread(() -> {
                 int sleepTime = 4;
                 for (int i = 0; i < 30; i++) {
@@ -399,6 +410,9 @@ public class Main extends Application implements EventHandler<KeyEvent>, GameEng
         synchronized (this) {
             if (yBall >= sceneHeight - ballRadius && goDownBall) {
                 goDownBall = false;
+                if (level == 18) {
+                    isGoldStatus = true;
+                }
                 if (!isGoldStatus) {
                     //TODO gameover
                     heart--;
@@ -516,20 +530,24 @@ public class Main extends Application implements EventHandler<KeyEvent>, GameEng
 
     private void checkDestroyedCount() {
         if (destroyedBlockCount == blocks.size()) {
-            if(getHeart && heart > restartFromHeart){
-                System.out.println("Well done! You pass the level without losing any heart. +10 score for you");
-                score += 10;
+            if (getHeart && heart > restartFromHeart) {
+                System.out.println("Well done! You pass the level without losing any heart. +20 score for you");
+                score += 20;
             }
-            if((!getHeart) && heart == restartFromHeart){
-                System.out.println("Well done! You pass the level without losing any heart. +10 score for you");
-                score += 10;
+            if ((!getHeart) && heart == restartFromHeart) {
+                System.out.println("Well done! You pass the level without losing any heart. +20 score for you");
+                score += 20;
             }
             //TODO win level todo...
             //System.out.println("You Win");
             getHeart = false;
-            nextLevel();
+            if (level <= 18) {
+                nextLevel();
+            }
+
         }
     }
+
 
     private void saveGame() {
         new Thread(() -> {
@@ -571,7 +589,7 @@ public class Main extends Application implements EventHandler<KeyEvent>, GameEng
                 outputStream.writeBoolean(collideToTopBlock);
 
                 ArrayList<BlockSerializable> blockSerializables = new ArrayList<BlockSerializable>();
-                if(!blocks.isEmpty()) {
+                if (!blocks.isEmpty()) {
                     for (Block block : blocks) {
                         if (block.isDestroyed) {
                             continue;
@@ -629,7 +647,7 @@ public class Main extends Application implements EventHandler<KeyEvent>, GameEng
         score = loadSave.score;
         heart = loadSave.heart;
         restartFromLevel = loadSave.restartFromLevel;
-        restartFromHeart = loadSave. restartFromHeart;
+        restartFromHeart = loadSave.restartFromHeart;
         restartFromScore = loadSave.restartFromScore;
         destroyedBlockCount = loadSave.destroyedBlockCount;
         xBall = loadSave.xBall;
@@ -679,12 +697,11 @@ public class Main extends Application implements EventHandler<KeyEvent>, GameEng
         hitTime = 0;
         time = 0;
         goldTime = 0;
-        Platform.runLater(()-> {
+        Platform.runLater(() -> {
             root.getChildren().clear();
             blocks.clear();
             cheeses.clear();
             destroyedBlockCount = 0;
-
 
             try {
                 startGame();
@@ -693,7 +710,20 @@ public class Main extends Application implements EventHandler<KeyEvent>, GameEng
                 e.printStackTrace();
             }
         });
+        if (level == 18) {
+            restartFromScore = 0;
+            restartFromHeart = 3;
+            restartFromLevel = 1;
+            Platform.runLater(() -> {
+                new Score().showCongrat(this);
+                new Win();
+                root.getStyleClass().add("win");
+                System.out.println("You pass all the levels!");
+                GameEngine.setPaused(true);
+            });
+        }
     }
+
 
     public void restartGame() {
 
@@ -761,7 +791,7 @@ public class Main extends Application implements EventHandler<KeyEvent>, GameEng
                         if (block.type == Block.BLOCK_CHEESE) {
                             final Bonus cheese = new Bonus(block.row, block.column);
                             cheese.timeCreated = time;
-                            Platform.runLater(() -> Platform.runLater(()-> {
+                            Platform.runLater(() -> Platform.runLater(() -> {
                                 root.getChildren().add(cheese.cheese);
                             }));
                             cheeses.add(cheese);
@@ -833,7 +863,9 @@ public class Main extends Application implements EventHandler<KeyEvent>, GameEng
                 cheese.taken = true;
                 cheese.cheese.setVisible(false);
                 score += 3;
-                Platform.runLater(()->{new Score().show(cheese.x, cheese.y, 3, this);});
+                Platform.runLater(() -> {
+                    new Score().show(cheese.x, cheese.y, 3, this);
+                });
             }
             cheese.y += elapsedTime * ((time - cheese.timeCreated) / 1000.0) + 1.0;
         }

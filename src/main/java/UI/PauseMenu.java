@@ -27,13 +27,6 @@ public class PauseMenu extends VBox {
         Button exitButton = new Button("Exit");
         exitButton.setOnAction(event -> exitGame());
 
-//        Button mainmenuButton = new Button("Main Menu");
-//        mainmenuButton.setOnAction(event -> {
-//            System.out.println("Main Menu Button Clicked");
-//            MainMenu.setMainSceneRoot();
-//
-//        });
-
         Button restartButton = new Button("Restart Level");
         restartButton.setOnAction(event -> restartLevel());
 
