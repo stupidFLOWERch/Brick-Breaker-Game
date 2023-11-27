@@ -1,4 +1,4 @@
-package brickGame;
+package Ball;
 
 import javafx.scene.shape.Circle;
 

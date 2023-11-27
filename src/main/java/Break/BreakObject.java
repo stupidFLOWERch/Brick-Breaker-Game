@@ -1,4 +1,4 @@
-package brickGame;
+package Break;
 
 public class BreakObject {
     private double xBreak;

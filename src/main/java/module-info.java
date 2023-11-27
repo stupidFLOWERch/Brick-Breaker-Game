@@ -9,4 +9,10 @@ module brickGame {
     opens User to javafx.fxml;
     exports UI;
     opens UI to javafx.fxml;
+    exports Block;
+    opens Block to javafx.fxml;
+    exports Ball;
+    opens Ball to javafx.fxml;
+    exports Break;
+    opens Break to javafx.fxml;
 }

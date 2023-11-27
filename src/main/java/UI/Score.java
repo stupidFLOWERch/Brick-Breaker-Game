@@ -1,12 +1,10 @@
 package UI;
 
 import User.Main;
+import brickGame.LevelObject;
 import javafx.application.Platform;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-//import sun.plugin2.message.Message;
 
 public class Score {
 
@@ -14,13 +12,15 @@ public class Score {
     private static final int ANIMATION_DELAY = 15;
 
     public void show(final double x, final double y, int score, final Main main) {
+        LevelObject levelobject = new LevelObject();
+        levelobject.setScore(score);
         String sign;
-        if (score >= 0) {
+        if (levelobject.getScore() >= 0) {
             sign = "+";
         } else {
             sign = "";
         }
-        final Label label = new Label(sign + score);
+        final Label label = new Label(sign + levelobject.getScore());
         label.setTranslateX(x);
         label.setTranslateY(y);
 
