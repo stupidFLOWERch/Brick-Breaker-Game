@@ -36,7 +36,9 @@ public class InitBlock {
                             }
                         } else if (r % 10 == 3) {
                             type = Block.BLOCK_STAR;
-                        } else {
+                        } else if (levelobject.getLevel() > 5 && r % 10 == 4) {
+                            type = Block.BLOCK_TRAP;
+                        }else {
                             type = Block.BLOCK_NORMAL;
                         }
                         blocks.add(new Block(j, i, blockobject.getColors()[r % (blockobject.getColors().length)], type));

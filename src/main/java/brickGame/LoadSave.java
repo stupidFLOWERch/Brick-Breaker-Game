@@ -4,6 +4,7 @@ package brickGame;
 import Block.Block;
 import User.Main;
 import Block.BlockSerializable;
+import Block.Bonus;
 
 import java.io.FileInputStream;
 import java.io.IOException;

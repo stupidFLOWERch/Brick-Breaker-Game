@@ -41,6 +41,7 @@ public class Block implements Serializable {
     public static int BLOCK_CHEESE = 100;
     public static int BLOCK_STAR = 101;
     public static int BLOCK_HEART = 102;
+    public static int BLOCK_TRAP = 103;
 
 
 
@@ -76,7 +77,11 @@ public class Block implements Serializable {
             Image image = new Image("star.jpg");
             ImagePattern pattern = new ImagePattern(image);
             Platform.runLater(() -> rect.setFill(pattern));
-        } else {
+        } else if (type == BLOCK_TRAP) {
+            Image image = new Image("trap.png");
+            ImagePattern pattern = new ImagePattern(image);
+            Platform.runLater(() -> rect.setFill(pattern));
+        }else {
             Platform.runLater(() -> rect.setFill(color));
         }
 
@@ -104,12 +109,13 @@ public class Block implements Serializable {
             return HIT_LEFT;
         }
 
-        if (xBall  >= brickLeft - ballRadius && xBall <= brickRight + ballRadius && yBall >= brickTop && yBall <= brickTop + ballRadius + epsilon) {
+        if (xBall  >= brickLeft - ballRadius && xBall <= brickRight + ballRadius && yBall >= brickTop - ballRadius && yBall <= brickTop + ballRadius + epsilon) {
             return HIT_TOP;
         }
 
-        if (xBall  >= brickLeft - ballRadius && xBall  <= brickRight + ballRadius && yBall  <= brickBottom + epsilon && yBall >= brickBottom - ballRadius) {
+        if (xBall  >= brickLeft - ballRadius && xBall  <= brickRight + ballRadius && yBall  <= brickBottom + ballRadius && yBall >= brickBottom - ballRadius - epsilon) {
             return HIT_BOTTOM;
+
         }
 
         return NO_HIT;
