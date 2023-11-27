@@ -1,5 +1,7 @@
 package brickGame;
 
+import javafx.scene.control.Label;
+
 public class LevelObject {
     private int level;
     private int heart;
@@ -8,8 +10,10 @@ public class LevelObject {
     private boolean isExistHeartBlock;
     private int destroyedBlockCount;
     private boolean getHeart;
-
     private boolean fromRestartGame;
+    private Label scoreLabel;
+    private Label heartLabel;
+    private Label levelLabel;
 
     public int getScore() {
         return score;
@@ -73,5 +77,29 @@ public class LevelObject {
 
     public void setFromRestartGame(boolean fromRestartGame) {
         this.fromRestartGame = fromRestartGame;
+    }
+
+    public Label getScoreLabel() {
+        return scoreLabel;
+    }
+
+    public void setScoreLabel(Label scoreLabel) {
+        this.scoreLabel = scoreLabel;
+    }
+
+    public Label getHeartLabel() {
+        return heartLabel;
+    }
+
+    public void setHeartLabel(Label heartLabel) {
+        this.heartLabel = heartLabel;
+    }
+
+    public Label getLevelLabel() {
+        return levelLabel;
+    }
+
+    public void setLevelLabel(Label levelLabel) {
+        this.levelLabel = levelLabel;
     }
 }
