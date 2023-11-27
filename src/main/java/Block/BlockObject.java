@@ -1,6 +1,5 @@
 package Block;
 
-import brickGame.Bonus;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 
@@ -10,6 +9,8 @@ public class BlockObject {
 
     private final ArrayList<Block> blocks = new ArrayList<>();
     private final ArrayList<Bonus> cheeses = new ArrayList<>();
+    private final ArrayList<Trap> traps = new ArrayList<>();
+
     private Color[] colors = new Color[]{
             Color.MAGENTA,
             Color.RED,
@@ -26,8 +27,6 @@ public class BlockObject {
             Color.TAN,
     };
     private Rectangle rect;
-    private long time = 0;
-    private long goldTime = 0;
 
     public ArrayList<Block> getBlocks() {
         return blocks;
@@ -36,6 +35,8 @@ public class BlockObject {
     public ArrayList<Bonus> getCheeses() {
         return cheeses;
     }
+
+    public ArrayList<Trap> getTraps() { return traps; }
 
     public Color[] getColors() {
         return colors;
@@ -49,19 +50,5 @@ public class BlockObject {
         this.rect = rect;
     }
 
-    public long getTime() {
-        return time;
-    }
 
-    public void setTime(long time) {
-        this.time = time;
-    }
-
-    public long getGoldTime() {
-        return goldTime;
-    }
-
-    public void setGoldTime(long goldTime) {
-        this.goldTime = goldTime;
-    }
 }
