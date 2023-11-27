@@ -1,7 +1,9 @@
 package brickGame;
 
 
+import Block.Block;
 import User.Main;
+import Block.BlockSerializable;
 
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -43,10 +45,7 @@ public class LoadSave {
     public int restartFromLevel;
     public int restartFromHeart;
     public ArrayList<BlockSerializable> blocks = new ArrayList<BlockSerializable>();
-
-
     public void read() {
-
 
         try {
             ObjectInputStream inputStream = new ObjectInputStream(new FileInputStream((Main.savePath)));

@@ -1,5 +1,6 @@
 package User;
 
+import Block.BlockSerializable;
 import Ball.BallObject;
 import Block.BlockObject;
 import Block.Block;
@@ -369,6 +370,7 @@ public class Main extends Application implements EventHandler<KeyEvent>, GameEng
     private void setPhysicsToBall() {
         synchronized (this) {
             if (bo.getyBall() >= sceneHeight - bo.getBallRadius() && goDownBall) {
+                resetCollideFlags();
                 goDownBall = false;
                 if (levelobject.getLevel() == 18) {
                     levelobject.setGoldStatus(true);
