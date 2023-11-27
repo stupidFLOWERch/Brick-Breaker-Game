@@ -4,6 +4,7 @@ import Block.BlockSerializable;
 import Ball.BallObject;
 import Block.BlockObject;
 import Block.Block;
+import Block.InitBlock;
 import Break.BreakObject;
 import UI.MainMenu;
 import UI.PauseMenu;
@@ -57,6 +58,7 @@ public class Main extends Application implements EventHandler<KeyEvent>, GameEng
     private BallObject bo;
     private BreakObject breakobject;
     private BlockObject blockobject;
+    private InitBlock initblock;
     public static void main(String[] args) {
         launch(args);
     }
@@ -66,6 +68,7 @@ public class Main extends Application implements EventHandler<KeyEvent>, GameEng
         bo = new BallObject();
         breakobject = new BreakObject();
         blockobject = new BlockObject();
+        initblock = new InitBlock();
         levelobject.setScore(0);
         levelobject.setHeart(3);
         levelobject.setLevel(0);
@@ -125,7 +128,7 @@ public class Main extends Application implements EventHandler<KeyEvent>, GameEng
 
             initBall();
             initBreak();
-            initBoard();
+            initblock.initBlock(levelobject.getLevel(),blockobject.getBlocks());
 
         }
 
@@ -193,48 +196,6 @@ public class Main extends Application implements EventHandler<KeyEvent>, GameEng
 
         ImagePattern pattern = new ImagePattern(new Image("block.jpg"));
         blockobject.getRect().setFill(pattern);
-    }
-    private void initBoard() {
-        synchronized (this) {
-            int type;
-            if (levelobject.getLevel() < 18) {
-                for (int i = 0; i < 4; i++) {
-                    for (int j = 0; j < levelobject.getLevel() + 1; j++) {
-                        int r = random.nextInt(500);
-                        if (r % 5 == 0) {
-                            continue;
-                        }
-
-
-                        if (r % 10 == 1) {
-                            type = Block.BLOCK_CHEESE;
-                        } else if (r % 10 == 2) {
-                            if (!levelobject.isExistHeartBlock()) {
-                                type = Block.BLOCK_HEART;
-                                levelobject.setExistHeartBlock(true);
-                            } else {
-                                type = Block.BLOCK_NORMAL;
-                            }
-                        } else if (r % 10 == 3) {
-                            type = Block.BLOCK_STAR;
-                        } else {
-                            type = Block.BLOCK_NORMAL;
-                        }
-                        blockobject.getBlocks().add(new Block(j, i, blockobject.getColors()[r % (blockobject.getColors().length)], type));
-                        //System.out.println("colors " + r % (colors.length));
-                    }
-                }
-            }
-            if (levelobject.getLevel() == 18) {
-                for (int i = 0; i < 4; i++) {
-                    for (int j = 0; j < 10; j++) {
-
-                        type = Block.BLOCK_CHEESE;
-                        blockobject.getBlocks().add(new Block(j, i, blockobject.getColors()[1 % (blockobject.getColors().length)], type));
-                    }
-                }
-            }
-        }
     }
 
     @Override
