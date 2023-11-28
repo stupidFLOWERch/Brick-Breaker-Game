@@ -2,14 +2,15 @@ package User;
 
 import Ball.BallObject;
 import Ball.InitBall;
+import Ball.ResetCollideFlags;
 import Block.BlockObject;
 import Block.Block;
 import Block.InitBlock;
 import Block.Bonus;
 import Block.Trap;
+import Block.CheckDestroyedCount;
 import Break.BreakObject;
 import Break.InitBreak;
-import Level.NextLevel;
 import UI.MainMenu;
 import UI.PauseMenu;
 import UI.Score;
@@ -49,6 +50,7 @@ public class Main extends Application implements EventHandler<KeyEvent>, GameEng
 
     private LevelObject levelobject;
     private BallObject bo;
+    private ResetCollideFlags resetcollideflags;
     private BreakObject breakobject;
     private BlockObject blockobject;
     private InitBlock initblock;
@@ -63,6 +65,7 @@ public class Main extends Application implements EventHandler<KeyEvent>, GameEng
     public void start(Stage primaryStage) {
         levelobject = new LevelObject();
         bo = new BallObject();
+        resetcollideflags = new ResetCollideFlags();
         breakobject = new BreakObject();
         blockobject = new BlockObject();
         initblock = new InitBlock();
@@ -272,23 +275,10 @@ public class Main extends Application implements EventHandler<KeyEvent>, GameEng
         }
     }
 
-    public void resetCollideFlags() {
-
-        bo.setCollideToBreak(false);
-        bo.setCollideToBreakAndMoveToRight(false);
-        bo.setCollideToRightWall(false);
-        bo.setCollideToLeftWall(false);
-
-        bo.setCollideToRightBlock(false);
-        bo.setCollideToBottomBlock(false);
-        bo.setCollideToLeftBlock(false);
-        bo.setCollideToTopBlock(false);
-    }
-
     private void setPhysicsToBall() {
         synchronized (this) {
             if (bo.getyBall() >= sceneHeight - bo.getBallRadius() && bo.isGoDownBall()) {
-                resetCollideFlags();
+                resetcollideflags.resetCollideFlags(bo);
                 bo.setGoDownBall(false);
                 if (levelobject.getLevel() == 18) {
                     levelobject.setGoldStatus(true);
@@ -320,7 +310,7 @@ public class Main extends Application implements EventHandler<KeyEvent>, GameEng
             }
 
             if (bo.getyBall() <= bo.getBallRadius()) {
-                resetCollideFlags();
+                resetcollideflags.resetCollideFlags(bo);
                 bo.setGoDownBall(true);
                 return;
             }
@@ -329,7 +319,7 @@ public class Main extends Application implements EventHandler<KeyEvent>, GameEng
         if (bo.getyBall() >= breakobject.getyBreak() - bo.getBallRadius()) {
             //System.out.println("Colide1");
             if (bo.getxBall() >= breakobject.getxBreak() && bo.getxBall() <= breakobject.getxBreak() + breakobject.getBreakWidth()) {
-                resetCollideFlags();
+                resetcollideflags.resetCollideFlags(bo);
                 bo.setCollideToBreak(true);
                 bo.setGoDownBall(false);
 
@@ -353,12 +343,12 @@ public class Main extends Application implements EventHandler<KeyEvent>, GameEng
         }
 
         if (bo.getxBall() >= sceneWidth - bo.getBallRadius()) {
-            resetCollideFlags();
+            resetcollideflags.resetCollideFlags(bo);
             bo.setCollideToRightWall(true);
         }
 
         if (bo.getxBall() <= bo.getBallRadius()) {
-            resetCollideFlags();
+            resetcollideflags.resetCollideFlags(bo);
             bo.setCollideToLeftWall(true);
         }
 
@@ -400,28 +390,6 @@ public class Main extends Application implements EventHandler<KeyEvent>, GameEng
 
     }
 
-
-    private void checkDestroyedCount() {
-        NextLevel nextlevel = new NextLevel();
-        if (levelobject.getDestroyedBlockCount() == blockobject.getBlocks().size()) {
-            if (levelobject.isGetHeart() && levelobject.getHeart() > levelobject.getRestartFromHeart()) {
-                System.out.println("Well done! You pass the level without losing any heart. +20 score for you");
-                levelobject.setScore(levelobject.getScore()+20);
-            }
-            if (!levelobject.isGetHeart() && levelobject.getHeart() == levelobject.getRestartFromHeart()) {
-                System.out.println("Well done! You pass the level without losing any heart. +20 score for you");
-                levelobject.setScore(levelobject.getScore()+20);
-            }
-            //TODO win level todo...
-            //System.out.println("You Win");
-            levelobject.setGetHeart(false);
-            if (levelobject.getLevel() <= 18) {
-                nextlevel.nextLevel(this, engine, bo, blockobject, levelobject);
-            }
-
-        }
-    }
-
     @Override
     public void onUpdate() {
         Platform.runLater(() -> {
@@ -456,7 +424,7 @@ public class Main extends Application implements EventHandler<KeyEvent>, GameEng
                         levelobject.setDestroyedBlockCount(levelobject.getDestroyedBlockCount()+1);
                         new Sound();
                         //System.out.println("size is " + blocks.size());
-                        resetCollideFlags();
+                        resetcollideflags.resetCollideFlags(bo);
 
                         if (block.type == Block.BLOCK_CHEESE) {
                             final Bonus cheese = new Bonus(block.row, block.column);
@@ -513,11 +481,12 @@ public class Main extends Application implements EventHandler<KeyEvent>, GameEng
 
     @Override
     public void onPhysicsUpdate() {
+        CheckDestroyedCount checkdestroyedcount = new CheckDestroyedCount();
         long currentTime = System.currentTimeMillis();
         double elapsedTime = (currentTime - lastUpdateTime) / 1000.0;  // Convert to seconds
         lastUpdateTime = currentTime;
 
-        checkDestroyedCount();
+        checkdestroyedcount.checkDestroyedCount(this, engine, bo, blockobject, levelobject);
         setPhysicsToBall();
 
         if (bo.getTime() - bo.getGoldTime() > 5000) {

@@ -1,6 +1,7 @@
 package Level;
 
 import Ball.BallObject;
+import Ball.ResetCollideFlags;
 import Block.BlockObject;
 import Sound.Win;
 import UI.Score;
@@ -11,6 +12,7 @@ import javafx.application.Platform;
 public class NextLevel {
 
     public void nextLevel(Main main, GameEngine engine, BallObject bo, BlockObject blockobject, LevelObject levelobject) {
+        ResetCollideFlags resetcollidflags = new ResetCollideFlags();
         levelobject.setRestartFromLevel(levelobject.getLevel() + 1);
         levelobject.setRestartFromHeart(levelobject.getHeart());
         levelobject.setRestartFromScore(levelobject.getScore());
@@ -19,7 +21,7 @@ public class NextLevel {
         // stop the engine
         engine.stop();
         // reset flags and game state
-        main.resetCollideFlags();
+        resetcollidflags.resetCollideFlags(bo);
         bo.setGoDownBall(true);
         bo.setGoRightBall(true);
         levelobject.setGoldStatus(false);

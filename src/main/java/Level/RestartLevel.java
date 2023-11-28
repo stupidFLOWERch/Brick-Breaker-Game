@@ -1,6 +1,6 @@
 package Level;
 
-import Break.BreakObject;
+import Ball.ResetCollideFlags;
 import User.Main;
 import Ball.BallObject;
 import Block.BlockObject;
@@ -9,10 +9,11 @@ public class RestartLevel {
 
     public void restartLevel(Main main, BallObject bo, BlockObject blockobject, LevelObject levelobject) {
 
+        ResetCollideFlags resetcollidflags = new ResetCollideFlags();
         levelobject.setFromRestartGame(true);
         bo.setvX(1.000);
         levelobject.setDestroyedBlockCount(0);
-        main.resetCollideFlags();
+        resetcollidflags.resetCollideFlags(bo);
         bo.setGoDownBall(true);
         bo.setGoRightBall(true);
         levelobject.setGoldStatus(false);
