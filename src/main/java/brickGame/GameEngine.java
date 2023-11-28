@@ -40,9 +40,9 @@ public class GameEngine {
     public void stop() {
         isStopped = true;
 
-//        if (animationTimer != null) {
-//            animationTimer.stop();
-//        }
+        if (animationTimer != null) {
+            animationTimer.stop();
+        }
     }
 
     public static void setPaused(boolean paused) {

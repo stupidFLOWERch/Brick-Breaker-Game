@@ -10,7 +10,7 @@ public class LevelObject {
     private boolean isExistHeartBlock;
     private int destroyedBlockCount;
     private boolean getHeart;
-    private boolean fromRestartGame;
+    private boolean fromRestartGame = false;
     private Label scoreLabel;
     private Label heartLabel;
     private Label levelLabel;
