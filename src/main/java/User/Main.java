@@ -2,15 +2,22 @@ package User;
 
 import Block.BlockSerializable;
 import Ball.BallObject;
+import Ball.InitBall;
 import Block.BlockObject;
 import Block.Block;
 import Block.InitBlock;
+import Block.Bonus;
+import Block.Trap;
 import Break.BreakObject;
 import UI.MainMenu;
 import UI.PauseMenu;
 import UI.Score;
 import brickGame.*;
 import brickGame.LevelObject;
+import Sound.Sound;
+import Sound.Bgm;
+import Sound.Win;
+
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.event.EventHandler;
@@ -23,16 +30,13 @@ import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
-
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
 
-import Sound.Sound;
-import Sound.Bgm;
-import Sound.Win;
+
 
 
 public class Main extends Application implements EventHandler<KeyEvent>, GameEngine.OnAction {
@@ -41,6 +45,8 @@ public class Main extends Application implements EventHandler<KeyEvent>, GameEng
     private final int sceneHeight = 700;
     private static final int LEFT = 1;
     private static final int RIGHT = 2;
+    private long goldTime = 0;
+    private long time = 0;
     private int restartFromLevel = 1;
     private int restartFromHeart = 3;
     private int restartFromScore = 0;
@@ -59,6 +65,7 @@ public class Main extends Application implements EventHandler<KeyEvent>, GameEng
     private BreakObject breakobject;
     private BlockObject blockobject;
     private InitBlock initblock;
+    private InitBall initball;
     public static void main(String[] args) {
         launch(args);
     }
@@ -69,6 +76,7 @@ public class Main extends Application implements EventHandler<KeyEvent>, GameEng
         breakobject = new BreakObject();
         blockobject = new BlockObject();
         initblock = new InitBlock();
+        initball = new InitBall();
         levelobject.setScore(0);
         levelobject.setHeart(3);
         levelobject.setLevel(0);
@@ -125,8 +133,10 @@ public class Main extends Application implements EventHandler<KeyEvent>, GameEng
                     }
                 }
             }
-
-            initBall();
+            bo.setBall(new Circle());
+            bo.setxBall(250);
+            bo.setyBall(500);
+            initball.initBall(bo.getBall(), bo.getxBall(), bo.getyBall());
             initBreak();
             initblock.initBlock(levelobject.getLevel(),blockobject.getBlocks());
 
@@ -178,14 +188,6 @@ public class Main extends Application implements EventHandler<KeyEvent>, GameEng
         engine.start();
     }
 
-
-    private void initBall() {
-        bo.setxBall(sceneWidth / 2.0);
-        bo.setyBall(500);
-        bo.setBall(new Circle());
-        bo.getBall().setRadius(bo.getBallRadius());
-        bo.getBall().setFill(new ImagePattern(new Image("ball.png")));
-    }
     private void initBreak() {
         blockobject.setRect(new Rectangle());
         blockobject.getRect().setWidth(breakobject.getBreakWidth());
@@ -489,8 +491,8 @@ public class Main extends Application implements EventHandler<KeyEvent>, GameEng
                 outputStream.writeDouble(breakobject.getxBreak());
                 outputStream.writeDouble(breakobject.getyBreak());
                 outputStream.writeDouble(breakobject.getCenterBreakX());
-                outputStream.writeLong(blockobject.getTime());
-                outputStream.writeLong(blockobject.getGoldTime());
+                outputStream.writeLong(time);
+                outputStream.writeLong(goldTime);
                 outputStream.writeDouble(vX);
 
 
@@ -574,14 +576,15 @@ public class Main extends Application implements EventHandler<KeyEvent>, GameEng
         breakobject.setxBreak(loadSave.xBreak);
         breakobject.setyBreak(loadSave.yBreak);
         breakobject.setCenterBreakX(loadSave.centerBreakX);
-        blockobject.setTime(loadSave.time);
-        blockobject.setGoldTime(loadSave.goldTime);
+        time = loadSave.time;
+        goldTime = loadSave.goldTime;
         vX = loadSave.vX;
 
         clearBlocks();
 
         blockobject.getBlocks().clear();
         blockobject.getCheeses().clear();
+        blockobject.getTraps().clear();
 
         for (BlockSerializable ser : loadSave.blocks) {
             int r = random.nextInt(200);
@@ -614,12 +617,13 @@ public class Main extends Application implements EventHandler<KeyEvent>, GameEng
         levelobject.setExistHeartBlock(false);
 
 
-        blockobject.setTime(0);
-        blockobject.setGoldTime(0);
+        time = 0;
+        goldTime = 0;
         Platform.runLater(() -> {
             root.getChildren().clear();
             blockobject.getBlocks().clear();
             blockobject.getCheeses().clear();
+            blockobject.getTraps().clear();
             levelobject.setDestroyedBlockCount(0);
 
             try {
@@ -658,12 +662,13 @@ public class Main extends Application implements EventHandler<KeyEvent>, GameEng
             levelobject.setGoldStatus(false);
             levelobject.setExistHeartBlock(false);
             levelobject.setGetHeart(false);
-            blockobject.setTime(0);
-            blockobject.setGoldTime(0);
+            time = 0;
+            goldTime = 0;
 
             clearBlocks();
             blockobject.getBlocks().clear();
             blockobject.getCheeses().clear();
+            blockobject.getTraps().clear();
 
             start(primaryStage);
         } catch (Exception e) {
@@ -687,7 +692,9 @@ public class Main extends Application implements EventHandler<KeyEvent>, GameEng
         for (Bonus cheese : blockobject.getCheeses()) {
             cheese.cheese.setY(cheese.y);
         }
-
+        for (Trap mousetrap : blockobject.getTraps()){
+            mousetrap.mousetrap.setY(mousetrap.y);
+        }
         List<Block> blocksCopy = new ArrayList<>(blockobject.getBlocks());
 
 
@@ -709,15 +716,24 @@ public class Main extends Application implements EventHandler<KeyEvent>, GameEng
 
                         if (block.type == Block.BLOCK_CHEESE) {
                             final Bonus cheese = new Bonus(block.row, block.column);
-                            cheese.timeCreated = blockobject.getTime();
+                            cheese.timeCreated = time;
                             Platform.runLater(() -> Platform.runLater(() -> {
                                 root.getChildren().add(cheese.cheese);
                             }));
                             blockobject.getCheeses().add(cheese);
                         }
 
+                        if (block.type == Block.BLOCK_TRAP) {
+                            final Trap mousetrap = new Trap(block.row, block.column);
+                            mousetrap.timeCreated = time;
+                            Platform.runLater(() -> Platform.runLater(() -> {
+                                root.getChildren().add(mousetrap.mousetrap);
+                            }));
+                            blockobject.getTraps().add(mousetrap);
+                        }
+
                         if (block.type == Block.BLOCK_STAR) {
-                            blockobject.setGoldTime(blockobject.getTime());
+                            goldTime = time;
                             bo.getBall().setFill(new ImagePattern(new Image("goldball.png")));
                             System.out.println("gold ball");
                             root.getStyleClass().add("goldRoot");
@@ -760,7 +776,7 @@ public class Main extends Application implements EventHandler<KeyEvent>, GameEng
         checkDestroyedCount();
         setPhysicsToBall();
 
-        if (blockobject.getTime() - blockobject.getGoldTime() > 5000) {
+        if (time - goldTime > 5000) {
             Platform.runLater(() -> {
                 bo.getBall().setFill(new ImagePattern(new Image("ball.png")));
                 root.getStyleClass().remove("goldRoot");
@@ -778,26 +794,44 @@ public class Main extends Application implements EventHandler<KeyEvent>, GameEng
                 continue;
             }
             if (cheese.y >= breakobject.getyBreak() && cheese.y <= breakobject.getyBreak() + breakobject.getBreakHeight() && cheese.x >= breakobject.getxBreak() && cheese.x <= breakobject.getxBreak() + breakobject.getBreakWidth()) {
-                System.out.println("You Got the cheese! +3 score for you");
+                System.out.println("You Got the cheese! +5 score for you");
                 cheese.taken = true;
                 cheese.cheese.setVisible(false);
-                levelobject.setScore(levelobject.getScore()+3);
+                levelobject.setScore(levelobject.getScore()+5);
                 Platform.runLater(() -> {
-                    new Score().show(cheese.x, cheese.y, 3, this);
+                    new Score().show(cheese.x, cheese.y, 5, this);
                 });
             }
-            cheese.y += elapsedTime * ((blockobject.getTime() - cheese.timeCreated) / 1000.0) + 1.0;
+            cheese.y += elapsedTime * ((time - cheese.timeCreated) / 1000.0) + 1.0;
         }
         blockobject.getCheeses().removeAll(cheesesToRemove);
 
 
-        //System.out.println("time is:" + time + " goldTime is " + goldTime);
+        List<Trap> trapsToRemove = new ArrayList<>();
+        Iterator<Trap> trapIterator = blockobject.getTraps().iterator();
+        while (trapIterator.hasNext()) {
+            Trap mousetrap = trapIterator.next();
+
+            if (mousetrap.y > sceneHeight || mousetrap.taken) {
+                trapsToRemove.add(mousetrap);
+                continue;
+            }
+            if (mousetrap.y >= breakobject.getyBreak() && mousetrap.y <= breakobject.getyBreak() + breakobject.getBreakHeight() && mousetrap.x >= breakobject.getxBreak() && mousetrap.x <= breakobject.getxBreak() + breakobject.getBreakWidth()) {
+                System.out.println("You Got the trap! -5 score for you");
+                mousetrap.taken = true;
+                mousetrap.mousetrap.setVisible(false);
+                levelobject.setScore(levelobject.getScore()-5);
+                Platform.runLater(() -> new Score().show(mousetrap.x, mousetrap.y, -5, this));
+            }
+            mousetrap.y += elapsedTime * ((time - mousetrap.timeCreated) / 1000.0) + 1.0;
+        }
+        blockobject.getTraps().removeAll(trapsToRemove);
 
     }
 
 
     @Override
     public void onTime(long time) {
-        this.blockobject.setTime(blockobject.getTime());
+        this.time = time;
     }
 }
