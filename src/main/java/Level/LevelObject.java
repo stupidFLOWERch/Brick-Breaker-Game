@@ -1,4 +1,4 @@
-package brickGame;
+package Level;
 
 import javafx.scene.control.Label;
 
@@ -15,6 +15,9 @@ public class LevelObject {
     private Label heartLabel;
     private Label levelLabel;
     private boolean loadFromSave = false;
+    private int restartFromLevel = 1;
+    private int restartFromHeart = 3;
+    private int restartFromScore = 0;
 
     public int getScore() {
         return score;
@@ -110,5 +113,29 @@ public class LevelObject {
 
     public void setLoadFromSave(boolean loadFromSave) {
         this.loadFromSave = loadFromSave;
+    }
+
+    public int getRestartFromLevel() {
+        return restartFromLevel;
+    }
+
+    public void setRestartFromLevel(int restartFromLevel) {
+        this.restartFromLevel = restartFromLevel;
+    }
+
+    public int getRestartFromHeart() {
+        return restartFromHeart;
+    }
+
+    public void setRestartFromHeart(int restartFromHeart) {
+        this.restartFromHeart = restartFromHeart;
+    }
+
+    public int getRestartFromScore() {
+        return restartFromScore;
+    }
+
+    public void setRestartFromScore(int restartFromScore) {
+        this.restartFromScore = restartFromScore;
     }
 }

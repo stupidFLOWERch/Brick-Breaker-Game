@@ -15,4 +15,6 @@ module brickGame {
     opens Ball to javafx.fxml;
     exports Break;
     opens Break to javafx.fxml;
+    exports Level;
+    opens Level to javafx.fxml;
 }

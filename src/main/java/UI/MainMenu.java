@@ -1,34 +1,34 @@
 package UI;
 
+import Ball.BallObject;
+import Block.BlockObject;
+import Break.BreakObject;
 import User.Main;
+import Level.LevelObject;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.layout.VBox;
 import javafx.scene.layout.Pane;
+import User.LoadGame;
 
 import static User.Main.savePath;
 import static brickGame.LoadSave.check_mdds;
 
 public class MainMenu {
-    private final Main main;
 
     private final Button load = new Button("Load a Game");
     private final Button newGame = new Button("Start a New Game");
     private final Button instruction = new Button("Instruction");
 
-    public MainMenu(Main main) {
-        this.main = main;
-        initialize();
-    }
-
-    private void initialize() {
+    public MainMenu(Main main, BallObject bo, BreakObject breakobject, BlockObject blockobject, LevelObject levelobject) {
+        LoadGame loadgame = new LoadGame(main, bo, breakobject, blockobject, levelobject);
         boolean b = check_mdds(savePath);
         load.setVisible(b);
 
         load.setOnAction(event -> {
             main.startGame();
             main.clearBlocks();
-            main.loadGame();
+            loadgame.loadGame();
             main.resumeGame();
         });
 
@@ -40,7 +40,8 @@ public class MainMenu {
         });
 
         instruction.setOnAction(event -> {
-            Pane instructionLayout = InstructionMenu.createInstructionLayout(main);
+            InstructionMenu instructionmenu = new InstructionMenu();
+            Pane instructionLayout = instructionmenu.createInstructionLayout(main, bo, breakobject, blockobject, levelobject);
             main.getMainScene().setRoot(instructionLayout);
         });
     }

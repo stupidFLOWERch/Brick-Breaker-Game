@@ -1,7 +1,7 @@
 package UI;
 
 import User.Main;
-import brickGame.LevelObject;
+import Level.LevelObject;
 import javafx.application.Platform;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
