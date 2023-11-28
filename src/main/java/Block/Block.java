@@ -1,5 +1,6 @@
 package Block;
 
+import Ball.BallObject;
 
 import javafx.application.Platform;
 import javafx.scene.image.Image;
@@ -14,16 +15,11 @@ public class Block implements Serializable {
 
     public int row;
     public int column;
-
-
     public boolean isDestroyed = false;
-
     private final Color color;
     public int type;
-
     public int x;
     public int y;
-
     private final int width = 100;
     private final int height = 30;
     private final int paddingTop = height * 2;
@@ -89,8 +85,8 @@ public class Block implements Serializable {
 
 
     public int checkHitToBlock(double xBall, double yBall) {
+        BallObject bo = new BallObject();
 
-        double ballRadius = 10;
         double epsilon = 0.01 * height;
         double brickLeft = x;
         double brickRight = x + width;
@@ -101,19 +97,19 @@ public class Block implements Serializable {
             return NO_HIT;
         }
 
-        if (yBall  >= brickTop - epsilon && yBall  <= brickBottom + epsilon && xBall >= brickRight && xBall <= brickRight + ballRadius) {
+        if (yBall  >= brickTop - epsilon && yBall  <= brickBottom + epsilon && xBall >= brickRight && xBall <= brickRight + bo.getBallRadius()) {
             return HIT_RIGHT;
         }
 
-        if (yBall >= brickTop - epsilon && yBall  <= brickBottom + epsilon && xBall <= brickLeft && xBall >= brickLeft - ballRadius) {
+        if (yBall >= brickTop - epsilon && yBall  <= brickBottom + epsilon && xBall <= brickLeft && xBall >= brickLeft - bo.getBallRadius()) {
             return HIT_LEFT;
         }
 
-        if (xBall  >= brickLeft - ballRadius && xBall <= brickRight + ballRadius && yBall >= brickTop - ballRadius && yBall <= brickTop + ballRadius + epsilon) {
+        if (xBall  >= brickLeft - bo.getBallRadius() && xBall <= brickRight + bo.getBallRadius() && yBall >= brickTop - bo.getBallRadius() && yBall <= brickTop + bo.getBallRadius() + epsilon) {
             return HIT_TOP;
         }
 
-        if (xBall  >= brickLeft - ballRadius && xBall  <= brickRight + ballRadius && yBall  <= brickBottom + ballRadius && yBall >= brickBottom - ballRadius - epsilon) {
+        if (xBall  >= brickLeft - bo.getBallRadius() && xBall  <= brickRight + bo.getBallRadius() && yBall  <= brickBottom + bo.getBallRadius() && yBall >= brickBottom - bo.getBallRadius() - epsilon) {
             return HIT_BOTTOM;
 
         }

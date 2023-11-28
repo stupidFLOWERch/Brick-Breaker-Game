@@ -9,11 +9,11 @@ public class RestartLevel {
 
     public void restartLevel(Main main, BallObject bo, BlockObject blockobject, LevelObject levelobject) {
 
-        ResetCollideFlags resetcollidflags = new ResetCollideFlags();
+        ResetCollideFlags resetcollideflags = new ResetCollideFlags();
         levelobject.setFromRestartGame(true);
         bo.setvX(1.000);
         levelobject.setDestroyedBlockCount(0);
-        resetcollidflags.resetCollideFlags(bo);
+        resetcollideflags.resetCollideFlags(bo);
         bo.setGoDownBall(true);
         bo.setGoRightBall(true);
         levelobject.setGoldStatus(false);

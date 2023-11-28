@@ -102,15 +102,11 @@ public class Main extends Application implements EventHandler<KeyEvent>, GameEng
                 if (levelobject.getLevel() < 18) {
                     levelobject.setLevel(levelobject.getLevel()+1);
                     if (levelobject.getLevel() > 1) {
-                        Platform.runLater(() -> {
-                            new Score().showMessage("Level Up :)", this);
-                        });
+                        Platform.runLater(() -> new Score().showMessage("Level Up :)", this));
                     }
                     if (levelobject.getLevel() == 18) {
 
-                        Platform.runLater(() -> {
-                            new Score().showWin(primaryStage,this, bo, blockobject, levelobject);
-                        });
+                        Platform.runLater(() -> new Score().showWin(primaryStage,this, bo, blockobject, levelobject));
 
                         System.out.println("You win the game!");
                         System.out.println("Do you want to play bonus level ?");
@@ -215,7 +211,7 @@ public class Main extends Application implements EventHandler<KeyEvent>, GameEng
 
     // Method to show pause menu
     public void showPauseMenu() {
-        pauseMenu = new PauseMenu(this, bo,breakobject, blockobject, levelobject);
+        pauseMenu = new PauseMenu(this, bo, blockobject, levelobject);
         // Add the pause menu to your game root or scene
         root.getChildren().add(pauseMenu);
     }
@@ -314,18 +310,14 @@ public class Main extends Application implements EventHandler<KeyEvent>, GameEng
                         if (block.type == Block.BLOCK_CHEESE) {
                             final Bonus cheese = new Bonus(block.row, block.column);
                             cheese.timeCreated = bo.getTime();
-                            Platform.runLater(() -> Platform.runLater(() -> {
-                                root.getChildren().add(cheese.cheese);
-                            }));
+                            Platform.runLater(() -> Platform.runLater(() -> root.getChildren().add(cheese.cheese)));
                             blockobject.getCheeses().add(cheese);
                         }
 
                         if (block.type == Block.BLOCK_TRAP) {
                             final Trap mousetrap = new Trap(block.row, block.column);
                             mousetrap.timeCreated = bo.getTime();
-                            Platform.runLater(() -> Platform.runLater(() -> {
-                                root.getChildren().add(mousetrap.mousetrap);
-                            }));
+                            Platform.runLater(() -> Platform.runLater(() -> root.getChildren().add(mousetrap.mousetrap)));
                             blockobject.getTraps().add(mousetrap);
                         }
 
