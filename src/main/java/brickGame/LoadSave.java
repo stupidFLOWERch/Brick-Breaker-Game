@@ -2,9 +2,9 @@ package brickGame;
 
 
 import Block.Block;
-import User.Main;
 import Block.BlockSerializable;
 import Block.Bonus;
+import User.SaveGame;
 
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -49,7 +49,7 @@ public class LoadSave {
     public void read() {
 
         try {
-            ObjectInputStream inputStream = new ObjectInputStream(new FileInputStream((Main.savePath)));
+            ObjectInputStream inputStream = new ObjectInputStream(new FileInputStream((SaveGame.savePath)));
 
 
             level = inputStream.readInt();

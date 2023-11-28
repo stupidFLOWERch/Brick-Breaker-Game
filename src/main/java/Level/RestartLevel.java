@@ -18,8 +18,9 @@ public class RestartLevel {
         levelobject.setGoldStatus(false);
         levelobject.setExistHeartBlock(false);
         levelobject.setGetHeart(false);
-//        time = 0;
-//        goldTime = 0;
+
+        bo.setTime(0);
+        bo.setGoldTime(0);
 
         main.clearBlocks();
         blockobject.getBlocks().clear();

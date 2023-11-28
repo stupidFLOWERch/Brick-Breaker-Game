@@ -19,6 +19,8 @@ public class BallObject {
     private boolean collideToTopBlock = false;
     private double vX = 1.000;
     private double vY = 1.000;
+    private long goldTime = 0;
+    private long time = 0;
 
     public double getBallRadius() {
         return 10;
@@ -140,4 +142,19 @@ public class BallObject {
         return vY;
     }
 
+    public long getGoldTime() {
+        return goldTime;
+    }
+
+    public void setGoldTime(long goldTime) {
+        this.goldTime = goldTime;
+    }
+
+    public long getTime() {
+        return time;
+    }
+
+    public void setTime(long time) {
+        this.time = time;
+    }
 }

@@ -25,6 +25,9 @@ public class RestartGame {
             levelobject.setExistHeartBlock(false);
             levelobject.setGetHeart(false);
 
+            bo.setTime(0);
+            bo.setGoldTime(0);
+
             main.clearBlocks();
             blockobject.getBlocks().clear();
             blockobject.getCheeses().clear();
