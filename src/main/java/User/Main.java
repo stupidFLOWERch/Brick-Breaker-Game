@@ -1,9 +1,7 @@
 package User;
 
-
 import Ball.BallObject;
 import Ball.InitBall;
-import Block.BlockSerializable;
 import Block.BlockObject;
 import Block.Block;
 import Block.InitBlock;
@@ -11,6 +9,7 @@ import Block.Bonus;
 import Block.Trap;
 import Break.BreakObject;
 import Break.InitBreak;
+import Level.NextLevel;
 import UI.MainMenu;
 import UI.PauseMenu;
 import UI.Score;
@@ -18,7 +17,6 @@ import brickGame.*;
 import Level.LevelObject;
 import Sound.Sound;
 import Sound.Bgm;
-import Sound.Win;
 
 import javafx.application.Application;
 import javafx.application.Platform;
@@ -32,7 +30,6 @@ import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
-import java.io.*;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -57,6 +54,7 @@ public class Main extends Application implements EventHandler<KeyEvent>, GameEng
     private InitBlock initblock;
     private InitBall initball;
     private InitBreak initbreak;
+
 
     public static void main(String[] args) {
         launch(args);
@@ -404,6 +402,7 @@ public class Main extends Application implements EventHandler<KeyEvent>, GameEng
 
 
     private void checkDestroyedCount() {
+        NextLevel nextlevel = new NextLevel();
         if (levelobject.getDestroyedBlockCount() == blockobject.getBlocks().size()) {
             if (levelobject.isGetHeart() && levelobject.getHeart() > levelobject.getRestartFromHeart()) {
                 System.out.println("Well done! You pass the level without losing any heart. +20 score for you");
@@ -417,58 +416,11 @@ public class Main extends Application implements EventHandler<KeyEvent>, GameEng
             //System.out.println("You Win");
             levelobject.setGetHeart(false);
             if (levelobject.getLevel() <= 18) {
-                nextLevel();
+                nextlevel.nextLevel(this, engine, bo, blockobject, levelobject);
             }
 
         }
     }
-
-    private void nextLevel() {
-        levelobject.setRestartFromLevel(levelobject.getLevel() + 1);
-        levelobject.setRestartFromHeart(levelobject.getHeart());
-        levelobject.setRestartFromScore(levelobject.getScore());
-
-        bo.setvX(1.000);
-        // stop the engine
-        engine.stop();
-        // reset flags and game state
-        resetCollideFlags();
-        bo.setGoDownBall(true);
-        bo.setGoRightBall(true);
-        levelobject.setGoldStatus(false);
-        levelobject.setExistHeartBlock(false);
-
-
-        bo.setTime(0);
-        bo.setGoldTime(0);
-        Platform.runLater(() -> {
-            root.getChildren().clear();
-            blockobject.getBlocks().clear();
-            blockobject.getCheeses().clear();
-            blockobject.getTraps().clear();
-            levelobject.setDestroyedBlockCount(0);
-
-            try {
-                startGame();
-
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        });
-        if (levelobject.getLevel() == 18) {
-            levelobject.setRestartFromScore(0);
-            levelobject.setRestartFromHeart(3);
-            levelobject.setRestartFromLevel(1);
-            Platform.runLater(() -> {
-                new Score().showCongrat(this);
-                new Win();
-                root.getStyleClass().add("win");
-                System.out.println("You pass all the levels!");
-                GameEngine.setPaused(true);
-            });
-        }
-    }
-
 
     @Override
     public void onUpdate() {
@@ -609,7 +561,7 @@ public class Main extends Application implements EventHandler<KeyEvent>, GameEng
                 continue;
             }
             if (mousetrap.y >= breakobject.getyBreak() && mousetrap.y <= breakobject.getyBreak() + breakobject.getBreakHeight() && mousetrap.x >= breakobject.getxBreak() && mousetrap.x <= breakobject.getxBreak() + breakobject.getBreakWidth()) {
-                System.out.println("You Got the trap! -3 score for you");
+                System.out.println("You Got the trap! -3 score ");
                 mousetrap.taken = true;
                 mousetrap.mousetrap.setVisible(false);
                 levelobject.setScore(levelobject.getScore()-3);
