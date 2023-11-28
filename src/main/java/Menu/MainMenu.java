@@ -3,7 +3,6 @@ package Menu;
 import Ball.BallObject;
 import Block.BlockObject;
 import Break.BreakObject;
-import Menu.InstructionMenu;
 import User.Main;
 import Level.LevelObject;
 import User.SaveGame;
@@ -30,14 +29,14 @@ public class MainMenu {
             main.startGame();
             main.clearBlocks();
             loadgame.loadGame();
-            main.resumeGame();
+            main.showPauseMenu.resumeGame(main);
         });
 
         newGame.setOnAction(event -> {
             main.clearBlocks();
             main.startGame();
             main.restartGameEngine();
-            main.resumeGame();
+            main.showPauseMenu.resumeGame(main);
         });
 
         instruction.setOnAction(event -> {

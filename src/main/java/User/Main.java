@@ -14,6 +14,7 @@ import Break.BreakObject;
 import Break.InitBreak;
 import Menu.MainMenu;
 import Menu.PauseMenu;
+import Menu.ShowPauseMenu;
 import Score.Score;
 import brickGame.*;
 import Level.LevelObject;
@@ -41,6 +42,8 @@ public class Main extends Application implements EventHandler<KeyEvent>, GameEng
 
     private static final int LEFT = 1;
     private static final int RIGHT = 2;
+    private final Move move = new Move(this);
+    public final ShowPauseMenu showPauseMenu = new ShowPauseMenu(this);
     private GameEngine engine;
     public Pane root;
     Stage primaryStage;
@@ -80,7 +83,7 @@ public class Main extends Application implements EventHandler<KeyEvent>, GameEng
         levelobject.setFromRestartGame(false);
 
         this.primaryStage = primaryStage;
-        MainMenu mainMenu = new MainMenu(this, bo, breakobject, blockobject, levelobject);
+        MainMenu mainMenu = new MainMenu(this, bo, getBreakobject(), blockobject, levelobject);
 
         // Create the main menu scene
         mainScene = new Scene(mainMenu.createMainMenuLayout(), 500, 700);
@@ -119,9 +122,9 @@ public class Main extends Application implements EventHandler<KeyEvent>, GameEng
             bo.setyBall(500);
             initball.initBall(bo.getBall(), bo.getxBall(), bo.getyBall());
 
-            breakobject.setRect(new Rectangle());
-            breakobject.setxBreak(185);
-            initbreak.initBreak(breakobject.getRect(), breakobject.getxBreak());
+            getBreakobject().setRect(new Rectangle());
+            getBreakobject().setxBreak(185);
+            initbreak.initBreak(getBreakobject().getRect(), getBreakobject().getxBreak());
 
             initblock.initBlock(levelobject.getLevel(),blockobject.getBlocks());
 
@@ -137,7 +140,7 @@ public class Main extends Application implements EventHandler<KeyEvent>, GameEng
         levelobject.getHeartLabel().setTranslateX(levelobject.getSceneWidth() - 70);
 
         clearBlocks();
-        Platform.runLater(() -> root.getChildren().addAll(breakobject.getRect(), bo.getBall(), levelobject.getScoreLabel(), levelobject.getHeartLabel(), levelobject.getLevelLabel()));
+        Platform.runLater(() -> root.getChildren().addAll(getBreakobject().getRect(), bo.getBall(), levelobject.getScoreLabel(), levelobject.getHeartLabel(), levelobject.getLevelLabel()));
 
         for (Block block : blockobject.getBlocks()) {
             Platform.runLater(() -> root.getChildren().add(block.rect));
@@ -184,90 +187,33 @@ public class Main extends Application implements EventHandler<KeyEvent>, GameEng
 
         switch (event.getCode()) {
             case LEFT:
-                move(LEFT);
+                move.move(LEFT);
                 break;
             case RIGHT:
-                move(RIGHT);
+                move.move(RIGHT);
                 break;
             case S:
-                savegame.saveGame(this, bo, blockobject, levelobject, breakobject);
+                savegame.saveGame(this, bo, blockobject, levelobject, getBreakobject());
                 break;
             case P:
                 if (PauseGame.pauseGame()) {
                     Bgm.pause();
                     GameEngine.setPaused(true);
-                    breakobject.setBreakMoveAllow(false);
-                    showPauseMenu();
+                    getBreakobject().setBreakMoveAllow(false);
+                    showPauseMenu.showPauseMenu();
                 }
                 else {
                     Bgm.resume();
                     GameEngine.setPaused(false);
-                    breakobject.setBreakMoveAllow(true);
-                    hidePauseMenu();
+                    getBreakobject().setBreakMoveAllow(true);
+                    showPauseMenu.hidePauseMenu();
                 }
                 break;
         }
     }
 
-    // Method to show pause menu
-    public void showPauseMenu() {
-        pauseMenu = new PauseMenu(this, bo, blockobject, levelobject);
-        // Add the pause menu to your game root or scene
-        root.getChildren().add(pauseMenu);
-    }
-
-    // Method to hide the pause menu
-    public void hidePauseMenu() {
-        // Remove the pause menu from your game root or scene
-        root.getChildren().remove(pauseMenu);
-    }
-    public void resumeGame() {
-        hidePauseMenu();
-        breakobject.setBreakMoveAllow(true);
-        GameEngine.setPaused(false);  // Resume the game engine
-        Bgm.resume();  // Resume background music if applicable
-
-        PauseGame.resetState();
-    }
-
     public void exitGame() {
         Platform.exit();
-    }
-
-    private void move(final int direction) {
-        if (breakobject.isBreakMoveAllow()) {
-            new Thread(() -> {
-                int sleepTime = 4;
-                for (int i = 0; i < 30; i++) {
-                    synchronized (this) {
-                        if (!breakobject.isBreakMoveAllow()) {
-                            return;
-                        }
-                        if (breakobject.getxBreak() == (levelobject.getSceneWidth() - breakobject.getBreakWidth()) && direction == RIGHT) {
-                            return;
-                        }
-                        if (breakobject.getxBreak() == 0 && direction == LEFT) {
-                            return;
-                        }
-                        if (direction == RIGHT && breakobject.getxBreak() < (levelobject.getSceneWidth() - breakobject.getBreakWidth())) {
-                            breakobject.setxBreak(breakobject.getxBreak() + 1);
-                        }
-                        if (direction == LEFT && breakobject.getxBreak() > 0) {
-                            breakobject.setxBreak(breakobject.getxBreak() - 1);
-                        }
-                        breakobject.setCenterBreakX(breakobject.getxBreak() + breakobject.getHalfBreakWidth());
-                    }
-                    try {
-                        Thread.sleep(sleepTime);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                    if (i >= 20) {
-                        sleepTime = i;
-                    }
-                }
-            }).start();
-        }
     }
 
 
@@ -277,8 +223,8 @@ public class Main extends Application implements EventHandler<KeyEvent>, GameEng
             levelobject.getScoreLabel().setText("Score: " + levelobject.getScore());
             levelobject.getHeartLabel().setText("Heart : " + levelobject.getHeart());
 
-            breakobject.getRect().setX(breakobject.getxBreak());
-            breakobject.getRect().setY(breakobject.getyBreak());
+            getBreakobject().getRect().setX(getBreakobject().getxBreak());
+            getBreakobject().getRect().setY(getBreakobject().getyBreak());
             bo.getBall().setCenterX(bo.getxBall());
             bo.getBall().setCenterY(bo.getyBall());
         });
@@ -365,7 +311,7 @@ public class Main extends Application implements EventHandler<KeyEvent>, GameEng
         lastUpdateTime = currentTime;
 
         checkdestroyedcount.checkDestroyedCount(this, engine, bo, blockobject, levelobject);
-        setphysicstoball.setPhysicsToBall(primaryStage,this, engine, bo, breakobject, blockobject, levelobject);
+        setphysicstoball.setPhysicsToBall(primaryStage,this, engine, bo, getBreakobject(), blockobject, levelobject);
 
         if (bo.getTime() - bo.getGoldTime() > 5000) {
             Platform.runLater(() -> {
@@ -384,7 +330,7 @@ public class Main extends Application implements EventHandler<KeyEvent>, GameEng
                 cheesesToRemove.add(cheese);
                 continue;
             }
-            if (cheese.y >= breakobject.getyBreak() && cheese.y <= breakobject.getyBreak() + breakobject.getBreakHeight() && cheese.x >= breakobject.getxBreak() && cheese.x <= breakobject.getxBreak() + breakobject.getBreakWidth()) {
+            if (cheese.y >= getBreakobject().getyBreak() && cheese.y <= getBreakobject().getyBreak() + getBreakobject().getBreakHeight() && cheese.x >= getBreakobject().getxBreak() && cheese.x <= getBreakobject().getxBreak() + getBreakobject().getBreakWidth()) {
                 System.out.println("You Got the cheese! +3 score for you");
                 cheese.taken = true;
                 cheese.cheese.setVisible(false);
@@ -407,7 +353,7 @@ public class Main extends Application implements EventHandler<KeyEvent>, GameEng
                 trapsToRemove.add(mousetrap);
                 continue;
             }
-            if (mousetrap.y >= breakobject.getyBreak() && mousetrap.y <= breakobject.getyBreak() + breakobject.getBreakHeight() && mousetrap.x >= breakobject.getxBreak() && mousetrap.x <= breakobject.getxBreak() + breakobject.getBreakWidth()) {
+            if (mousetrap.y >= getBreakobject().getyBreak() && mousetrap.y <= getBreakobject().getyBreak() + getBreakobject().getBreakHeight() && mousetrap.x >= getBreakobject().getxBreak() && mousetrap.x <= getBreakobject().getxBreak() + getBreakobject().getBreakWidth()) {
                 System.out.println("You Got the trap! -3 score ");
                 mousetrap.taken = true;
                 mousetrap.mousetrap.setVisible(false);
@@ -425,4 +371,29 @@ public class Main extends Application implements EventHandler<KeyEvent>, GameEng
     public void onTime(long time) {
         this.bo.setTime(time);
     }
+
+    public LevelObject getLevelobject() {
+        return levelobject;
+    }
+
+    public BreakObject getBreakobject() {
+        return breakobject;
+    }
+
+    public BallObject getBo() {
+        return bo;
+    }
+
+    public BlockObject getBlockobject() {
+        return blockobject;
+    }
+
+    public PauseMenu getPauseMenu() {
+        return pauseMenu;
+    }
+
+    public void setPauseMenu(PauseMenu pauseMenu) {
+        this.pauseMenu = pauseMenu;
+    }
+
 }
