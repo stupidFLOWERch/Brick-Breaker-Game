@@ -31,7 +31,7 @@ public class RestartLevel {
         levelobject.setHeart(levelobject.getRestartFromHeart());
         levelobject.setScore(levelobject.getRestartFromScore());
         levelobject.setLoadFromSave(false);
-        main.resumeGame();
+        main.showPauseMenu.resumeGame(main);
 
         main.startGame();
     }

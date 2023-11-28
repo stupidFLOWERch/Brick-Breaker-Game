@@ -41,7 +41,7 @@ public class PauseMenu extends VBox {
 
 
     private void resumeGame() {
-        main.resumeGame();
+        main.showPauseMenu.resumeGame(main);
     }
 
     private void exitGame() {
