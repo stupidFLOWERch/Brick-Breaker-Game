@@ -106,7 +106,7 @@ public class LoadSave {
         }
     }
 
-    public static boolean check_mdds(String savePath) {
+    public static boolean checkfile(String savePath) {
         Path path = Paths.get(savePath);
         return Files.exists(path) && Files.isRegularFile(path);
     }

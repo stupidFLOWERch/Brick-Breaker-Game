@@ -18,6 +18,9 @@ public class LevelObject {
     private int restartFromLevel = 1;
     private int restartFromHeart = 3;
     private int restartFromScore = 0;
+    private int HighScore = 0;
+    private int CurrentScore = 0;
+    private String filePath = "C:/high/highscores.txt";
 
     public int getScore() {
         return score;
@@ -145,5 +148,25 @@ public class LevelObject {
 
     public int getSceneHeight() {
         return 700;
+    }
+
+    public int getHighScore() {
+        return HighScore;
+    }
+
+    public void setHighScore(int highScore) {
+        HighScore = highScore;
+    }
+
+    public int getCurrentScore() {
+        return CurrentScore;
+    }
+
+    public void setCurrentScore(int currentScore) {
+        CurrentScore = currentScore;
+    }
+
+    public String getFilePath() {
+        return filePath;
     }
 }

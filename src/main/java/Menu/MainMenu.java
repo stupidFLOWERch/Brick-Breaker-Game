@@ -1,8 +1,9 @@
-package UI;
+package Menu;
 
 import Ball.BallObject;
 import Block.BlockObject;
 import Break.BreakObject;
+import Menu.InstructionMenu;
 import User.Main;
 import Level.LevelObject;
 import User.SaveGame;
@@ -12,7 +13,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.layout.Pane;
 import User.LoadGame;
 
-import static brickGame.LoadSave.check_mdds;
+import static brickGame.LoadSave.checkfile;
 
 public class MainMenu {
 
@@ -22,7 +23,7 @@ public class MainMenu {
 
     public MainMenu(Main main, BallObject bo, BreakObject breakobject, BlockObject blockobject, LevelObject levelobject) {
         LoadGame loadgame = new LoadGame(main, bo, breakobject, blockobject, levelobject);
-        boolean b = check_mdds(SaveGame.savePath);
+        boolean b = checkfile(SaveGame.savePath);
         load.setVisible(b);
 
         load.setOnAction(event -> {

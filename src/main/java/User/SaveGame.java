@@ -7,7 +7,7 @@ import Level.LevelObject;
 import Ball.BallObject;
 import Break.BreakObject;
 
-import UI.Score;
+import Score.Score;
 import javafx.application.Platform;
 import java.io.File;
 import java.io.FileOutputStream;

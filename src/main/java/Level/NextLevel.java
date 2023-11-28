@@ -4,7 +4,7 @@ import Ball.BallObject;
 import Ball.ResetCollideFlags;
 import Block.BlockObject;
 import Sound.Win;
-import UI.Score;
+import Score.Score;
 import User.Main;
 import brickGame.GameEngine;
 import javafx.application.Platform;
@@ -50,7 +50,7 @@ public class NextLevel {
             levelobject.setRestartFromHeart(3);
             levelobject.setRestartFromLevel(1);
             Platform.runLater(() -> {
-                new Score().showCongrat(main);
+                new Score().showCongrat(main, levelobject);
                 new Win();
                 main.root.getStyleClass().add("win");
                 System.out.println("You pass all the levels!");

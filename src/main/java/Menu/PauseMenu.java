@@ -1,4 +1,4 @@
-package UI;
+package Menu;
 
 
 import Ball.BallObject;

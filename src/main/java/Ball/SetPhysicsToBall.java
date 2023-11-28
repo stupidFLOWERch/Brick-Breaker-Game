@@ -1,6 +1,6 @@
 package Ball;
 
-import UI.Score;
+import Score.Score;
 import Level.LevelObject;
 import Break.BreakObject;
 import Block.BlockObject;

@@ -1,20 +1,34 @@
-package UI;
+package Score;
 
 import Ball.BallObject;
 import Block.BlockObject;
 import User.RestartGame;
 import User.Main;
 import Level.LevelObject;
+
+
+import Score.LoadHighScore;
+import brickGame.LoadSave;
+import Score.SaveHighScore;
 import javafx.application.Platform;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.stage.Stage;
+import javafx.scene.control.TextInputDialog;
+import java.util.Optional;
+
+import static brickGame.LoadSave.checkfile;
+
 
 public class Score {
 
     private static final int ANIMATION_DURATION = 21;
     private static final int ANIMATION_DELAY = 15;
+
+    SaveHighScore savehighscore = new SaveHighScore();
+    LoadHighScore loadhighscore = new LoadHighScore();
     RestartGame restartgame = new RestartGame();
+    LoadSave loadsave = new LoadSave();
     public void show(final double x, final double y, int score, final Main main) {
         LevelObject levelobject = new LevelObject();
         levelobject.setScore(score);
@@ -83,6 +97,27 @@ public class Score {
     }
 
     public void showGameOver(Stage stage, Main main, BallObject bo, BlockObject blockobject, LevelObject levelobject) {
+        boolean b = checkfile(levelobject.getFilePath());
+        levelobject.setCurrentScore(levelobject.getScore());
+        if(b) {
+            levelobject.setHighScore(loadhighscore.getHighScore());
+        }else{
+            levelobject.setHighScore(0);
+        }
+        if (levelobject.getCurrentScore() > levelobject.getHighScore()) {
+            Platform.runLater(() -> {
+                TextInputDialog dialog = new TextInputDialog();
+                dialog.setTitle("New High Score!");
+                dialog.setHeaderText("You've reach a new high score!");
+                dialog.setContentText("Please enter your name:");
+
+                Optional<String> result = dialog.showAndWait();
+                result.ifPresent(name -> {
+                    // Save the new high score with the user's name
+                    savehighscore.saveHighScore(name, levelobject.getCurrentScore());
+                });
+            });
+        }
 
         Platform.runLater(() -> {
             Label label = new Label("Game Over :(");
@@ -108,6 +143,28 @@ public class Score {
     }
 
     public void showWin(Stage stage, Main main, BallObject bo, BlockObject blockobject, LevelObject levelobject) {
+        boolean b = checkfile(levelobject.getFilePath());
+        levelobject.setCurrentScore(levelobject.getScore());
+        if(b) {
+            levelobject.setHighScore(loadhighscore.getHighScore());
+        }else{
+            levelobject.setHighScore(0);
+        }
+        if (levelobject.getCurrentScore() > levelobject.getHighScore()) {
+            Platform.runLater(() -> {
+                TextInputDialog dialog = new TextInputDialog();
+                dialog.setTitle("New High Score!");
+                dialog.setHeaderText("You've reach a new high score!");
+                dialog.setContentText("Please enter your name:");
+
+                Optional<String> result = dialog.showAndWait();
+                result.ifPresent(name -> {
+                    // Save the new high score with the user's name
+                    savehighscore.saveHighScore(name, levelobject.getCurrentScore());
+                });
+            });
+        }
+
         Platform.runLater(() -> {
             Label label = new Label("You Win :)");
             label.setTranslateX(200);
@@ -133,7 +190,29 @@ public class Score {
         });
     }
 
-    public void showCongrat(final Main main) {
+    public void showCongrat(final Main main, LevelObject levelobject) {
+        boolean b = checkfile(levelobject.getFilePath());
+        levelobject.setCurrentScore(levelobject.getScore());
+        if(b) {
+            levelobject.setHighScore(loadhighscore.getHighScore());
+        }else{
+            levelobject.setHighScore(0);
+        }
+        if (levelobject.getCurrentScore() > levelobject.getHighScore()) {
+            Platform.runLater(() -> {
+                TextInputDialog dialog = new TextInputDialog();
+                dialog.setTitle("New High Score!");
+                dialog.setHeaderText("You've reach a new high score!");
+                dialog.setContentText("Please enter your name:");
+
+                Optional<String> result = dialog.showAndWait();
+                result.ifPresent(name -> {
+                    // Save the new high score with the user's name
+                    savehighscore.saveHighScore(name, levelobject.getCurrentScore());
+                });
+            });
+        }
+
         Platform.runLater(() -> {
             Label label = new Label("Congratulations!");
             label.setTranslateX(200);
