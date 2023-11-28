@@ -3,6 +3,7 @@ package User;
 import Ball.BallObject;
 import Ball.InitBall;
 import Ball.ResetCollideFlags;
+import Ball.SetPhysicsToBall;
 import Block.BlockObject;
 import Block.Block;
 import Block.InitBlock;
@@ -38,8 +39,6 @@ import java.util.List;
 
 public class Main extends Application implements EventHandler<KeyEvent>, GameEngine.OnAction {
 
-    private final int sceneWidth = 500;
-    private final int sceneHeight = 700;
     private static final int LEFT = 1;
     private static final int RIGHT = 2;
     private GameEngine engine;
@@ -139,7 +138,7 @@ public class Main extends Application implements EventHandler<KeyEvent>, GameEng
         levelobject.setLevelLabel(new Label("Level: " + levelobject.getLevel()));
         levelobject.getLevelLabel().setTranslateY(20);
         levelobject.setHeartLabel(new Label("Heart : " + levelobject.getHeart()));
-        levelobject.getHeartLabel().setTranslateX(sceneWidth - 70);
+        levelobject.getHeartLabel().setTranslateX(levelobject.getSceneWidth() - 70);
 
         clearBlocks();
         Platform.runLater(() -> root.getChildren().addAll(breakobject.getRect(), bo.getBall(), levelobject.getScoreLabel(), levelobject.getHeartLabel(), levelobject.getLevelLabel()));
@@ -148,7 +147,7 @@ public class Main extends Application implements EventHandler<KeyEvent>, GameEng
             Platform.runLater(() -> root.getChildren().add(block.rect));
         }
 
-        Scene scene = new Scene(root, sceneWidth, sceneHeight);
+        Scene scene = new Scene(root, levelobject.getSceneWidth(), levelobject.getSceneHeight());
         scene.getStylesheets().add("style.css");
         scene.setOnKeyPressed(this);
 
@@ -216,7 +215,7 @@ public class Main extends Application implements EventHandler<KeyEvent>, GameEng
 
     // Method to show pause menu
     public void showPauseMenu() {
-        pauseMenu = new PauseMenu(primaryStage,this, bo,breakobject, blockobject, levelobject);
+        pauseMenu = new PauseMenu(this, bo,breakobject, blockobject, levelobject);
         // Add the pause menu to your game root or scene
         root.getChildren().add(pauseMenu);
     }
@@ -248,13 +247,13 @@ public class Main extends Application implements EventHandler<KeyEvent>, GameEng
                         if (!breakobject.isBreakMoveAllow()) {
                             return;
                         }
-                        if (breakobject.getxBreak() == (sceneWidth - breakobject.getBreakWidth()) && direction == RIGHT) {
+                        if (breakobject.getxBreak() == (levelobject.getSceneWidth() - breakobject.getBreakWidth()) && direction == RIGHT) {
                             return;
                         }
                         if (breakobject.getxBreak() == 0 && direction == LEFT) {
                             return;
                         }
-                        if (direction == RIGHT && breakobject.getxBreak() < (sceneWidth - breakobject.getBreakWidth())) {
+                        if (direction == RIGHT && breakobject.getxBreak() < (levelobject.getSceneWidth() - breakobject.getBreakWidth())) {
                             breakobject.setxBreak(breakobject.getxBreak() + 1);
                         }
                         if (direction == LEFT && breakobject.getxBreak() > 0) {
@@ -275,120 +274,6 @@ public class Main extends Application implements EventHandler<KeyEvent>, GameEng
         }
     }
 
-    private void setPhysicsToBall() {
-        synchronized (this) {
-            if (bo.getyBall() >= sceneHeight - bo.getBallRadius() && bo.isGoDownBall()) {
-                resetcollideflags.resetCollideFlags(bo);
-                bo.setGoDownBall(false);
-                if (levelobject.getLevel() == 18) {
-                    levelobject.setGoldStatus(true);
-                }
-                if (!levelobject.isGoldStatus()) {
-                    //TODO gameover
-                    levelobject.setHeart(levelobject.getHeart()-1);
-                    new Score().show(sceneWidth / 2.0, sceneHeight / 2.0, -1, this);
-
-                    if (levelobject.getHeart() == 0) {
-                        new Score().showGameOver(primaryStage,this, bo, blockobject, levelobject);
-                        System.out.println("Lol so noob loss the game");
-                        engine.stop();
-                        return;
-                    }
-                }
-            }
-
-            if (bo.isGoDownBall()) {
-                bo.setyBall(bo.getyBall() + bo.getvY());
-            } else {
-                bo.setyBall(bo.getyBall() - bo.getvY());
-            }
-
-            if (bo.isGoRightBall()) {
-                bo.setxBall(bo.getxBall() + bo.getvX());
-            } else {
-                bo.setxBall(bo.getxBall() - bo.getvX());
-            }
-
-            if (bo.getyBall() <= bo.getBallRadius()) {
-                resetcollideflags.resetCollideFlags(bo);
-                bo.setGoDownBall(true);
-                return;
-            }
-        }
-
-        if (bo.getyBall() >= breakobject.getyBreak() - bo.getBallRadius()) {
-            //System.out.println("Colide1");
-            if (bo.getxBall() >= breakobject.getxBreak() && bo.getxBall() <= breakobject.getxBreak() + breakobject.getBreakWidth()) {
-                resetcollideflags.resetCollideFlags(bo);
-                bo.setCollideToBreak(true);
-                bo.setGoDownBall(false);
-
-                double relation = (bo.getxBall() - breakobject.getCenterBreakX()) / ((double) breakobject.getBreakWidth() / 2);
-
-                if (Math.abs(relation) <= 0.3) {
-                    bo.setvX(Math.abs(relation));
-                } else if (Math.abs(relation) > 0.3 && Math.abs(relation) <= 0.7) {
-                    bo.setvX((Math.abs(relation) * 1.5) + (levelobject.getLevel() / 3.500));
-                } else {
-                    bo.setvX((Math.abs(relation) * 2) + (levelobject.getLevel() / 3.500));
-                }
-
-                if (bo.getxBall() - breakobject.getCenterBreakX() > 0) {
-                    bo.setCollideToBreakAndMoveToRight(true);
-                } else {
-                    bo.setCollideToBreakAndMoveToRight(false);
-                }
-                //System.out.println("Colide2");
-            }
-        }
-
-        if (bo.getxBall() >= sceneWidth - bo.getBallRadius()) {
-            resetcollideflags.resetCollideFlags(bo);
-            bo.setCollideToRightWall(true);
-        }
-
-        if (bo.getxBall() <= bo.getBallRadius()) {
-            resetcollideflags.resetCollideFlags(bo);
-            bo.setCollideToLeftWall(true);
-        }
-
-        if (bo.isCollideToBreak()) {
-            if (bo.isCollideToBreakAndMoveToRight()) {
-                bo.setGoRightBall(true);
-            } else {
-                bo.setGoRightBall(false);
-            }
-        }
-
-        //Wall Colide
-
-        if (bo.isCollideToRightWall()) {
-            bo.setGoRightBall(false);
-        }
-
-        if (bo.isCollideToLeftWall()) {
-            bo.setGoRightBall(true);
-        }
-
-        //Block Colide
-
-        if (bo.isCollideToRightBlock()) {
-            bo.setGoRightBall(true);
-        }
-
-        if (bo.isCollideToLeftBlock()) {
-            bo.setGoRightBall(false);
-        }
-
-        if (bo.isCollideToTopBlock()) {
-            bo.setGoDownBall(false);
-        }
-
-        if (bo.isCollideToBottomBlock()) {
-            bo.setGoDownBall(true);
-        }
-
-    }
 
     @Override
     public void onUpdate() {
@@ -481,13 +366,14 @@ public class Main extends Application implements EventHandler<KeyEvent>, GameEng
 
     @Override
     public void onPhysicsUpdate() {
+        SetPhysicsToBall setphysicstoball = new SetPhysicsToBall();
         CheckDestroyedCount checkdestroyedcount = new CheckDestroyedCount();
         long currentTime = System.currentTimeMillis();
         double elapsedTime = (currentTime - lastUpdateTime) / 1000.0;  // Convert to seconds
         lastUpdateTime = currentTime;
 
         checkdestroyedcount.checkDestroyedCount(this, engine, bo, blockobject, levelobject);
-        setPhysicsToBall();
+        setphysicstoball.setPhysicsToBall(primaryStage,this, engine, bo, breakobject, blockobject, levelobject);
 
         if (bo.getTime() - bo.getGoldTime() > 5000) {
             Platform.runLater(() -> {
@@ -502,7 +388,7 @@ public class Main extends Application implements EventHandler<KeyEvent>, GameEng
         while (cheeseIterator.hasNext()) {
             Bonus cheese = cheeseIterator.next();
 
-            if (cheese.y > sceneHeight || cheese.taken) {
+            if (cheese.y > levelobject.getSceneHeight() || cheese.taken) {
                 cheesesToRemove.add(cheese);
                 continue;
             }
@@ -525,7 +411,7 @@ public class Main extends Application implements EventHandler<KeyEvent>, GameEng
         while (trapIterator.hasNext()) {
             Trap mousetrap = trapIterator.next();
 
-            if (mousetrap.y > sceneHeight || mousetrap.taken) {
+            if (mousetrap.y > levelobject.getSceneHeight() || mousetrap.taken) {
                 trapsToRemove.add(mousetrap);
                 continue;
             }

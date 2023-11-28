@@ -138,4 +138,12 @@ public class LevelObject {
     public void setRestartFromScore(int restartFromScore) {
         this.restartFromScore = restartFromScore;
     }
+
+    public int getSceneWidth() {
+        return 500;
+    }
+
+    public int getSceneHeight() {
+        return 700;
+    }
 }
