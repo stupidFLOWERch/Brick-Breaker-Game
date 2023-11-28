@@ -19,4 +19,8 @@ module brickGame {
     opens Score to javafx.fxml;
     exports Menu;
     opens Menu to javafx.fxml;
+    exports LoadGameSaveGame;
+    opens LoadGameSaveGame to javafx.fxml;
+    exports Pause;
+    opens Pause to javafx.fxml;
 }

@@ -1,10 +1,9 @@
 package User;
 
+import Break.BreakObject;
+
 public class Move {
     private final Main main;
-    private static final int LEFT = 1;
-    private static final int RIGHT = 2;
-
     public Move(Main main) {
         this.main = main;
     }
@@ -18,16 +17,16 @@ public class Move {
                         if (!main.getBreakobject().isBreakMoveAllow()) {
                             return;
                         }
-                        if (main.getBreakobject().getxBreak() == (main.getLevelobject().getSceneWidth() - main.getBreakobject().getBreakWidth()) && direction == RIGHT) {
+                        if (main.getBreakobject().getxBreak() == (main.getLevelobject().getSceneWidth() - main.getBreakobject().getBreakWidth()) && direction == BreakObject.getRIGHT()) {
                             return;
                         }
-                        if (main.getBreakobject().getxBreak() == 0 && direction == LEFT) {
+                        if (main.getBreakobject().getxBreak() == 0 && direction == BreakObject.getLEFT()) {
                             return;
                         }
-                        if (direction == RIGHT && main.getBreakobject().getxBreak() < (main.getLevelobject().getSceneWidth() - main.getBreakobject().getBreakWidth())) {
+                        if (direction == BreakObject.getRIGHT() && main.getBreakobject().getxBreak() < (main.getLevelobject().getSceneWidth() - main.getBreakobject().getBreakWidth())) {
                             main.getBreakobject().setxBreak(main.getBreakobject().getxBreak() + 1);
                         }
-                        if (direction == LEFT && main.getBreakobject().getxBreak() > 0) {
+                        if (direction == BreakObject.getLEFT() && main.getBreakobject().getxBreak() > 0) {
                             main.getBreakobject().setxBreak(main.getBreakobject().getxBreak() - 1);
                         }
                         main.getBreakobject().setCenterBreakX(main.getBreakobject().getxBreak() + main.getBreakobject().getHalfBreakWidth());

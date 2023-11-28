@@ -1,10 +1,9 @@
-package brickGame;
+package LoadGameSaveGame;
 
 
 import Block.Block;
 import Block.BlockSerializable;
 import Block.Bonus;
-import User.SaveGame;
 
 import java.io.FileInputStream;
 import java.io.IOException;

@@ -5,14 +5,14 @@ import Block.BlockObject;
 import Break.BreakObject;
 import User.Main;
 import Level.LevelObject;
-import User.SaveGame;
+import LoadGameSaveGame.SaveGame;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.layout.VBox;
 import javafx.scene.layout.Pane;
-import User.LoadGame;
+import LoadGameSaveGame.LoadGame;
 
-import static brickGame.LoadSave.checkfile;
+import static LoadGameSaveGame.LoadSave.checkfile;
 
 public class MainMenu {
 

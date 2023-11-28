@@ -1,4 +1,4 @@
-package Menu;
+package Pause;
 
 
 import Ball.BallObject;
@@ -45,7 +45,7 @@ public class PauseMenu extends VBox {
     }
 
     private void exitGame() {
-        main.exitGame();  // Call a method in your Main class to exit the game
+        main.showPauseMenu.exitGame();  // Call a method in your Main class to exit the game
     }
 
     public void restartLevel(Main main, BallObject bo, BlockObject blockobject, LevelObject levelobject){

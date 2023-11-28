@@ -1,9 +1,9 @@
-package Menu;
+package Pause;
 
 import Sound.Bgm;
 import User.Main;
-import User.PauseGame;
 import brickGame.GameEngine;
+import javafx.application.Platform;
 
 public class ShowPauseMenu {
     private final Main main;
@@ -31,5 +31,9 @@ public class ShowPauseMenu {
         Bgm.resume();  // Resume background music if applicable
 
         PauseGame.resetState();
+    }
+
+    public void exitGame() {
+        Platform.exit();
     }
 }

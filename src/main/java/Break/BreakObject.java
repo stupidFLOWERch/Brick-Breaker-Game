@@ -3,14 +3,23 @@ package Break;
 import javafx.scene.shape.Rectangle;
 
 public class BreakObject {
+
+    private static final int LEFT = 1;
+    private static final int RIGHT = 2;
     private double xBreak;
     private double centerBreakX;
     private double yBreak = 640.0f;
     private Rectangle rect;
-    private final int breakWidth = 130;
-    private final int breakHeight = 30;
     private final int halfBreakWidth = getBreakWidth() / 2;
     private boolean BreakMoveAllow = true;
+
+    public static int getLEFT() {
+        return LEFT;
+    }
+
+    public static int getRIGHT() {
+        return RIGHT;
+    }
 
     public double getxBreak() {
         return xBreak;
@@ -37,11 +46,11 @@ public class BreakObject {
     }
 
     public int getBreakWidth() {
-        return breakWidth;
+        return 130;
     }
 
     public int getBreakHeight() {
-        return breakHeight;
+        return 30;
     }
 
     public int getHalfBreakWidth() {

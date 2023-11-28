@@ -7,9 +7,7 @@ import User.Main;
 import Level.LevelObject;
 
 
-import Score.LoadHighScore;
-import brickGame.LoadSave;
-import Score.SaveHighScore;
+import LoadGameSaveGame.LoadSave;
 import javafx.application.Platform;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -17,7 +15,7 @@ import javafx.stage.Stage;
 import javafx.scene.control.TextInputDialog;
 import java.util.Optional;
 
-import static brickGame.LoadSave.checkfile;
+import static LoadGameSaveGame.LoadSave.checkfile;
 
 
 public class Score {
@@ -226,7 +224,7 @@ public class Score {
             exit.setTranslateX(220);
             exit.setTranslateY(600);
             exit.setOnAction(event -> {
-                    main.exitGame();
+                    main.showPauseMenu.exitGame();
 
             });
 

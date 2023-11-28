@@ -1,4 +1,4 @@
-package User;
+package Pause;
 
 public class PauseGame {
     public static boolean isPaused;
