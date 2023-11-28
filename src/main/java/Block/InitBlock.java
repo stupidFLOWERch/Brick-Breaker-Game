@@ -1,6 +1,6 @@
 package Block;
 
-import brickGame.LevelObject;
+import Level.LevelObject;
 
 import java.util.ArrayList;
 import java.util.Random;
