@@ -14,6 +14,7 @@ public class LevelObject {
     private Label scoreLabel;
     private Label heartLabel;
     private Label levelLabel;
+    private boolean loadFromSave = false;
 
     public int getScore() {
         return score;
@@ -101,5 +102,13 @@ public class LevelObject {
 
     public void setLevelLabel(Label levelLabel) {
         this.levelLabel = levelLabel;
+    }
+
+    public boolean isLoadFromSave() {
+        return loadFromSave;
+    }
+
+    public void setLoadFromSave(boolean loadFromSave) {
+        this.loadFromSave = loadFromSave;
     }
 }
