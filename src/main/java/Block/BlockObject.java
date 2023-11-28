@@ -26,8 +26,6 @@ public class BlockObject {
             Color.TOMATO,
             Color.TAN,
     };
-    private Rectangle rect;
-
     public ArrayList<Block> getBlocks() {
         return blocks;
     }
@@ -41,14 +39,5 @@ public class BlockObject {
     public Color[] getColors() {
         return colors;
     }
-
-    public Rectangle getRect() {
-        return rect;
-    }
-
-    public void setRect(Rectangle rect) {
-        this.rect = rect;
-    }
-
 
 }

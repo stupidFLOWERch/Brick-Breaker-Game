@@ -1,14 +1,16 @@
 package User;
 
-import Block.BlockSerializable;
+
 import Ball.BallObject;
 import Ball.InitBall;
+import Block.BlockSerializable;
 import Block.BlockObject;
 import Block.Block;
 import Block.InitBlock;
 import Block.Bonus;
 import Block.Trap;
 import Break.BreakObject;
+import Break.InitBreak;
 import UI.MainMenu;
 import UI.PauseMenu;
 import UI.Score;
@@ -66,6 +68,8 @@ public class Main extends Application implements EventHandler<KeyEvent>, GameEng
     private BlockObject blockobject;
     private InitBlock initblock;
     private InitBall initball;
+    private InitBreak initbreak;
+    
     public static void main(String[] args) {
         launch(args);
     }
@@ -77,6 +81,7 @@ public class Main extends Application implements EventHandler<KeyEvent>, GameEng
         blockobject = new BlockObject();
         initblock = new InitBlock();
         initball = new InitBall();
+        initbreak = new InitBreak();
         levelobject.setScore(0);
         levelobject.setHeart(3);
         levelobject.setLevel(0);
@@ -101,15 +106,7 @@ public class Main extends Application implements EventHandler<KeyEvent>, GameEng
         primaryStage.setTitle("Main Menu");
         primaryStage.show();
     }
-
-    public Scene getMainScene() {
-        return mainScene;
-    }
-    public void clearBlocks() {
-        Platform.runLater(() -> root.getChildren().clear());
-    }
-
-
+    
     public void startGame() {
         new Bgm();
         if (!loadFromSave) {
@@ -137,7 +134,11 @@ public class Main extends Application implements EventHandler<KeyEvent>, GameEng
             bo.setxBall(250);
             bo.setyBall(500);
             initball.initBall(bo.getBall(), bo.getxBall(), bo.getyBall());
-            initBreak();
+
+            breakobject.setRect(new Rectangle());
+            breakobject.setxBreak(185);
+            initbreak.initBreak(breakobject.getRect(), breakobject.getxBreak());
+
             initblock.initBlock(levelobject.getLevel(),blockobject.getBlocks());
 
         }
@@ -152,7 +153,7 @@ public class Main extends Application implements EventHandler<KeyEvent>, GameEng
         levelobject.getHeartLabel().setTranslateX(sceneWidth - 70);
 
         clearBlocks();
-        Platform.runLater(() -> root.getChildren().addAll(blockobject.getRect(), bo.getBall(), levelobject.getScoreLabel(), levelobject.getHeartLabel(), levelobject.getLevelLabel()));
+        Platform.runLater(() -> root.getChildren().addAll(breakobject.getRect(), bo.getBall(), levelobject.getScoreLabel(), levelobject.getHeartLabel(), levelobject.getLevelLabel()));
 
         for (Block block : blockobject.getBlocks()) {
             Platform.runLater(() -> root.getChildren().add(block.rect));
@@ -180,24 +181,17 @@ public class Main extends Application implements EventHandler<KeyEvent>, GameEng
         levelobject.setFromRestartGame(false);
     }
 
-
+    public Scene getMainScene() {
+        return mainScene;
+    }
+    public void clearBlocks() {
+        Platform.runLater(() -> root.getChildren().clear());
+    }
     public void restartGameEngine() {
         engine = new GameEngine();
         engine.setOnAction(this);
         engine.setFps(120);
         engine.start();
-    }
-
-    private void initBreak() {
-        blockobject.setRect(new Rectangle());
-        blockobject.getRect().setWidth(breakobject.getBreakWidth());
-        blockobject.getRect().setHeight(breakobject.getBreakHeight());
-        breakobject.setxBreak(sceneWidth / 2.0 - breakobject.getHalfBreakWidth());
-        blockobject.getRect().setX(breakobject.getxBreak());
-        blockobject.getRect().setY(breakobject.getyBreak());
-
-        ImagePattern pattern = new ImagePattern(new Image("block.jpg"));
-        blockobject.getRect().setFill(pattern);
     }
 
     @Override
@@ -684,8 +678,8 @@ public class Main extends Application implements EventHandler<KeyEvent>, GameEng
             levelobject.getScoreLabel().setText("Score: " + levelobject.getScore());
             levelobject.getHeartLabel().setText("Heart : " + levelobject.getHeart());
 
-            blockobject.getRect().setX(breakobject.getxBreak());
-            blockobject.getRect().setY(breakobject.getyBreak());
+            breakobject.getRect().setX(breakobject.getxBreak());
+            breakobject.getRect().setY(breakobject.getyBreak());
             bo.getBall().setCenterX(bo.getxBall());
             bo.getBall().setCenterY(bo.getyBall());
         });
@@ -794,12 +788,12 @@ public class Main extends Application implements EventHandler<KeyEvent>, GameEng
                 continue;
             }
             if (cheese.y >= breakobject.getyBreak() && cheese.y <= breakobject.getyBreak() + breakobject.getBreakHeight() && cheese.x >= breakobject.getxBreak() && cheese.x <= breakobject.getxBreak() + breakobject.getBreakWidth()) {
-                System.out.println("You Got the cheese! +5 score for you");
+                System.out.println("You Got the cheese! +3 score for you");
                 cheese.taken = true;
                 cheese.cheese.setVisible(false);
-                levelobject.setScore(levelobject.getScore()+5);
+                levelobject.setScore(levelobject.getScore()+3);
                 Platform.runLater(() -> {
-                    new Score().show(cheese.x, cheese.y, 5, this);
+                    new Score().show(cheese.x, cheese.y, 3, this);
                 });
             }
             cheese.y += elapsedTime * ((time - cheese.timeCreated) / 1000.0) + 1.0;
@@ -817,11 +811,11 @@ public class Main extends Application implements EventHandler<KeyEvent>, GameEng
                 continue;
             }
             if (mousetrap.y >= breakobject.getyBreak() && mousetrap.y <= breakobject.getyBreak() + breakobject.getBreakHeight() && mousetrap.x >= breakobject.getxBreak() && mousetrap.x <= breakobject.getxBreak() + breakobject.getBreakWidth()) {
-                System.out.println("You Got the trap! -5 score for you");
+                System.out.println("You Got the trap! -3 score for you");
                 mousetrap.taken = true;
                 mousetrap.mousetrap.setVisible(false);
-                levelobject.setScore(levelobject.getScore()-5);
-                Platform.runLater(() -> new Score().show(mousetrap.x, mousetrap.y, -5, this));
+                levelobject.setScore(levelobject.getScore()-3);
+                Platform.runLater(() -> new Score().show(mousetrap.x, mousetrap.y, -3, this));
             }
             mousetrap.y += elapsedTime * ((time - mousetrap.timeCreated) / 1000.0) + 1.0;
         }

@@ -1,10 +1,12 @@
 package Break;
 
+import javafx.scene.shape.Rectangle;
+
 public class BreakObject {
     private double xBreak;
     private double centerBreakX;
     private double yBreak = 640.0f;
-
+    private Rectangle rect;
     private final int breakWidth = 130;
     private final int breakHeight = 30;
     private final int halfBreakWidth = getBreakWidth() / 2;
@@ -52,5 +54,11 @@ public class BreakObject {
 
     public void setBreakMoveAllow(boolean breakMoveAllow) {
         BreakMoveAllow = breakMoveAllow;
+    }
+    public Rectangle getRect() {
+        return rect;
+    }
+    public void setRect(Rectangle rect) {
+        this.rect = rect;
     }
 }
