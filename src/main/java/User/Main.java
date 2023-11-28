@@ -113,7 +113,7 @@ public class Main extends Application implements EventHandler<KeyEvent>, GameEng
                     if (levelobject.getLevel() == 18) {
 
                         Platform.runLater(() -> {
-                            new Score().showWin(this);
+                            new Score().showWin(primaryStage,this, bo, blockobject, levelobject);
                         });
 
                         System.out.println("You win the game!");
@@ -303,7 +303,7 @@ public class Main extends Application implements EventHandler<KeyEvent>, GameEng
                     new Score().show(sceneWidth / 2.0, sceneHeight / 2.0, -1, this);
 
                     if (levelobject.getHeart() == 0) {
-                        new Score().showGameOver(this);
+                        new Score().showGameOver(primaryStage,this, bo, blockobject, levelobject);
                         System.out.println("Lol so noob loss the game");
                         engine.stop();
                         return;
@@ -544,36 +544,6 @@ public class Main extends Application implements EventHandler<KeyEvent>, GameEng
                 System.out.println("You pass all the levels!");
                 GameEngine.setPaused(true);
             });
-        }
-    }
-
-
-    public void restartGame() {
-
-        try {
-            levelobject.setLevel(0);
-            levelobject.setHeart(3);
-            levelobject.setScore(0);
-            bo.setvX(1.000);
-            levelobject.setDestroyedBlockCount(0);
-            resetCollideFlags();
-            bo.setGoDownBall(true);
-            bo.setGoRightBall(true);
-            levelobject.setGoldStatus(false);
-            levelobject.setExistHeartBlock(false);
-            levelobject.setGetHeart(false);
-            time = 0;
-            goldTime = 0;
-
-            clearBlocks();
-            blockobject.getBlocks().clear();
-            blockobject.getCheeses().clear();
-            blockobject.getTraps().clear();
-
-            start(primaryStage);
-        } catch (Exception e) {
-            e.printStackTrace();
-
         }
     }
 

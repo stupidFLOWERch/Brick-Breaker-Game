@@ -1,16 +1,20 @@
 package UI;
 
+import Ball.BallObject;
+import Block.BlockObject;
+import User.RestartGame;
 import User.Main;
 import Level.LevelObject;
 import javafx.application.Platform;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.stage.Stage;
 
 public class Score {
 
     private static final int ANIMATION_DURATION = 21;
     private static final int ANIMATION_DELAY = 15;
-
+    RestartGame restartgame = new RestartGame();
     public void show(final double x, final double y, int score, final Main main) {
         LevelObject levelobject = new LevelObject();
         levelobject.setScore(score);
@@ -78,7 +82,8 @@ public class Score {
         }).start();
     }
 
-    public void showGameOver(final Main main) {
+    public void showGameOver(Stage stage, Main main, BallObject bo, BlockObject blockobject, LevelObject levelobject) {
+
         Platform.runLater(() -> {
             Label label = new Label("Game Over :(");
             label.setTranslateX(200);
@@ -92,7 +97,7 @@ public class Score {
             restart.setTranslateX(220);
             restart.setTranslateY(300);
             restart.setOnAction(event -> {
-                main.restartGame();
+                restartgame.restartGame(stage, main, bo, blockobject, levelobject);
             });
 
             if (main.root != null) {
@@ -102,7 +107,7 @@ public class Score {
         });
     }
 
-    public void showWin(final Main main) {
+    public void showWin(Stage stage, Main main, BallObject bo, BlockObject blockobject, LevelObject levelobject) {
         Platform.runLater(() -> {
             Label label = new Label("You Win :)");
             label.setTranslateX(200);
@@ -119,7 +124,7 @@ public class Score {
             restart.setTranslateX(210);
             restart.setTranslateY(360);
             restart.setOnAction(event -> {
-                main.restartGame();
+                restartgame.restartGame(stage, main, bo, blockobject, levelobject);
             });
 
             if (main.root != null) {
