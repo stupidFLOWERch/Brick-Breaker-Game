@@ -128,7 +128,7 @@ public class Score {
             main.root.getChildren().clear();
 
             Button restart = new Button("Restart");
-            restart.setTranslateX(220);
+            restart.setTranslateX(160);
             restart.setTranslateY(300);
             restart.setOnAction(event -> {
                 restartgame.restartGame(stage, main, bo, blockobject, levelobject);
