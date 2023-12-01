@@ -167,19 +167,19 @@ public class Score {
 
         Platform.runLater(() -> {
             Label label = new Label("You Win :)");
-            label.setTranslateX(200);
+            label.setTranslateX(210);
             label.setTranslateY(250);
             label.setScaleX(2);
             label.setScaleY(2);
 
             Button bonusLevel = new Button("Bonus Level");
-            bonusLevel.setTranslateX(200);
+            bonusLevel.setTranslateX(160);
             bonusLevel.setTranslateY(310);
             bonusLevel.setOnAction(event -> startgame.startGame());
 
             Button restart = new Button("Restart");
-            restart.setTranslateX(210);
-            restart.setTranslateY(360);
+            restart.setTranslateX(160);
+            restart.setTranslateY(390);
             restart.setOnAction(event -> {
                 restartgame.restartGame(stage, main, bo, blockobject, levelobject);
             });
@@ -223,7 +223,7 @@ public class Score {
             main.root.getChildren().clear();
 
             Button exit = new Button("Exit Game");
-            exit.setTranslateX(220);
+            exit.setTranslateX(160);
             exit.setTranslateY(600);
             exit.setOnAction(event -> {
                     main.showPauseMenu.exitGame();

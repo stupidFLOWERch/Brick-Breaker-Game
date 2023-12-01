@@ -1,20 +1,17 @@
 .root {
-/*
-    -fx-background-color: #1d1d1d;
-    */
+
     -fx-background-image: url('bg.jpg');
 }
 
 .goldRoot {
-    /*
-    -fx-background-color: #4b4a08;
-    */
+
     -fx-background-image: url('goldbg.jpg');
 }
 
 .win{
    -fx-background-image: url('win.jpg');
 }
+
 .instruction {
    -fx-background-image: url('instruction.jpg');
 }
@@ -23,4 +20,23 @@
     -fx-text-fill: #FFF;
     -fx-label-padding: 8px;
     -fx-font-size: 15px;
+}
+
+.button {
+    -fx-font-size: 16px;
+        -fx-padding: 10px 20px;
+        -fx-pref-width: 200px;
+        -fx-pref-height: 50px;
+        -fx-background-color: #8B4513; /* Wood color */
+        -fx-text-fill: #ffffff; /* White text */
+        -fx-font-family: "Arial";
+        -fx-background-radius: 5px; /* Rounded corners */
+        -fx-border-radius: 5px; /* Rounded corners */
+        -fx-border-color: #634129; /* Slightly Darker Wood border */
+        -fx-border-width: 2px;
+}
+
+.button:hover, .button:focused {
+    -fx-background-color: #634129; /* Slightly Darker Wood on hover */
+    }
 }

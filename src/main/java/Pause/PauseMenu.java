@@ -31,8 +31,8 @@ public class PauseMenu extends VBox {
         setSpacing(20);
 
         // Set the position of PauseMenu to the center of the screen
-        setTranslateX((400 - getWidth()) / 2);
-        setTranslateY((600 - getHeight()) / 2);
+        setTranslateX((260 - getWidth()) / 2);
+        setTranslateY((450 - getHeight()) / 2);
         getChildren().addAll(resumeButton, exitButton, restartButton);
         setAlignment(Pos.CENTER);
         // Customize the appearance of the pause menu if needed

@@ -18,7 +18,7 @@ public class InstructionMenu {
         root.getStyleClass().add("instruction");
 
         Button backButton = new Button("Back to Main Menu");
-        backButton.setTranslateX(200);
+        backButton.setTranslateX(160);
         backButton.setTranslateY(630);
         backButton.setOnAction(event -> main.getMainScene().setRoot(new MainMenu(main, bo, breakobject, blockobject, levelobject).createMainMenuLayout()));
 
