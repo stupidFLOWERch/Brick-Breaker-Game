@@ -7,6 +7,7 @@ import Ball.BallObject;
 import Break.BreakObject;
 import Block.BlockObject;
 import User.Main;
+import User.StartGame;
 
 
 import java.util.Random;
@@ -31,7 +32,7 @@ public class LoadGame{
     public void loadGame() {
 
         Random random = new Random();
-
+        StartGame startgame = new StartGame(main);
         LoadSave loadSave = new LoadSave();
         loadSave.read();
 
@@ -79,7 +80,7 @@ public class LoadGame{
 
         try {
             levelobject.setLoadFromSave(true);
-            main.startGame();
+            startgame.startGame();
         } catch (Exception e) {
             e.printStackTrace();
         }

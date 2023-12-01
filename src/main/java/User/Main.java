@@ -1,17 +1,14 @@
 package User;
 
 import Ball.BallObject;
-import Ball.InitBall;
 import Ball.ResetCollideFlags;
 import Ball.SetPhysicsToBall;
 import Block.BlockObject;
 import Block.Block;
-import Block.InitBlock;
 import Block.Bonus;
 import Block.Trap;
 import Block.CheckDestroyedCount;
 import Break.BreakObject;
-import Break.InitBreak;
 import LoadGameSaveGame.SaveGame;
 import Menu.MainMenu;
 import Pause.PauseGame;
@@ -27,13 +24,10 @@ import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
-import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.ImagePattern;
-import javafx.scene.shape.Circle;
-import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -55,9 +49,6 @@ public class Main extends Application implements EventHandler<KeyEvent>, GameEng
     private ResetCollideFlags resetcollideflags;
     private BreakObject breakobject;
     private BlockObject blockobject;
-    private InitBlock initblock;
-    private InitBall initball;
-    private InitBreak initbreak;
 
 
     public static void main(String[] args) {
@@ -70,10 +61,9 @@ public class Main extends Application implements EventHandler<KeyEvent>, GameEng
         resetcollideflags = new ResetCollideFlags();
         breakobject = new BreakObject();
         blockobject = new BlockObject();
-        initblock = new InitBlock();
-        initball = new InitBall();
-        initbreak = new InitBreak();
         engine = new GameEngine();
+        root = new Pane();
+        setRoot(root);
         levelobject.setScore(0);
         levelobject.setHeart(3);
         levelobject.setLevel(0);
@@ -98,89 +88,8 @@ public class Main extends Application implements EventHandler<KeyEvent>, GameEng
         primaryStage.setTitle("Main Menu");
         primaryStage.show();
     }
-    
-    public void startGame() {
-        new Bgm();
-        if (!levelobject.isLoadFromSave()) {
-            if (levelobject.isFromRestartGame()) {
-                if (levelobject.getLevel() < 18) {
-                    levelobject.setLevel(levelobject.getLevel()+1);
-                    if (levelobject.getLevel() > 1) {
-                        Platform.runLater(() -> new Score().showMessage("Level Up :)", this));
-                    }
-                    if (levelobject.getLevel() == 18) {
 
-                        Platform.runLater(() -> new Score().showWin(primaryStage,this, bo, blockobject, levelobject));
-
-                        System.out.println("You win the game!");
-                        System.out.println("Do you want to play bonus level ?");
-                        return;
-                    }
-                }
-            }
-            bo.setBall(new Circle());
-            bo.setxBall(250);
-            bo.setyBall(500);
-            initball.initBall(bo.getBall(), bo.getxBall(), bo.getyBall());
-
-            getBreakobject().setRect(new Rectangle());
-            getBreakobject().setxBreak(185);
-            initbreak.initBreak(getBreakobject().getRect(), getBreakobject().getxBreak());
-
-            initblock.initBlock(levelobject.getLevel(),blockobject.getBlocks());
-
-        }
-
-
-        root = new Pane();
-
-        levelobject.setScoreLabel(new Label("Score: " + levelobject.getScore()));
-        levelobject.setLevelLabel(new Label("Level: " + levelobject.getLevel()));
-        levelobject.getLevelLabel().setTranslateY(20);
-        levelobject.setHeartLabel(new Label("Heart : " + levelobject.getHeart()));
-        levelobject.getHeartLabel().setTranslateX(levelobject.getSceneWidth() - 70);
-
-        clearBlocks();
-        Platform.runLater(() -> root.getChildren().addAll(getBreakobject().getRect(), bo.getBall(), levelobject.getScoreLabel(), levelobject.getHeartLabel(), levelobject.getLevelLabel()));
-
-        for (Block block : blockobject.getBlocks()) {
-            Platform.runLater(() -> root.getChildren().add(block.rect));
-        }
-
-        Scene scene = new Scene(root, levelobject.getSceneWidth(), levelobject.getSceneHeight());
-        scene.getStylesheets().add("style.css");
-        scene.setOnKeyPressed(this);
-
-        primaryStage.setScene(scene);
-        primaryStage.setTitle("Game");
-        primaryStage.show();
-
-        if (!levelobject.isLoadFromSave() && levelobject.isFromRestartGame()) {
-            if (levelobject.getLevel() > 1 && levelobject.getLevel() <= 18) {
-                GameEngine.restartGameEngine(this);
-            }
-        } else if (levelobject.isLoadFromSave()) {
-            engine = new GameEngine();
-            engine.setOnAction(this);
-            engine.setFps(120);
-            engine.start();
-            levelobject.setLoadFromSave(false);
-        }
-        levelobject.setFromRestartGame(false);
-    }
-
-    public Scene getMainScene() {
-        return mainScene;
-    }
-    public void clearBlocks() {
-        Platform.runLater(() -> root.getChildren().clear());
-    }
-
-    public GameEngine getEngine(){
-        return engine;
-    }
-
-    @Override
+       @Override
     public void handle(KeyEvent event) {
         SaveGame savegame = new SaveGame();
 
@@ -330,9 +239,7 @@ public class Main extends Application implements EventHandler<KeyEvent>, GameEng
                 cheese.taken = true;
                 cheese.cheese.setVisible(false);
                 levelobject.setScore(levelobject.getScore()+3);
-                Platform.runLater(() -> {
-                    new Score().show(cheese.x, cheese.y, 3, this);
-                });
+                Platform.runLater(() -> new Score().show(cheese.x, cheese.y, 3, this));
             }
             cheese.y += elapsedTime * ((bo.getTime() - cheese.timeCreated) / 1000.0) + 1.0;
         }
@@ -361,12 +268,15 @@ public class Main extends Application implements EventHandler<KeyEvent>, GameEng
 
     }
 
-
     @Override
     public void onTime(long time) {
         this.bo.setTime(time);
     }
 
+
+    public Scene getMainScene() {
+        return mainScene;
+    }
     public LevelObject getLevelobject() {
         return levelobject;
     }
@@ -387,8 +297,29 @@ public class Main extends Application implements EventHandler<KeyEvent>, GameEng
         return pauseMenu;
     }
 
+    public Pane getRoot(){
+        return root;
+    }
+
+    public void setRoot(Pane root){
+        this.root = root;
+    }
+    public Stage getPrimaryStage(){
+        return primaryStage;
+    }
     public void setPauseMenu(PauseMenu pauseMenu) {
         this.pauseMenu = pauseMenu;
     }
 
+    public void clearBlocks() {
+        Platform.runLater(() -> root.getChildren().clear());
+    }
+
+    public void setEngine(GameEngine engine) {
+        this.engine = engine;
+    }
+
+    public GameEngine getEngine(){
+        return engine;
+    }
 }

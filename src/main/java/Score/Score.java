@@ -8,6 +8,7 @@ import Level.LevelObject;
 
 
 import LoadGameSaveGame.LoadSave;
+import User.StartGame;
 import javafx.application.Platform;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -141,6 +142,7 @@ public class Score {
     }
 
     public void showWin(Stage stage, Main main, BallObject bo, BlockObject blockobject, LevelObject levelobject) {
+        StartGame startgame = new StartGame(main);
         boolean b = checkfile(levelobject.getFilePath());
         levelobject.setCurrentScore(levelobject.getScore());
         if(b) {
@@ -173,7 +175,7 @@ public class Score {
             Button bonusLevel = new Button("Bonus Level");
             bonusLevel.setTranslateX(200);
             bonusLevel.setTranslateY(310);
-            bonusLevel.setOnAction(event -> main.startGame());
+            bonusLevel.setOnAction(event -> startgame.startGame());
 
             Button restart = new Button("Restart");
             restart.setTranslateX(210);

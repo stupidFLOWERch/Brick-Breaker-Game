@@ -4,11 +4,12 @@ import Ball.ResetCollideFlags;
 import User.Main;
 import Ball.BallObject;
 import Block.BlockObject;
+import User.StartGame;
 
 public class RestartLevel {
 
     public void restartLevel(Main main, BallObject bo, BlockObject blockobject, LevelObject levelobject) {
-
+        StartGame startgame = new StartGame(main);
         ResetCollideFlags resetcollideflags = new ResetCollideFlags();
         levelobject.setFromRestartGame(true);
         bo.setvX(1.000);
@@ -33,7 +34,7 @@ public class RestartLevel {
         levelobject.setLoadFromSave(false);
         main.showPauseMenu.resumeGame(main);
 
-        main.startGame();
+        startgame.startGame();
     }
 
 }

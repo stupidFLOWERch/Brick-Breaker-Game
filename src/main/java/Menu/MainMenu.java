@@ -6,6 +6,7 @@ import Break.BreakObject;
 import User.Main;
 import Level.LevelObject;
 import LoadGameSaveGame.SaveGame;
+import User.StartGame;
 import brickGame.GameEngine;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
@@ -22,12 +23,13 @@ public class MainMenu {
     private final Button instruction = new Button("Instruction");
 
     public MainMenu(Main main, BallObject bo, BreakObject breakobject, BlockObject blockobject, LevelObject levelobject) {
+        StartGame startgame = new StartGame(main);
         LoadGame loadgame = new LoadGame(main, bo, breakobject, blockobject, levelobject);
         boolean b = checkfile(SaveGame.savePath);
         load.setVisible(b);
 
         load.setOnAction(event -> {
-            main.startGame();
+            startgame.startGame();
             main.clearBlocks();
             loadgame.loadGame();
             main.showPauseMenu.resumeGame(main);
@@ -35,7 +37,7 @@ public class MainMenu {
 
         newGame.setOnAction(event -> {
             main.clearBlocks();
-            main.startGame();
+            startgame.startGame();
             GameEngine.restartGameEngine(main);
             main.showPauseMenu.resumeGame(main);
         });

@@ -6,12 +6,14 @@ import Block.BlockObject;
 import Sound.Win;
 import Score.Score;
 import User.Main;
+import User.StartGame;
 import brickGame.GameEngine;
 import javafx.application.Platform;
 
 public class NextLevel {
 
     public void nextLevel(Main main, GameEngine engine, BallObject bo, BlockObject blockobject, LevelObject levelobject) {
+        StartGame startgame = new StartGame(main);
         ResetCollideFlags resetcollidflags = new ResetCollideFlags();
         levelobject.setRestartFromLevel(levelobject.getLevel() + 1);
         levelobject.setRestartFromHeart(levelobject.getHeart());
@@ -39,7 +41,7 @@ public class NextLevel {
             levelobject.setDestroyedBlockCount(0);
 
             try {
-                main.startGame();
+                startgame.startGame();
 
             } catch (Exception e) {
                 e.printStackTrace();
