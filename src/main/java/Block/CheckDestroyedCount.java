@@ -3,7 +3,7 @@ package Block;
 import Level.NextLevel;
 import Level.LevelObject;
 import Ball.BallObject;
-import User.Main;
+import brickGame.Main;
 import brickGame.GameEngine;
 
 public class CheckDestroyedCount {

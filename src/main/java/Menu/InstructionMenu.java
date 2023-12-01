@@ -6,7 +6,7 @@ import Break.BreakObject;
 import Level.LevelObject;
 import javafx.scene.control.Button;
 import javafx.scene.layout.Pane;
-import User.Main;
+import brickGame.Main;
 
 
 public class InstructionMenu {

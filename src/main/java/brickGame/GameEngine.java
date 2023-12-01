@@ -1,6 +1,5 @@
 package brickGame;
 
-import User.Main;
 import javafx.animation.AnimationTimer;
 
 public class GameEngine {

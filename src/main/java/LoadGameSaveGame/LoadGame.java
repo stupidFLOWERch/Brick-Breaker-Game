@@ -6,8 +6,8 @@ import Level.LevelObject;
 import Ball.BallObject;
 import Break.BreakObject;
 import Block.BlockObject;
-import User.Main;
-import User.StartGame;
+import brickGame.Main;
+import brickGame.StartGame;
 
 
 import java.util.Random;

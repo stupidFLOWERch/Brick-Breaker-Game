@@ -5,8 +5,8 @@ import Ball.ResetCollideFlags;
 import Block.BlockObject;
 import Sound.Win;
 import Score.Score;
-import User.Main;
-import User.StartGame;
+import brickGame.Main;
+import brickGame.StartGame;
 import brickGame.GameEngine;
 import javafx.application.Platform;
 
