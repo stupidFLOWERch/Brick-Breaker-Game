@@ -12,9 +12,11 @@ import Block.Trap;
 import Block.CheckDestroyedCount;
 import Break.BreakObject;
 import Break.InitBreak;
+import LoadGameSaveGame.SaveGame;
 import Menu.MainMenu;
-import Menu.PauseMenu;
-import Menu.ShowPauseMenu;
+import Pause.PauseGame;
+import Pause.PauseMenu;
+import Pause.ShowPauseMenu;
 import Score.Score;
 import brickGame.*;
 import Level.LevelObject;
@@ -40,8 +42,6 @@ import java.util.List;
 
 public class Main extends Application implements EventHandler<KeyEvent>, GameEngine.OnAction {
 
-    private static final int LEFT = 1;
-    private static final int RIGHT = 2;
     private final Move move = new Move(this);
     public final ShowPauseMenu showPauseMenu = new ShowPauseMenu(this);
     private GameEngine engine;
@@ -187,10 +187,10 @@ public class Main extends Application implements EventHandler<KeyEvent>, GameEng
 
         switch (event.getCode()) {
             case LEFT:
-                move.move(LEFT);
+                move.move(BreakObject.getLEFT());
                 break;
             case RIGHT:
-                move.move(RIGHT);
+                move.move(BreakObject.getRIGHT());
                 break;
             case S:
                 savegame.saveGame(this, bo, blockobject, levelobject, getBreakobject());
@@ -210,10 +210,6 @@ public class Main extends Application implements EventHandler<KeyEvent>, GameEng
                 }
                 break;
         }
-    }
-
-    public void exitGame() {
-        Platform.exit();
     }
 
 
