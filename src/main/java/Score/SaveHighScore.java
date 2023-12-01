@@ -1,6 +1,6 @@
 package Score;
 
-import Level.LevelObject;
+import PlayGame.LevelObject;
 
 import java.io.BufferedWriter;
 import java.io.FileWriter;

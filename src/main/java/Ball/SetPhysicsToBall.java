@@ -1,7 +1,7 @@
 package Ball;
 
 import Score.Score;
-import Level.LevelObject;
+import PlayGame.LevelObject;
 import Break.BreakObject;
 import Block.BlockObject;
 

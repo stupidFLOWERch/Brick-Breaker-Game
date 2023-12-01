@@ -3,7 +3,7 @@ package Menu;
 import Ball.BallObject;
 import Block.BlockObject;
 import Break.BreakObject;
-import Level.LevelObject;
+import PlayGame.LevelObject;
 import javafx.scene.control.Button;
 import javafx.scene.layout.Pane;
 import brickGame.Main;

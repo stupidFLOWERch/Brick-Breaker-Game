@@ -1,7 +1,7 @@
 package Block;
 
-import Level.NextLevel;
-import Level.LevelObject;
+import PlayGame.NextLevel;
+import PlayGame.LevelObject;
 import Ball.BallObject;
 import brickGame.Main;
 import brickGame.GameEngine;

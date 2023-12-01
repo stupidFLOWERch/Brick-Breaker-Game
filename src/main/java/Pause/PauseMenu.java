@@ -4,9 +4,9 @@ package Pause;
 import Ball.BallObject;
 import Block.BlockObject;
 
-import Level.LevelObject;
+import PlayGame.LevelObject;
 import brickGame.Main;
-import Level.RestartLevel;
+import PlayGame.RestartLevel;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.layout.VBox;

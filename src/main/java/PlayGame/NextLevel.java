@@ -1,12 +1,13 @@
-package Level;
+package PlayGame;
 
 import Ball.BallObject;
 import Ball.ResetCollideFlags;
 import Block.BlockObject;
+import PlayGame.LevelObject;
 import Sound.Win;
 import Score.Score;
 import brickGame.Main;
-import brickGame.StartGame;
+import PlayGame.StartGame;
 import brickGame.GameEngine;
 import javafx.application.Platform;
 

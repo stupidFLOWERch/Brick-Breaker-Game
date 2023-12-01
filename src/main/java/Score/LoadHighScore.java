@@ -1,6 +1,6 @@
 package Score;
 
-import Level.LevelObject;
+import PlayGame.LevelObject;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;

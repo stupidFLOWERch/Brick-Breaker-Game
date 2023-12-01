@@ -3,7 +3,7 @@ package LoadGameSaveGame;
 import Block.Block;
 import Block.BlockSerializable;
 import Block.BlockObject;
-import Level.LevelObject;
+import PlayGame.LevelObject;
 import Ball.BallObject;
 import Break.BreakObject;
 

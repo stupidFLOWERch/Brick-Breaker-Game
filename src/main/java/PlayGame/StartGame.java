@@ -1,4 +1,4 @@
-package brickGame;
+package PlayGame;
 
 import Ball.InitBall;
 import Block.Block;

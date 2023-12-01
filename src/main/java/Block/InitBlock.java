@@ -1,6 +1,6 @@
 package Block;
 
-import Level.LevelObject;
+import PlayGame.LevelObject;
 
 import java.util.ArrayList;
 import java.util.Random;

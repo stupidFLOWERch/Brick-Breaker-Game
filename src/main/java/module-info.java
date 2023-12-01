@@ -11,8 +11,6 @@ module brickGame {
     opens Ball to javafx.fxml;
     exports Break;
     opens Break to javafx.fxml;
-    exports Level;
-    opens Level to javafx.fxml;
     exports Score;
     opens Score to javafx.fxml;
     exports Menu;
@@ -21,4 +19,6 @@ module brickGame {
     opens LoadGameSaveGame to javafx.fxml;
     exports Pause;
     opens Pause to javafx.fxml;
+    exports PlayGame;
+    opens PlayGame to javafx.fxml;
 }

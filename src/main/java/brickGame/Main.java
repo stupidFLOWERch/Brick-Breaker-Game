@@ -7,7 +7,7 @@ import Break.BreakObject;
 import Menu.MainMenu;
 import Pause.PauseMenu;
 import Pause.ShowPauseMenu;
-import Level.LevelObject;
+import PlayGame.LevelObject;
 
 import javafx.application.Application;
 import javafx.application.Platform;
@@ -80,7 +80,6 @@ public class Main extends Application implements EventHandler<KeyEvent>, GameEng
         handle.handle(event);
        }
 
-
     @Override
     public void onUpdate() {
         onAction.onUpdate();
@@ -98,38 +97,30 @@ public class Main extends Application implements EventHandler<KeyEvent>, GameEng
         onAction.onTime(time);
     }
 
-
     public Scene getMainScene() {
         return mainScene;
     }
     public LevelObject getLevelobject() {
         return levelobject;
     }
-
     public BreakObject getBreakobject() {
         return breakobject;
     }
-
     public BallObject getBo() {
         return bo;
     }
-
     public BlockObject getBlockobject() {
         return blockobject;
     }
-
     public PauseMenu getPauseMenu() {
         return pauseMenu;
     }
-
     public ShowPauseMenu getShowPauseMenu() {
         return showPauseMenu;
     }
-
     public Pane getRoot(){
         return root;
     }
-
     public void setRoot(Pane root){
         this.root = root;
     }
@@ -139,31 +130,24 @@ public class Main extends Application implements EventHandler<KeyEvent>, GameEng
     public void setPauseMenu(PauseMenu pauseMenu) {
         this.pauseMenu = pauseMenu;
     }
-
     public void clearBlocks() {
         Platform.runLater(() -> root.getChildren().clear());
     }
-
     public void setEngine(GameEngine engine) {
         this.engine = engine;
     }
-
     public GameEngine getEngine(){
         return engine;
     }
-
     public Move getMove() {
         return move;
     }
-
     public long getLastUpdateTime() {
         return lastUpdateTime;
     }
-
     public ResetCollideFlags getResetcollideflags() {
         return resetcollideflags;
     }
-
     public void setLastUpdateTime(long lastUpdateTime) {
         this.lastUpdateTime = lastUpdateTime;
     }

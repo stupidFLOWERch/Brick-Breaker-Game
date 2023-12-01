@@ -1,7 +1,6 @@
-package brickGame;
+package PlayGame;
 
 import Block.BlockObject;
-import Level.LevelObject;
 import Ball.BallObject;
 import brickGame.Main;
 import javafx.stage.Stage;

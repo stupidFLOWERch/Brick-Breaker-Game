@@ -1,10 +1,11 @@
-package Level;
+package PlayGame;
 
 import Ball.ResetCollideFlags;
+import PlayGame.LevelObject;
 import brickGame.Main;
 import Ball.BallObject;
 import Block.BlockObject;
-import brickGame.StartGame;
+import PlayGame.StartGame;
 
 public class RestartLevel {
 
