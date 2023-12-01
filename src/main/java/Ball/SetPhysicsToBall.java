@@ -5,7 +5,7 @@ import Level.LevelObject;
 import Break.BreakObject;
 import Block.BlockObject;
 
-import User.Main;
+import brickGame.Main;
 import brickGame.GameEngine;
 
 import javafx.stage.Stage;

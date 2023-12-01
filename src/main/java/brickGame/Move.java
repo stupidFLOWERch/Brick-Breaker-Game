@@ -1,6 +1,7 @@
-package User;
+package brickGame;
 
 import Break.BreakObject;
+import brickGame.Main;
 
 public class Move {
     private final Main main;

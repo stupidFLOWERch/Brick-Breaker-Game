@@ -8,7 +8,7 @@ import Ball.BallObject;
 import Break.BreakObject;
 
 import Score.Score;
-import User.Main;
+import brickGame.Main;
 import javafx.application.Platform;
 import java.io.File;
 import java.io.FileOutputStream;

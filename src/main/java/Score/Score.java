@@ -2,13 +2,13 @@ package Score;
 
 import Ball.BallObject;
 import Block.BlockObject;
-import User.RestartGame;
-import User.Main;
+import brickGame.RestartGame;
+import brickGame.Main;
 import Level.LevelObject;
 
 
 import LoadGameSaveGame.LoadSave;
-import User.StartGame;
+import brickGame.StartGame;
 import javafx.application.Platform;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;

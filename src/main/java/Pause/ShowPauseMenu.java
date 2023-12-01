@@ -1,7 +1,7 @@
 package Pause;
 
 import Sound.Bgm;
-import User.Main;
+import brickGame.Main;
 import brickGame.GameEngine;
 import javafx.application.Platform;
 

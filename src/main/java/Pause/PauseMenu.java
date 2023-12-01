@@ -5,7 +5,7 @@ import Ball.BallObject;
 import Block.BlockObject;
 
 import Level.LevelObject;
-import User.Main;
+import brickGame.Main;
 import Level.RestartLevel;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;

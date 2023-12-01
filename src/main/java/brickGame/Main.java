@@ -1,4 +1,4 @@
-package User;
+package brickGame;
 
 import Ball.BallObject;
 import Ball.ResetCollideFlags;
@@ -15,7 +15,6 @@ import Pause.PauseGame;
 import Pause.PauseMenu;
 import Pause.ShowPauseMenu;
 import Score.Score;
-import brickGame.*;
 import Level.LevelObject;
 import Sound.Sound;
 import Sound.Bgm;

@@ -1,8 +1,9 @@
-package User;
+package brickGame;
 
 import Block.BlockObject;
 import Level.LevelObject;
 import Ball.BallObject;
+import brickGame.Main;
 import javafx.stage.Stage;
 import Ball.ResetCollideFlags;
 
