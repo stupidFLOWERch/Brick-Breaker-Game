@@ -73,6 +73,7 @@ public class Main extends Application implements EventHandler<KeyEvent>, GameEng
         initblock = new InitBlock();
         initball = new InitBall();
         initbreak = new InitBreak();
+        engine = new GameEngine();
         levelobject.setScore(0);
         levelobject.setHeart(3);
         levelobject.setLevel(0);
@@ -156,7 +157,7 @@ public class Main extends Application implements EventHandler<KeyEvent>, GameEng
 
         if (!levelobject.isLoadFromSave() && levelobject.isFromRestartGame()) {
             if (levelobject.getLevel() > 1 && levelobject.getLevel() <= 18) {
-                restartGameEngine();
+                GameEngine.restartGameEngine(this);
             }
         } else if (levelobject.isLoadFromSave()) {
             engine = new GameEngine();
@@ -174,11 +175,9 @@ public class Main extends Application implements EventHandler<KeyEvent>, GameEng
     public void clearBlocks() {
         Platform.runLater(() -> root.getChildren().clear());
     }
-    public void restartGameEngine() {
-        engine = new GameEngine();
-        engine.setOnAction(this);
-        engine.setFps(120);
-        engine.start();
+
+    public GameEngine getEngine(){
+        return engine;
     }
 
     @Override

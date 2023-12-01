@@ -1,5 +1,6 @@
 package brickGame;
 
+import User.Main;
 import javafx.animation.AnimationTimer;
 
 public class GameEngine {
@@ -48,6 +49,14 @@ public class GameEngine {
     public static void setPaused(boolean paused) {
         isPaused = paused;
     }
+
+    public static void restartGameEngine(Main main) {
+        GameEngine engine = main.getEngine();
+        engine.setOnAction(main);
+        engine.setFps(120);
+        engine.start();
+    }
+
     public interface OnAction {
         void onUpdate();
 

@@ -6,6 +6,7 @@ import Break.BreakObject;
 import User.Main;
 import Level.LevelObject;
 import LoadGameSaveGame.SaveGame;
+import brickGame.GameEngine;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.layout.VBox;
@@ -35,7 +36,7 @@ public class MainMenu {
         newGame.setOnAction(event -> {
             main.clearBlocks();
             main.startGame();
-            main.restartGameEngine();
+            GameEngine.restartGameEngine(main);
             main.showPauseMenu.resumeGame(main);
         });
 
