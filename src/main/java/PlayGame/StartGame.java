@@ -88,7 +88,7 @@ public class StartGame {
         } else if (main.getLevelobject().isLoadFromSave()) {
             main.setEngine(new GameEngine());
             main.getEngine().setOnAction(main);
-            main.getEngine().setFps(120);
+            //main.getEngine().setFps();
             main.getEngine().start();
             main.getLevelobject().setLoadFromSave(false);
         }

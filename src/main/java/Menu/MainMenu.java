@@ -31,7 +31,8 @@ public class MainMenu {
         LoadGame loadgame = new LoadGame(main, bo, breakobject, blockobject, levelobject);
         boolean b = checkfile(SaveGame.savePath);
         load.setVisible(b);
-
+        boolean h = checkfile(levelobject.getFilePath());
+        high.setVisible(h);
         load.setOnAction(event -> {
             startgame.startGame();
             main.clearBlocks();

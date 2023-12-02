@@ -13,14 +13,10 @@ public class GameEngine {
         this.onAction = onAction;
     }
 
-    public void setFps(int fps) {
-
-    }
-
     public void start() {
         isStopped = false;
 
-        new AnimationTimer() {
+        animationTimer = new AnimationTimer() {
             @Override
             public void handle(long now) {
                 if (isStopped) {
@@ -28,13 +24,14 @@ public class GameEngine {
                     return;
                 }
 
-                if(!isPaused) {
+                if (!isPaused) {
                     onAction.onUpdate();
                     onAction.onPhysicsUpdate();
                     onAction.onTime(System.currentTimeMillis());
                 }
             }
-        }.start();
+        };
+        animationTimer.start();
     }
 
     public void stop() {
@@ -52,7 +49,6 @@ public class GameEngine {
     public static void restartGameEngine(Main main) {
         GameEngine engine = main.getEngine();
         engine.setOnAction(main);
-        engine.setFps(120);
         engine.start();
     }
 

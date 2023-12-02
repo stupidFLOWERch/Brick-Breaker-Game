@@ -55,7 +55,7 @@ public class SetPhysicsToBall {
         }
 
         if (bo.getyBall() >= breakobject.getyBreak() - bo.getBallRadius()) {
-            //System.out.println("Colide1");
+
             if (bo.getxBall() >= breakobject.getxBreak() && bo.getxBall() <= breakobject.getxBreak() + breakobject.getBreakWidth()) {
                 resetcollideflags.resetCollideFlags(bo);
                 bo.setCollideToBreak(true);
@@ -76,7 +76,7 @@ public class SetPhysicsToBall {
                 } else {
                     bo.setCollideToBreakAndMoveToRight(false);
                 }
-                //System.out.println("Colide2");
+
             }
         }
 
@@ -98,8 +98,8 @@ public class SetPhysicsToBall {
             }
         }
 
-        //Wall Colide
 
+        // Wall Collide
         if (bo.isCollideToRightWall()) {
             bo.setGoRightBall(false);
         }
@@ -108,7 +108,7 @@ public class SetPhysicsToBall {
             bo.setGoRightBall(true);
         }
 
-        //Block Colide
+        //Block Collide
 
         if (bo.isCollideToRightBlock()) {
             bo.setGoRightBall(true);

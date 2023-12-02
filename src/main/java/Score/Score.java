@@ -6,8 +6,6 @@ import PlayGame.RestartGame;
 import brickGame.Main;
 import PlayGame.LevelObject;
 
-
-import LoadGameSaveGame.LoadSave;
 import PlayGame.StartGame;
 import javafx.application.Platform;
 import javafx.scene.control.Button;
@@ -25,9 +23,7 @@ public class Score {
     private static final int ANIMATION_DELAY = 15;
 
     SaveHighScore savehighscore = new SaveHighScore();
-    LoadHighScore loadhighscore = new LoadHighScore();
     RestartGame restartgame = new RestartGame();
-    LoadSave loadsave = new LoadSave();
     public void show(final double x, final double y, int score, final Main main) {
         LevelObject levelobject = new LevelObject();
         levelobject.setScore(score);
@@ -41,9 +37,7 @@ public class Score {
         label.setTranslateX(x);
         label.setTranslateY(y);
 
-        Platform.runLater(() -> {
-        main.root.getChildren().add(label);
-        });
+        Platform.runLater(() -> main.root.getChildren().add(label));
 
         new Thread(() -> {
             for (int i = 0; i < ANIMATION_DURATION; i++) {
@@ -68,11 +62,7 @@ public class Score {
         label.setTranslateX(220);
         label.setTranslateY(340);
 
-        Platform.runLater(()-> {
-
-            main.root.getChildren().add(label);
-
-        });
+        Platform.runLater(()-> main.root.getChildren().add(label));
 
         new Thread(new Runnable() {
             @Override
@@ -99,7 +89,7 @@ public class Score {
         boolean b = checkfile(levelobject.getFilePath());
         levelobject.setCurrentScore(levelobject.getScore());
         if(b) {
-            levelobject.setHighScore(loadhighscore.getHighScore());
+            levelobject.setHighScore(LoadHighScore.getHighScore());
         }else{
             levelobject.setHighScore(0);
         }
@@ -130,9 +120,7 @@ public class Score {
             Button restart = new Button("Restart");
             restart.setTranslateX(160);
             restart.setTranslateY(300);
-            restart.setOnAction(event -> {
-                restartgame.restartGame(stage, main, bo, blockobject, levelobject);
-            });
+            restart.setOnAction(event -> restartgame.restartGame(stage, main, bo, blockobject, levelobject));
 
             if (main.root != null) {
             main.root.getChildren().addAll(label, restart);
@@ -146,7 +134,7 @@ public class Score {
         boolean b = checkfile(levelobject.getFilePath());
         levelobject.setCurrentScore(levelobject.getScore());
         if(b) {
-            levelobject.setHighScore(loadhighscore.getHighScore());
+            levelobject.setHighScore(LoadHighScore.getHighScore());
         }else{
             levelobject.setHighScore(0);
         }
@@ -180,9 +168,7 @@ public class Score {
             Button restart = new Button("Restart");
             restart.setTranslateX(160);
             restart.setTranslateY(390);
-            restart.setOnAction(event -> {
-                restartgame.restartGame(stage, main, bo, blockobject, levelobject);
-            });
+            restart.setOnAction(event -> restartgame.restartGame(stage, main, bo, blockobject, levelobject));
 
             if (main.root != null) {
                 main.root.getChildren().addAll(label, bonusLevel, restart);
@@ -194,7 +180,7 @@ public class Score {
         boolean b = checkfile(levelobject.getFilePath());
         levelobject.setCurrentScore(levelobject.getScore());
         if(b) {
-            levelobject.setHighScore(loadhighscore.getHighScore());
+            levelobject.setHighScore(LoadHighScore.getHighScore());
         }else{
             levelobject.setHighScore(0);
         }
@@ -226,10 +212,7 @@ public class Score {
             Button exit = new Button("Exit Game");
             exit.setTranslateX(160);
             exit.setTranslateY(560);
-            exit.setOnAction(event -> {
-                    main.showPauseMenu.exitGame();
-
-            });
+            exit.setOnAction(event -> main.showPauseMenu.exitGame());
 
             if (main.root != null) {
                 main.root.getChildren().addAll(label, exit);
