@@ -12,36 +12,32 @@ import javafx.scene.layout.Pane;
 
 public class HighScorePage {
 
-    public HighScorePage(LevelObject levelobject, LoadHighScore loadhighscore) {
-    }
-
     public void show(Main main, BallObject bo, BreakObject breakobject, BlockObject blockobject, LevelObject levelobject) {
         Pane root = new Pane();
 
-        Label titleLabel = new Label("High Score Page");
-        titleLabel.setTranslateX(200);
-        titleLabel.setTranslateY(50);
+//        Label playerNameLabel = new Label( LoadHighScore.getName());
+//        playerNameLabel.setTranslateX(160);
+//        playerNameLabel.setTranslateY(120);
+//        playerNameLabel.getStyleClass().add("labelStyle");
 
-        Label playerNameLabel = new Label("Player Name: " + LoadHighScore.getName());
-        playerNameLabel.setTranslateX(200);
-        playerNameLabel.setTranslateY(100);
-
-        Label highScoreLabel = new Label("High Score: " + LoadHighScore.getHighScore());
-        highScoreLabel.setTranslateX(200);
-        highScoreLabel.setTranslateY(150);
+        Label highScoreLabel = new Label("" + LoadHighScore.getHighScore());
+        highScoreLabel.setTranslateX(115);
+        highScoreLabel.setTranslateY(330);
+        highScoreLabel.getStyleClass().add("labelStyle");
 
         Button backButton = new Button("Back to Main Menu");
         backButton.setTranslateX(160);
-        backButton.setTranslateY(630);
+        backButton.setTranslateY(560);
         backButton.setOnAction(event -> {
             MainMenu mainMenu = new MainMenu(main, bo, breakobject, blockobject, levelobject);
+            main.getPrimaryStage().setTitle("Main Menu");
             main.getMainScene().setRoot(mainMenu.createMainMenuLayout());
         });
 
-        root.getChildren().addAll(titleLabel, playerNameLabel, highScoreLabel, backButton);
+        root.getChildren().addAll( highScoreLabel, backButton);
 
-
-
+        main.getPrimaryStage().setTitle("High Score");
+        root.getStyleClass().add("highscore");
         main.getMainScene().setRoot(root);
     }
 }

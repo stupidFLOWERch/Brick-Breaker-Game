@@ -14,7 +14,7 @@ public class ShowPauseMenu {
 
     // Method to show pause menu
     public void showPauseMenu() {
-        main.setPauseMenu(new PauseMenu(main, main.getBo(), main.getBlockobject(), main.getLevelobject()));
+        main.setPauseMenu(new PauseMenu(main, main.getBo(), main.getBlockobject(), main.getLevelobject(), main.getBreakobject()));
         // Add the pause menu to your game root or scene
         main.root.getChildren().add(main.getPauseMenu());
     }// Method to hide the pause menu

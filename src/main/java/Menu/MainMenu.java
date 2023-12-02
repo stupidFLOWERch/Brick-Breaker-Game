@@ -53,7 +53,7 @@ public class MainMenu {
         });
 
         high.setOnAction(event -> {
-            HighScorePage highscorepage = new HighScorePage(levelobject, loadhighscore);
+            HighScorePage highscorepage = new HighScorePage();
             highscorepage.show(main, bo, breakobject, blockobject, levelobject);
         });
 

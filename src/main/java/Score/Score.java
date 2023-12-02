@@ -121,7 +121,7 @@ public class Score {
         Platform.runLater(() -> {
             Label label = new Label("Game Over :(");
             label.setTranslateX(200);
-            label.setTranslateY(250);
+            label.setTranslateY(180);
             label.setScaleX(2);
             label.setScaleY(2);
 
@@ -168,7 +168,7 @@ public class Score {
         Platform.runLater(() -> {
             Label label = new Label("You Win :)");
             label.setTranslateX(210);
-            label.setTranslateY(250);
+            label.setTranslateY(180);
             label.setScaleX(2);
             label.setScaleY(2);
 
@@ -216,15 +216,16 @@ public class Score {
         Platform.runLater(() -> {
             Label label = new Label("Congratulations!");
             label.setTranslateX(200);
-            label.setTranslateY(40);
+            label.setTranslateY(70);
             label.setScaleX(2);
             label.setScaleY(2);
+
 
             main.root.getChildren().clear();
 
             Button exit = new Button("Exit Game");
             exit.setTranslateX(160);
-            exit.setTranslateY(600);
+            exit.setTranslateY(560);
             exit.setOnAction(event -> {
                     main.showPauseMenu.exitGame();
 

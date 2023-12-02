@@ -3,6 +3,7 @@ package Pause;
 
 import Ball.BallObject;
 import Block.BlockObject;
+import Break.BreakObject;
 
 import PlayGame.LevelObject;
 import brickGame.Main;
@@ -15,7 +16,7 @@ public class PauseMenu extends VBox {
 
     private Main main;  // Reference to the main game class
 
-    public PauseMenu(Main main, BallObject bo, BlockObject blockobject, LevelObject levelobject) {
+    public PauseMenu(Main main, BallObject bo, BlockObject blockobject, LevelObject levelobject, BreakObject breakobject) {
         this.main = main;
 
         // Create buttons or other UI elements for your pause menu

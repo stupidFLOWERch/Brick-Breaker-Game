@@ -20,8 +20,12 @@ public class InstructionMenu {
         Button backButton = new Button("Back to Main Menu");
         backButton.setTranslateX(160);
         backButton.setTranslateY(630);
-        backButton.setOnAction(event -> main.getMainScene().setRoot(new MainMenu(main, bo, breakobject, blockobject, levelobject).createMainMenuLayout()));
 
+        backButton.setOnAction(event -> {
+                main.getPrimaryStage().setTitle("Main Menu");
+                main.getMainScene().setRoot(new MainMenu(main, bo, breakobject, blockobject, levelobject).createMainMenuLayout());
+        });
+        main.getPrimaryStage().setTitle("Instruction Page");
         root.getChildren().add(backButton);
         return root;
     }

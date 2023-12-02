@@ -16,10 +16,19 @@
    -fx-background-image: url('instruction.jpg');
 }
 
+.highscore {
+    -fx-background-image:url('highscore.jpg')
+}
+
 .label {
     -fx-text-fill: #FFF;
     -fx-label-padding: 8px;
     -fx-font-size: 15px;
+}
+
+.labelStyle{
+    -fx-text-fill: green;
+        -fx-font-size: 25px;
 }
 
 .button {
