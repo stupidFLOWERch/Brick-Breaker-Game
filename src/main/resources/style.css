@@ -27,8 +27,10 @@
 }
 
 .labelStyle{
-    -fx-text-fill: green;
-        -fx-font-size: 25px;
+   -fx-text-fill: #ffffff;
+   -fx-font-size: 40px;
+   -fx-font-family: "Papyrus";
+   -fx-font-weight: bold;
 }
 
 .button {
