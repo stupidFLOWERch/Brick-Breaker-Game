@@ -19,14 +19,14 @@ import LoadGameSaveGame.SaveGame;
 import static LoadGameSaveGame.LoadSave.checkfile;
 
 public class MainMenu {
-    private final LoadHighScore loadhighscore;
     private final Button load = new Button("Load a Game");
     private final Button newGame = new Button("Start a New Game");
     private final Button instruction = new Button("Instruction");
-    private final Button high = new Button("High Score List");
+    private final Button high = new Button("High Score Page");
+    private final Button exit = new Button("Exit");
 
     public MainMenu(Main main, BallObject bo, BreakObject breakobject, BlockObject blockobject, LevelObject levelobject) {
-        this.loadhighscore = new LoadHighScore();
+        LoadHighScore loadhighscore = new LoadHighScore();
         StartGame startgame = new StartGame(main);
         LoadGame loadgame = new LoadGame(main, bo, breakobject, blockobject, levelobject);
         boolean b = checkfile(SaveGame.savePath);
@@ -56,11 +56,11 @@ public class MainMenu {
             HighScorePage highscorepage = new HighScorePage();
             highscorepage.show(main, bo, breakobject, blockobject, levelobject);
         });
-
+        exit.setOnAction(event ->{main.showPauseMenu.exitGame();});
     }
 
     public VBox createMainMenuLayout() {
-        VBox mainMenuLayout = new VBox(20, load, newGame, instruction, high);
+        VBox mainMenuLayout = new VBox(20, load, newGame, instruction, high,exit);
         mainMenuLayout.setAlignment(Pos.CENTER);
         mainMenuLayout.setSpacing(30);
         return mainMenuLayout;
