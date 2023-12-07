@@ -1,7 +1,7 @@
 
 # Brick Breaker Game 🧱
 
-Brick Breaker Game is a classic arcade video game. The player's goal is to destroy all the bricks in the scree. The player needs to control a paddle to catch a small ball. Here are the simple command:
+Brick Breaker Game is a classic retro video game. The player's goal is to destroy all the bricks in the screen. using a paddle and a bouncing ball. Here are the simple command:
 
 - ⬆️ ⬇️ Change Option
 
@@ -14,6 +14,15 @@ Brick Breaker Game is a classic arcade video game. The player's goal is to destr
 - S      Save Game
 
 - Enter  Select Option
+
+
+
+
+
+
+
+
+
 
 
 
@@ -121,9 +130,10 @@ gitlink: https://github.com/stupidFLOWERch/COMP2042_CW_efyct3
         - If player get the cheese, game will rewards 3 marks to player.
         - Change the design of block and cheese drop down.
         
-- ### Initialize the paddle to the bottom and middle part of the screen
 
+- ### Initialize the paddle to the bottom and middle part of the screen
         - Once player start a new game, pass a level or restart level, the paddle will set position to the middle of the screen instead of the leftside of the screen.
+
 
 - ### Initialize the position of ball to the middle of the screen
         - Once player start a new game, pass a level or restart level, the position of ball will rese to the middle of the scrren and start dropping right down.
@@ -131,11 +141,140 @@ gitlink: https://github.com/stupidFLOWERch/COMP2042_CW_efyct3
 - ### Gold ball
         - Change the ball image and background image when gold ball status.
 
-
 ## Implemented but Not Working Properly
 
-- ### 
+- ### Paddle Extension
+
+        - I want to make the paddle's width extends when the ball destroyed specific type of block. However when I try to work with the features, it does not work properly.
+        - If the ball destroyed the specific type of brick, the paddle's width should be extended. However when i destroyed the block, the image of paddle displayed on the screen is not extended but behind the screen it is extended.
+        - This cause the paddle image and paddle's real width does not match and player can catch the ball although the paddle shows in the screen did not hit the ball.
+        - The features already removed from the game.
+
+- ### Freeze the movement of ball and paddle at the start of game
+        - At the beginning, this feature is implemented but does not work properly. The ball freeze and when I press on Space it will start dropping down to the paddle.
+        - However when the ball hit the paddle, the speed of the ball will become very fast which should not be happened.
+        - The features is now removed from game.
+
+- ### Reset the position of ball and freeze it when loss 1 heart
+        - This feature is implemented but it had same problem with the previous feature.
+        - After pressing Space, the speed of the ball become too fast when hit to the paddle from dropping down.
+        - This features is removed.
+
+
 ## Features Not Implemented
+
+- ### Level Selection
+        - Level selection feature is more designed for games with many levels.
+        - The feature is left out because this game only have 17 levels and 1 bonus level. I think this is not the feature with the higher priority.
+
+- ### Timer for challenge level
+        - This features is mainly aim to motivate players to try their best to to pass a level in time given.
+        - However, due to the complexity of implementing a fair timer system, I decide to prioritize other features that can improve player experience.
+
+- ### Iron block
+        - Create iron blocks that require two hits to be destroyed from the screen.
+        - This is a good features to increase fun of the game. However, the idea appeared during the final stages of the game development.
+        - Thus, this features is left out as there is not enough timeto add it to the game.
+
+
 ## New Java Classes
+
+- ### BallObject.Java
+        - This Java class represents a ball in a game, containing properties such as position, direction, collision flags, velocities, and timing information.
+
+- ### BlockObject.java
+        - This Java class manages collections of blocks, bonuses (cheeses), and traps in a game, each represented by specific shapes and colors.
+
+- ### Trap.java
+        - This Java class represents a serializable trap object in a game, featuring a rectangular shape with an associated image, positioned based on specified row and column parameters, and initialized with random trap images.
+
+- ### BreakObject.java
+        - This Java class represents a break object in a game, defining its position, dimensions, movement capabilities, and associated rectangle shape for collision detection.
+
+- ### InstructionMenu.java
+        - This Java class is responsible for creating the layout of the instruction menu in a game, featuring a back button to return to the main menu and incorporating components related to the game's main objects (BallObject, BreakObject, BlockObject, LevelObject).
+
+- ### MainMenu.java
+        - This Java class represents the main menu of a game and provides options for load game, start a new game, accessing instructions, viewing the high score page, and exiting the game.  
+        - It incorporates functionality for handling game states, loading/saving, and navigation between different sections of the game.
+
+- ### PauseGame.java
+        - This Java class manages the pause state of the game, providing functionality to toggle the pause status and reset it to an unpaused state. The isPaused variable keeps track of whether the game is currently paused.
+
+- ### PauseMenu.java
+        - This Java class represents a pause menu in a game, providing options to resume the game, exit to the main menu, and restart the current level. It utilizes JavaFX components and is designed to be displayed when the game is paused. The class includes methods to handle the respective actions upon button clicks.
+
+- ### ShowPauseMenu.java
+        - This Java class is responsible for displaying and hiding the pause menu in a game, as well as managing actions such as resuming the game or exiting the application. It interacts with various components of the game, including the main game class (Main), the pause menu itself, and the game engine (GameEngine).
+        - The class incorporates methods to show and hide the pause menu, resume the game, and exit the application.
+
+- ### LevelObject.java
+        - This Java class represents the state and attributes of a game level, including the current level number, remaining hearts, player score, gold status, existence of heart blocks, count of destroyed blocks, and various labels for displaying information. 
+        - It manages information related to restarting the game, loading from a saved state, and handles scores, levels, and file paths for high scores. The class encapsulates key parameters and labels relevant to the game's progression and scoring system.
+
+- ### RestartLevel.java
+        - This Java class contains a method restartLevel designed to reset and restart the game level in response to a restart action. It takes parameters from the main game class (Main), the ball object (BallObject), the block object (BlockObject), and the level object (LevelObject). The method sets various attributes and flags to their initial or default states, clears existing blocks, cheeses, and traps, and then proceeds to restart the game using the StartGame class. 
+        - It utilizes the ResetCollideFlags class to reset collision flags associated with the ball.
+
+- ### HighScorePage.java
+        - This Java class is responsible for displaying the high score page in a game. It creates a Pane with congratulatory labels, player name, high score, and a button to return to the main menu. The class utilizes the LoadHighScore class to retrieve and display high score information. 
+        - The appearance of the page is stylized using CSS classes, and the show method is used to present the high score page on the game scene.
+
+- ### SaveHighScore.java
+        - This Java class, named SaveHighScore, contains a method saveHighScore that is responsible for saving a player's high score to a file. It takes two parameters - the player's name and their current score. 
+        - The method creates a BufferedWriter to append the player's name and score to a file specified by the LevelObject class. The file path is obtained from the getFilePath method in the LevelObject class, and the file is located in the "C:\high" directory. If the directory doesn't exist, the method creates it before saving the high score entry. If an IOException occurs during the writing process, the exception is printed to the standard error stream.
+
+- ### LoadHighScore.java
+        - This Java class provides methods to retrieve the highest score and corresponding player name from a file containing high score entries. The file path is obtained from the LevelObject class.
+
+- ### Bgm.java
+        - The Bgm class is a Java class that provides functionality for handling background music in a game using Java's javax.sound.sampled library.
+
+- ### Sound.java
+        - The Sound class handles sound effects by using the javax.sound.sampled library, including a SoundEffect inner class that manages loading and playing the specified sound effect file.
+
+- ### Win.java
+        - The Win class is designed to play a win sound effect using the javax.sound.sampled library, with a nested SoundEffect class handling the loading and playing of the specified sound file when an instance of the Win class is created.
 ## Modified Java Classes
+- ### InitBall.java
+        - This class is created by moving the initball method from Main.java to it.
+        - Change the initialization of xBall and yBall from random to a fixed position.
+        - Make the code better and easier for management.
+
+- ### ResetCollideFlags.java
+        - Move the resetCollideFlags method from Main.java to new class ResetCollideFlags.java.
+        - Make the code better and easier for management.
+
+- ### SetPhysicsToBall.java
+        - Move method setPhysicsToBall from Main.java to new class SetPhysicsToBall.
+        - Correct the typo colide to collide
+        - Plus or minus ball radius to the condition that check the ball hit to the wall
+        - Add condition to let the GoldStatus true if current level is bonus level
+        - Remove ununsed comment 
+
+- ### Block.java
+        - Add new BLOCK_TRAP
+        - Create variable to use for checking the ball hit to which direction of block
+        - Modify the condition for method checkHitToBlock
+        - Add Platform.runLater() to the part update the UI of game
+        - To generate new block, improve the collision of ball with block and improve the UI display
+
+
+- ### Bonus.java
+        - Change choco to cheese
+        - Cater to the theme of game
+
+- ### CheckDestroyedCount.java
+        - Move method checkDestroyedCount from Main.java to new class CheckDestroyedCount.java 
+        - Add condition to rewards player if player pass a level with full health
+        -  Make the code better and easier for management.
+
+- ### InitBlock.java
+        - Move method initBlock from Main.java to new class InitBlock.java
+        - Generate BLOCK_TRAP
+        - Add bonus level that generate all block as BLOCK_CHEESE
+        
+
+
 ## Unexpected Problems
+
