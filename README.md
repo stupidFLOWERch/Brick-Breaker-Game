@@ -27,6 +27,23 @@ Brick Breaker Game is a classic retro video game. The player's goal is to destro
 
 
 ## Compilation Instruction
+        
+    1. Download the zip file.
+    2. Unzip the file to any path.
+    3. Open Intellij.
+    4. Go to file.
+    5. Go to Open.
+    6. Select the unzipped file to oepn.
+    7. Go to file again.
+    8. Go to project structure.
+    9. Go to libraries.
+    10. Press on + symbol above lib.
+    11. Select java.
+    12. Go to the path of your javafx-sdk-21.0.1
+    13. Select lib.
+    14. Press ok and apply.
+
+
 ## Version Control
 
 Github is used for commit and push.
@@ -42,17 +59,22 @@ gitlink: https://github.com/stupidFLOWERch/COMP2042_CW_efyct3
         - 5 buttons are design on Main Menu, which are Load a Game, Start a New Game, Instruction ,High Score Page and Exit.
         - If there are not any saved game progress, Load A Game button will be hide.
         - The Main Menu is redesign by changing the background image, adding buttons and using new fonts.
+
+ ![main](src/main/resources/MainMenu_Page.png)
         
 - ### Instruction Page
         
         - Instruction Page is displayed when Instruction button is pressed. The page is added to show the command that player can do to the game.
         - Back to Main Menu button can be pressed to return to the Main Menu.
 
+   ![instruction](src/main/resources/Instruction_Page.png)
+
 - ### High Score Page 
 
         - High Score Page is displayed when High Score Page button is pressed. The page is added to show the player's name and the highest score achieved in the game. 
         - Back to Main Menu button can be pressed to return to the Main Menu.
 
+ ![high](src/main/resources/HighScore_Page.png)
 
 - ### Exit Game
         - When Exit Button is pressed, the game will exit.
@@ -64,6 +86,8 @@ gitlink: https://github.com/stupidFLOWERch/COMP2042_CW_efyct3
 - ### Pause Menu
         - There are 3 buttons on Pause Menu, which are Resume, Exit and Restart Level.
         - When the game is paused, Pause Menu is displayed. Otherwise, it is hidden.
+  
+  ![pause](src/main/resources/PauseMenu_Page.png)
         
 - ### Background Music
         - Background music is added to the game.
@@ -83,12 +107,16 @@ gitlink: https://github.com/stupidFLOWERch/COMP2042_CW_efyct3
         - When the players pass level 17, the screen will display win and ask player to play for bonus level or restart Game.
         - There are two button in the page, which are Bonus Level and Restart button.
 
+   ![win](src/main/resources/Win_Page.png)
+
 - ### Bonus Level 
         - When player press on Bonus Level button, player will proceed to the last level which is Bonus Level.
 
 
 - ### Pass Game Page
         - When player pass the Bonus Level, the game will congrats player and display a Exit button.
+
+   ![pass](src/main/resources/PassGame_Page.png)
 
 - ### Pass Game Sound Effect
         - When bonus level is passed, the Pass Game sound will played.
@@ -101,6 +129,8 @@ gitlink: https://github.com/stupidFLOWERch/COMP2042_CW_efyct3
 - ### Save Highest Score and Player's name
         - If players achieve the highest score and loss the game or win the game, the game will display a dialog box for player to enter name.
         - After the name is entered and ok is press, the highest score will saved with players's name.
+
+   ![dialog](src/main/resources/HighScore_Dialog.png)
 
 - ### Rewards if pass a level without lossing heart
         - If player pass a level without lossing any hearts, extra scores will be reward to the player.
@@ -116,6 +146,7 @@ gitlink: https://github.com/stupidFLOWERch/COMP2042_CW_efyct3
 - ### Game Over
         - When player's heart decrease to 0, the screen will display Game Over and a Restart Button.
 
+ ![gg](src/main/resources/GameOver_Page.png)
 - ### Save Game
         - When keyboard button 'S' is pressed, the game progress will be saved.
         - Only one game progress can be saved at a time. If there is any progress saved before, the progress will be cover by the latest saved progress.
