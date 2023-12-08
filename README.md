@@ -26,6 +26,7 @@ Brick Breaker Game is a classic retro video game. The player's goal is to destro
 
 
 
+## Compilation Instruction
 ## Version Control
 
 Github is used for commit and push.
@@ -222,7 +223,8 @@ gitlink: https://github.com/stupidFLOWERch/COMP2042_CW_efyct3
 
 - ### SaveHighScore.java
         - This Java class, named SaveHighScore, contains a method saveHighScore that is responsible for saving a player's high score to a file. It takes two parameters - the player's name and their current score. 
-        - The method creates a BufferedWriter to append the player's name and score to a file specified by the LevelObject class. The file path is obtained from the getFilePath method in the LevelObject class, and the file is located in the "C:\high" directory. If the directory doesn't exist, the method creates it before saving the high score entry. If an IOException occurs during the writing process, the exception is printed to the standard error stream.
+        - The method creates a BufferedWriter to append the player's name and score to a file specified by the LevelObject class. The file path is obtained from the getFilePath method in the LevelObject class, and the file is located in the "C:\high" directory. 
+        - If the directory doesn't exist, the method creates it before saving the high score entry. If an IOException occurs during the writing process, the exception is printed to the standard error stream.
 
 - ### LoadHighScore.java
         - This Java class provides methods to retrieve the highest score and corresponding player name from a file containing high score entries. The file path is obtained from the LevelObject class.
@@ -445,3 +447,15 @@ gitlink: https://github.com/stupidFLOWERch/COMP2042_CW_efyct3
             
 ## Unexpected Problems
 
+- ### Switch From Eclipse to Intellij
+        - At first I am using Eclipse to do the assignment. However, I find out that set up and use for Eclipse is more complitable than Intellij.
+        - Then I switch IDE from Eclipse to Intellij. Since it is different for Eclipse and Intellij, I need to take time to learn a new IDE.
+        - Thats the problem faced when I suddenly decide to change IDE use for assignment.
+        - When I am learning Intellij, I start with the assignment at the same time. Thus, my assignment progress is not left behind. Thats how I resolve this problem.
+
+- ### Time Management
+        - Since not only 1 assignment needed to complete in the given time period, I faced the problem on manage my time properly.
+        - When doing this assignment, I also need to split my time for revision as there are some quizes that needed to be taken.
+        - I also need to decide whether which thing have the higher priority that I have to do first.
+        - Thus, I create a workingsheet to manage my time properly and set a internal deadline for myself.
+        - This is aimed to reserved some time for me to check and review my work before submission.
