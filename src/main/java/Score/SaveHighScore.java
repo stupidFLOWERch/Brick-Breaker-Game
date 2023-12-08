@@ -20,7 +20,7 @@ public class SaveHighScore {
      * @param currentScore The player's current score.
      */
     public void saveHighScore(String name, int currentScore) {
-        File directory = new File("C:\\high");
+        File directory = new File("C:\\tch_BrickGame_HighScore_File");
         if (!directory.exists()) {
             directory.mkdirs(); // This will create the directory if it doesn't exist
         }

@@ -21,8 +21,8 @@ import java.util.ArrayList;
  * It includes the state of various game objects such as levels, scores, and ball position.
  */
 public class SaveGame {
-    public static String savePath = "C:/save/save.mdds";
-    public static String savePathDir = "C:/save/";
+    public static String savePath = "C:/tch_BrickGame_GameProgress_File/Your_last_saved_GameProgress_Is_Here.mdds";
+    public static String savePathDir = "C:/tch_BrickGame_GameProgress_File/";
 
     /**
      * Saves the current game state to a file in a separate thread.

@@ -24,7 +24,6 @@ public class LevelObject {
     private int restartFromScore = 0;
     private int HighScore = 0;
     private int CurrentScore = 0;
-    private String filePath = "C:/high/highscores.txt";
 
     /**
      * Gets the current score of the player.
@@ -360,6 +359,6 @@ public class LevelObject {
      * @return The file path for storing high scores.
      */
     public String getFilePath() {
-        return filePath;
+        return "C:/tch_BrickGame_HighScore_File/Your_saved_HighScore_Is_Here.txt";
     }
 }
