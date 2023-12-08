@@ -238,43 +238,210 @@ gitlink: https://github.com/stupidFLOWERch/COMP2042_CW_efyct3
 ## Modified Java Classes
 - ### InitBall.java
         - This class is created by moving the initball method from Main.java to it.
-        - Change the initialization of xBall and yBall from random to a fixed position.
-        - Make the code better and easier for management.
+    - #### In method initBall
+
+            - Change the initialization of xBall and yBall from random to a fixed position.
+
+            - Make the code better and easier for management.
 
 - ### ResetCollideFlags.java
         - Move the resetCollideFlags method from Main.java to new class ResetCollideFlags.java.
+
         - Make the code better and easier for management.
 
 - ### SetPhysicsToBall.java
         - Move method setPhysicsToBall from Main.java to new class SetPhysicsToBall.
-        - Correct the typo colide to collide
-        - Plus or minus ball radius to the condition that check the ball hit to the wall
-        - Add condition to let the GoldStatus true if current level is bonus level
-        - Remove ununsed comment 
+    - #### In method setPhysicsToBall
 
-- ### Block.java
-        - Add new BLOCK_TRAP
-        - Create variable to use for checking the ball hit to which direction of block
-        - Modify the condition for method checkHitToBlock
+            - Correct the typo colide to collide
+
+            - Plus or minus ball radius to the condition that check the ball hit to the wall
+
+            - Add condition to let the GoldStatus true if current level is bonus level
+
+            - Remove ununsed comment 
+
+
+- ### Block.java 
         - Add Platform.runLater() to the part update the UI of game
-        - To generate new block, improve the collision of ball with block and improve the UI display
+    - #### In method checkHitToBlock
 
+            - Modify the condition for method checkHitToBlock
+
+            - Create variable to use for checking the ball hit to which direction of block
+
+            - To improve the collision of ball with block and improve the UI display
+    - #### In method draw
+
+            - Add BLOCK_TRAP's pattern to be generate
+        
 
 - ### Bonus.java
-        - Change choco to cheese
-        - Cater to the theme of game
+    - #### In method initializeCheese
+
+            - Change choco to cheese
+
+            - Cater to the theme of game
+
 
 - ### CheckDestroyedCount.java
         - Move method checkDestroyedCount from Main.java to new class CheckDestroyedCount.java 
-        - Add condition to rewards player if player pass a level with full health
-        -  Make the code better and easier for management.
+    - #### In method checkDestroyedCount
+
+            - Add condition to rewards player if player pass a level with full health
+
+            -  Make the code better and easier for management.
+
 
 - ### InitBlock.java
         - Move method initBlock from Main.java to new class InitBlock.java
-        - Generate BLOCK_TRAP
-        - Add bonus level that generate all block as BLOCK_CHEESE
+    - #### In method initBlock
+            - Add part to generate BLOCK_TRAP
+
+            - Add bonus level that generate all block as BLOCK_CHEESE
         
 
+- ### InitBreak.java
+        - Move method InitBreak from Main.java to new class InitBreak.java
+    - #### In method initBreak
 
+            - Set the position of paddle to the middle of the screen in method initBreak.
+
+- ### GameEngine.java
+        - Replace threads by the built-in animation loop provided by AnimationTimer
+
+        - This reduce the chance of concurrency issues.
+
+        - Remove the method setFps
+
+    - #### Animation Timer
+            -The use of AnimationTimer simplifies the game loop implementation. The handle method of AnimationTimer is called in each frame, eliminating the need for manual thread management.
+            
+- ### Handle.java
+        - Move method handle() from Main.java to new class Handle.java
+
+    - #### In method handle
+
+            - Add case 'P' to the code and its if-else condition to pause or unpause the game
+
+- ### Move.java
+        - Move method move from Main.java to new class Move.java
+
+    - #### In method move
+            - Change the condition to check if the paddle reach to the edge of the screen
+
+- ### OnAction.java
+        - Move method onUpdate, method onPhysicsUpdate and method onTime from Main.java to new class OnAction.java
+    
+    - #### In method onUpdate   
+            - Add code to generate the drop down mousetrap after destroyed the BLOCK_TRAP
+            
+            - Create and modify a copy of the list blocksCopy instead of the original list
+
+            - To prevents potential concurrent modification issues
+            
+            - Relies on the getter methods of the main object. 
+
+    - #### In method onPhysicsUpdate
+            - Uses iterators to iterate over the lists of Bonus and Trap objects
+
+            - Remove elements from the lists during iteration to prevents ConcurrentModificationException that could occur 
+
+            - Creates separate lists to store objects that need to be removed. After iteration, the objects are removed using removeAll method. 
+            
+            - This avoid issues with modifying a list during iteration.
+
+
+- ### Score.java
+        - Add Platform.runLater() to all the part related to update game UI
+        
+        - Create constants for animation duration and delay to improve code readability and allow for easy modification.
+
+        - Instances of related classes (SaveHighScore, LoadHighScore, RestartGame, LoadSave) are created and used to promote a more modular design.
+
+        - Add method showCongrat to congrats player pass the game
+
+    - #### In method showWin
+            - Add bonus level button and restart button
+
+            - Add code to check whether player achieve the highest score 
+
+            - Display dialog box to let user input name if highest score is achieved
+
+    - #### In method showGameOver
+            - Add code to check whether player achieve the highest score 
+
+            - Display dialog box to let user input name if highest score is achieved
+
+- ### NextLevel.java
+        - Move method nextLevel from Main.java to new class NextLevel.java
+
+    - #### In method nextLevel
+            - Instances of related classes (StartGame and ResetCollideFlags) are created within the method to promote a more modular design.
+
+            - Use getter and setter methods to access and modify the state of the LevelObject 
+
+            - Call GameEngine.setPaused(true) to pause the game engine to avoid direct access to static variables.
+
+            - Add condition to check for level 18 and displays a congratulatory message using the Score class if true.
+
+            - Set GoRightBall as true
+
+- ### RestartGame.java
+        - Move restartGame method from Main.java to new class RestartGame.java
+
+    - #### Method restartGame
+            - Use getter and setter methods to access and modify the state of LevelObject, BallObject and BlockObject
+
+            - Set GoRightBall as true and GetHeart as false
+
+            - Clear Traps and call method clearBlocks() 
+
+- ### SaveGame.java
+        - Move saveGame method from Main.java to new class SaveGame.java
+        
+        - Change the savePath and savePathDir
+
+        - Modify the value to be save 
+
+        - Use getter and sstter method to access LevelObject, BallObject, BlockObject and BreakObject
+
+- ### LoadGame.java
+        - Move loadGame method from Main.java to new class LoadGame.java
+
+        - Modify the value to be load
+
+        - Use getter and sstter method to access LevelObject, BallObject, BlockObject and BreakObject
+
+- ### LoadSave.java
+        - Create method checkfile to check existing of saved file
+
+        - Create method initializeBonusObjects to initialize bonus objects
+
+- ### StartGame.java
+    - #### startGame method
+            - Split and move the start method in Main.java to new class StartGame.java
+
+            - Change the logic for level up and win the game 
+
+            - Set the ball to a fixed position
+
+            - Use getter and setter method to access and modify the state of LevelObject, BallObject and BlockObject
+
+- ### Main.java
+        - Remove unnecessary variable
+
+         - Create getter and setter method
+        
+    - #### In start method
+            - Create instances of game object
+
+            - Create instance of MainMenu class, pass the references to various game objects. 
+            
+            - Initialize some variable by setter methods
+
+            - Move all method to others class to make code easier for manageable and readable.
+
+            
 ## Unexpected Problems
 
