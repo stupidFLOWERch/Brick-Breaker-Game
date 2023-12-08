@@ -12,6 +12,10 @@ import PlayGame.StartGame;
 
 import java.util.Random;
 
+/**
+ * The LoadGame class provides functionality to load a saved game state and resume the game.
+ * It reads data from a saved game file and sets the game state accordingly.
+ */
 public class LoadGame{
     public long time;
     public long goldTime;
@@ -21,6 +25,15 @@ public class LoadGame{
     private final BlockObject blockobject;
     private final LevelObject levelobject;
 
+    /**
+     * Constructs a {@code LoadGame} instance with references to the main game objects.
+     *
+     * @param main        The main game object.
+     * @param bo          The ball object.
+     * @param breakobject The break object.
+     * @param blockobject The block object.
+     * @param levelobject The level object.
+     */
     public LoadGame(Main main, BallObject bo, BreakObject breakobject, BlockObject blockobject, LevelObject levelobject){
         this.main = main;
         this.bo = bo;
@@ -29,6 +42,9 @@ public class LoadGame{
         this.levelobject = levelobject;
     }
 
+    /**
+     * Loads the saved game state, initializes game objects, and starts the game.
+     */
     public void loadGame() {
 
         Random random = new Random();

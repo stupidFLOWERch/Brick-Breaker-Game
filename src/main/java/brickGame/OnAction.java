@@ -15,13 +15,31 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+/**
+ * The {@code OnAction} class implements the {@link GameEngine.OnAction} interface
+ * to define actions that occur during the game updates, physics calculations, and
+ * time progression.
+ * <p>
+ * It manages UI updates, block collisions, physics interactions, and bonus/trap
+ * behaviors.
+ * </p>
+ */
 public class OnAction implements GameEngine.OnAction {
     private final Main main;
 
+    /**
+     * Constructs an {@code OnAction} instance with a reference to the main game object.
+     *
+     * @param main The main game object.
+     */
     public OnAction(Main main) {
         this.main = main;
     }
 
+    /**
+     * Handles UI updates, block collisions, and specific block interactions during
+     * each game update.
+     */
     @Override
     public void onUpdate() {
         Platform.runLater(() -> {
@@ -105,6 +123,11 @@ public class OnAction implements GameEngine.OnAction {
         }
     }
 
+
+    /**
+     * Handles physics updates, bonus/trap interactions, and goldball effects
+     * during each physics update.
+     */
     @Override
     public void onPhysicsUpdate() {
         SetPhysicsToBall setphysicstoball = new SetPhysicsToBall();
@@ -167,6 +190,11 @@ public class OnAction implements GameEngine.OnAction {
 
     }
 
+    /**
+     * Handles the progression of game time.
+     *
+     * @param time The current game time.
+     */
     @Override
     public void onTime(long time) {
         main.getBo().setTime(time);

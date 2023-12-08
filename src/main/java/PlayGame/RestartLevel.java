@@ -7,8 +7,19 @@ import Ball.BallObject;
 import Block.BlockObject;
 import PlayGame.StartGame;
 
+/**
+ * The RestartLevel class handles the process of restarting the current level of the game.
+ */
 public class RestartLevel {
 
+    /**
+     * Restarts the current level of the game, resetting relevant parameters and clearing the game elements.
+     *
+     * @param main          The main game class.
+     * @param bo            The ball object.
+     * @param blockobject   The block object.
+     * @param levelobject   The level object.
+     */
     public void restartLevel(Main main, BallObject bo, BlockObject blockobject, LevelObject levelobject) {
         StartGame startgame = new StartGame(main);
         ResetCollideFlags resetcollideflags = new ResetCollideFlags();

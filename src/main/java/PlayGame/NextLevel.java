@@ -11,8 +11,21 @@ import PlayGame.StartGame;
 import brickGame.GameEngine;
 import javafx.application.Platform;
 
+/**
+ * The NextLevel class handles the transition to the next level in the game.
+ */
 public class NextLevel {
 
+
+    /**
+     * Advances the game to next level, resetting relevant parameters and restarting the game engine.
+     *
+     * @param main          The main game class.
+     * @param engine        The game engine.
+     * @param bo            The ball object.
+     * @param blockobject   The block object.
+     * @param levelobject   The level object.
+     */
     public void nextLevel(Main main, GameEngine engine, BallObject bo, BlockObject blockobject, LevelObject levelobject) {
         StartGame startgame = new StartGame(main);
         ResetCollideFlags resetcollidflags = new ResetCollideFlags();

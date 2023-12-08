@@ -5,9 +5,19 @@ import PlayGame.LevelObject;
 import java.util.ArrayList;
 import java.util.Random;
 
+/**
+ * The InitBlock class is responsible for initializing the blocks for specific game level.
+ * It generates blocks with different types and positions based on level.
+ */
 public class InitBlock {
     private final Random random = new Random();
 
+    /**
+     * Initializes the blocks for game level.
+     *
+     * @param level  The level for which blocks need to be initialized.
+     * @param blocks The ArrayList to store the initialized blocks.
+     */
     public void initBlock(int level, ArrayList<Block> blocks) {
         LevelObject levelobject = new LevelObject();
         BlockObject blockobject = new BlockObject();

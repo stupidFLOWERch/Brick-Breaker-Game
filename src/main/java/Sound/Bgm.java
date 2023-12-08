@@ -3,6 +3,9 @@ package Sound;
 import javax.sound.sampled.*;
 import java.io.File;
 
+/**
+ * The Bgm class handles background music (BGM) for the game.
+ */
 public class Bgm {
 
     private static Clip clip;
@@ -10,12 +13,19 @@ public class Bgm {
     private static final SoundEffect se = new SoundEffect();
     private static long savedBgmPosition;
 
+    /**
+     * Constructs a new Bgm instance, initializes the background music, and starts playing it.
+     */
     public Bgm(){
         if(clip == null) {
             se.setFile(BgmSound);
             se.play();
         }
     }
+
+    /**
+     * Pauses the background music.
+     */
 
     public static void pause() {
         if(clip != null  && clip.isRunning()){
@@ -25,6 +35,9 @@ public class Bgm {
 
     }
 
+    /**
+     * Resumes the background music from the point where it was paused.
+     */
     public static void resume() {
         if(clip != null){
             clip.setMicrosecondPosition(savedBgmPosition);
@@ -33,7 +46,16 @@ public class Bgm {
         }
     }
 
+    /**
+     * The SoundEffect class represents a sound effect and is used to play short sound clips.
+     */
     public static class SoundEffect{
+
+        /**
+         * Sets the file for the sound effect.
+         *
+         * @param soundFileName The file path of the sound effect.
+         */
         public void setFile(String soundFileName){
 
             try {
@@ -50,6 +72,9 @@ public class Bgm {
 
         }
 
+        /**
+         * Plays the sound effect.
+         */
         public void play(){
             if(clip != null) {
                 clip.setFramePosition(0);

@@ -8,9 +8,22 @@ import javafx.scene.control.Button;
 import javafx.scene.layout.Pane;
 import brickGame.Main;
 
-
+/**
+ * The InstructionMenu class represents the layout for the instruction page in the game.
+ * It provides a back button to return to the main menu.
+ */
 public class InstructionMenu {
 
+    /**
+     * Creates the layout for the instruction page.
+     *
+     * @param main          The main application instance.
+     * @param bo            The BallObject instance used in the game.
+     * @param breakobject   The BreakObject instance used in the game.
+     * @param blockobject   The BlockObject instance used in the game.
+     * @param levelobject   The LevelObject instance used in the game.
+     * @return A Pane representing the instruction page layout.
+     */
     public Pane createInstructionLayout(Main main, BallObject bo, BreakObject breakobject, BlockObject blockobject, LevelObject levelobject) {
         Pane root = new Pane();
         root.setPrefSize(600, 400);

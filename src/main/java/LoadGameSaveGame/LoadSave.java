@@ -13,7 +13,10 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 
-
+/**
+ * The LoadSave class provides functionality to load saved game data and initialize game state.
+ * It reads data from a saved game file and populates the relevant variables and objects.
+ */
 
 public class LoadSave {
     public boolean isExistHeartBlock;
@@ -45,6 +48,10 @@ public class LoadSave {
     public int restartFromLevel;
     public int restartFromHeart;
     public ArrayList<BlockSerializable> blocks = new ArrayList<BlockSerializable>();
+
+    /**
+     * Reads the saved game state from a file, populates game variables, and initializes game objects.
+     */
     public void read() {
 
         try {
@@ -96,6 +103,12 @@ public class LoadSave {
         }
 
     }
+
+    /**
+     * Initializes cheese based on the provided serialized block data.
+     *
+     * @param blockSerializables The serialized block data containing information about cheese.
+     */
     private void initializeBonusObjects(ArrayList<BlockSerializable> blockSerializables) {
         for (BlockSerializable ser : blockSerializables) {
             if (ser.type == Block.BLOCK_CHEESE) {
@@ -105,6 +118,12 @@ public class LoadSave {
         }
     }
 
+    /**
+     * Checks if the file exists at the specified path.
+     *
+     * @param savePath The path to the saved file.
+     * @return {@code true} if the file exists, {@code false} otherwise.
+     */
     public static boolean checkfile(String savePath) {
         Path path = Paths.get(savePath);
         return Files.exists(path) && Files.isRegularFile(path);

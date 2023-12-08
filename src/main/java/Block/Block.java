@@ -10,6 +10,10 @@ import javafx.scene.shape.Rectangle;
 
 import java.io.Serializable;
 
+/**
+ * The Block class represents a block in the Brick Game. Blocks can have different types such as normal, cheese, star, heart, or trap.
+ * It handles the drawing of blocks, their positions, and the logic for checking block collisions with the ball.
+ */
 public class Block implements Serializable {
     private static final Block block = new Block(-1, -1, Color.TRANSPARENT, 99);
 
@@ -26,13 +30,14 @@ public class Block implements Serializable {
     private final int paddingH = 50;
     public Rectangle rect;
 
-
+    // Constants for hit detection
     public static int NO_HIT = -1;
     public static int HIT_RIGHT = 0;
     public static int HIT_BOTTOM = 1;
     public static int HIT_LEFT = 2;
     public static int HIT_TOP = 3;
 
+    // Constants for block types
     public static int BLOCK_NORMAL = 99;
     public static int BLOCK_CHEESE = 100;
     public static int BLOCK_STAR = 101;
@@ -41,7 +46,14 @@ public class Block implements Serializable {
 
 
 
-
+    /**
+     * Constructs a Block with the specified row, column, color, and type.
+     *
+     * @param row    The row position of the block.
+     * @param column The column position of the block.
+     * @param color  The color of the block.
+     * @param type   The type of the block.
+     */
     public Block(int row, int column, Color color, int type) {
         this.row = row;
         this.column = column;
@@ -51,6 +63,9 @@ public class Block implements Serializable {
         draw();
     }
 
+    /**
+     * Draws the block based on its type and color.
+     */
     private void draw() {
         x = (column * width) + paddingH;
         y = (row * height) + paddingTop;
@@ -83,7 +98,13 @@ public class Block implements Serializable {
 
     }
 
-
+    /**
+     * Checks the hit location of the ball concerning the block.
+     *
+     * @param xBall The x-coordinate of the ball.
+     * @param yBall The y-coordinate of the ball.
+     * @return An integer indicating the hit location.
+     */
     public int checkHitToBlock(double xBall, double yBall) {
         BallObject bo = new BallObject();
 

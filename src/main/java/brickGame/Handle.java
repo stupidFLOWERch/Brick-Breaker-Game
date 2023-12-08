@@ -8,13 +8,27 @@ import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.scene.input.KeyEvent;
 
+/**
+ * The Handle class is an event handler for processing keyboard events in the game.
+ * It implements the {@link EventHandler} interface for handling key events.
+ */
 public class Handle implements EventHandler<KeyEvent> {
     private final Main main;
 
+    /**
+     * Constructs a new Handle instance with the specified {@link Main} instance.
+     *
+     * @param main The {@link Main} instance.
+     */
     public Handle(Main main) {
         this.main = main;
     }
 
+    /**
+     * Handles the specified key event, performing actions based on pressed key.
+     *
+     * @param event The key event to handle.
+     */
     public void handle(KeyEvent event) {
         SaveGame savegame = new SaveGame();
 

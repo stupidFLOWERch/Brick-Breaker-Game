@@ -12,10 +12,23 @@ import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.layout.VBox;
 
+/**
+ * The PauseMenu class represents the pause menu of the game, providing options to resume the game,
+ * exit the game, and restart the current level.
+ */
 public class PauseMenu extends VBox {
 
     private Main main;  // Reference to the main game class
 
+    /**
+     * Constructs a new PauseMenu instance.
+     *
+     * @param main          The main application instance.
+     * @param bo            The BallObject instance representing the ball.
+     * @param blockobject   The BlockObject instance representing the blocks.
+     * @param levelobject   The LevelObject instance representing the game level.
+     * @param breakobject   The BreakObject instance representing the breaks.
+     */
     public PauseMenu(Main main, BallObject bo, BlockObject blockobject, LevelObject levelobject, BreakObject breakobject) {
         this.main = main;
 
@@ -41,14 +54,28 @@ public class PauseMenu extends VBox {
     }
 
 
+    /**
+     * Resumes the game from the pause menu.
+     */
     private void resumeGame() {
         main.showPauseMenu.resumeGame(main);
     }
 
+    /**
+     * Exits the game from the pause menu.
+     */
     private void exitGame() {
         main.showPauseMenu.exitGame();  // Call a method in your Main class to exit the game
     }
 
+    /**
+     * Restarts current level from the pause menu.
+     *
+     * @param main          The main application instance.
+     * @param bo            The BallObject instance representing the game ball.
+     * @param blockobject   The BlockObject instance representing the game blocks.
+     * @param levelobject   The LevelObject instance representing the game level.
+     */
     public void restartLevel(Main main, BallObject bo, BlockObject blockobject, LevelObject levelobject){
         this.main = main;
         RestartLevel restartlevel = new RestartLevel();

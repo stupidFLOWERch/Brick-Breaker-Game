@@ -6,10 +6,21 @@ import brickGame.Main;
 import javafx.stage.Stage;
 import Ball.ResetCollideFlags;
 
-
+/**
+ * The RestartGame class handles the process of restarting the game.
+ */
 public class RestartGame {
 
 
+    /**
+     * Restarts the game, resetting relevant parameters and clearing the game elements.
+     *
+     * @param stage         The main stage of the application.
+     * @param main          The main game class.
+     * @param bo            The ball object.
+     * @param blockobject   The block object.
+     * @param levelobject   The level object.
+     */
     public void restartGame(Stage stage, Main main, BallObject bo, BlockObject blockobject, LevelObject levelobject) {
         ResetCollideFlags resetcollideflags = new ResetCollideFlags();
         try {

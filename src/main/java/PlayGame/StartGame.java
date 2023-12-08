@@ -15,13 +15,25 @@ import javafx.scene.layout.Pane;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 
+/**
+ * The StartGame class handles the initialization and starting of the game, including creating game elements,
+ * setting up the game scene, and managing the game state.
+ */
 public class StartGame {
     private final Main main;
 
+    /**
+     * Constructs a new StartGame instance with the specified main game class.
+     *
+     * @param main The main game class.
+     */
     public StartGame(Main main) {
         this.main = main;
     }
 
+    /**
+     * Starts the game by initializing game elements, setting up the scene, and managing the game state.
+     */
     public void startGame() {
         InitBall initball = new InitBall();
         InitBlock initblock = new InitBlock();

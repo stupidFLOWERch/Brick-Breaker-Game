@@ -16,7 +16,9 @@ import java.util.Optional;
 
 import static LoadGameSaveGame.LoadSave.checkfile;
 
-
+/**
+ * The Score class handles displaying various messages and actions related to the player's score.
+ */
 public class Score {
 
     private static final int ANIMATION_DURATION = 21;
@@ -24,6 +26,15 @@ public class Score {
 
     SaveHighScore savehighscore = new SaveHighScore();
     RestartGame restartgame = new RestartGame();
+
+    /**
+     * Displays a score message animation at the specified coordinates.
+     *
+     * @param x     The X-coordinate for the animation.
+     * @param y     The Y-coordinate for the animation.
+     * @param score The score to display in the animation.
+     * @param main  The main game instance.
+     */
     public void show(final double x, final double y, int score, final Main main) {
         LevelObject levelobject = new LevelObject();
         levelobject.setScore(score);
@@ -57,6 +68,13 @@ public class Score {
 
     }
 
+
+    /**
+     * Displays a message animation.
+     *
+     * @param message The message to display.
+     * @param main    The main game instance.
+     */
     public void showMessage(String message, final Main main) {
         final Label label = new Label(message);
         label.setTranslateX(220);
@@ -85,6 +103,15 @@ public class Score {
         }).start();
     }
 
+    /**
+     * Displays the game over screen, checks for a new high score, and allows restarting the game.
+     *
+     * @param stage       The main stage of the application.
+     * @param main        The main game instance.
+     * @param bo          The BallObject instance.
+     * @param blockobject The BlockObject instance.
+     * @param levelobject The LevelObject instance.
+     */
     public void showGameOver(Stage stage, Main main, BallObject bo, BlockObject blockobject, LevelObject levelobject) {
         boolean b = checkfile(levelobject.getFilePath());
         levelobject.setCurrentScore(levelobject.getScore());
@@ -129,6 +156,15 @@ public class Score {
         });
     }
 
+    /**
+     * Displays the win screen, checks for a new high score, and allows restarting or playing a bonus level.
+     *
+     * @param stage       The main stage of the application.
+     * @param main        The main game instance.
+     * @param bo          The BallObject instance.
+     * @param blockobject The BlockObject instance.
+     * @param levelobject The LevelObject instance.
+     */
     public void showWin(Stage stage, Main main, BallObject bo, BlockObject blockobject, LevelObject levelobject) {
         StartGame startgame = new StartGame(main);
         boolean b = checkfile(levelobject.getFilePath());
@@ -176,6 +212,12 @@ public class Score {
         });
     }
 
+    /**
+     * Displays a congratulatory message and allows exiting the game.
+     *
+     * @param main        The main game instance.
+     * @param levelobject The LevelObject instance.
+     */
     public void showCongrat(final Main main, LevelObject levelobject) {
         boolean b = checkfile(levelobject.getFilePath());
         levelobject.setCurrentScore(levelobject.getScore());

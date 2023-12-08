@@ -18,6 +18,10 @@ import LoadGameSaveGame.SaveGame;
 
 import static LoadGameSaveGame.LoadSave.checkfile;
 
+/**
+ * The MainMenu class represents the main menu of the game, providing options for starting a new game,
+ * loading a saved game, the instruction page, viewing the high score page, and exiting the game.
+ */
 public class MainMenu {
     private final Button load = new Button("Load a Game");
     private final Button newGame = new Button("Start a New Game");
@@ -25,6 +29,16 @@ public class MainMenu {
     private final Button high = new Button("High Score Page");
     private final Button exit = new Button("Exit");
 
+
+    /**
+     * Constructs a new MainMenu instance.
+     *
+     * @param main          The main application instance.
+     * @param bo            The BallObject instance representing the game ball.
+     * @param breakobject   The BreakObject instance representing the game breaks.
+     * @param blockobject   The BlockObject instance representing the game blocks.
+     * @param levelobject   The LevelObject instance representing the game level.
+     */
     public MainMenu(Main main, BallObject bo, BreakObject breakobject, BlockObject blockobject, LevelObject levelobject) {
         LoadHighScore loadhighscore = new LoadHighScore();
         StartGame startgame = new StartGame(main);
@@ -59,6 +73,13 @@ public class MainMenu {
         });
         exit.setOnAction(event ->{main.showPauseMenu.exitGame();});
     }
+
+
+    /**
+     * Creates the layout for the main menu.
+     *
+     * @return A VBox representing the main menu layout.
+     */
 
     public VBox createMainMenuLayout() {
         VBox mainMenuLayout = new VBox(20, load, newGame, instruction, high,exit);

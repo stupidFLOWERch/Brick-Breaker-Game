@@ -7,6 +7,10 @@ import javafx.scene.shape.Rectangle;
 import java.io.Serializable;
 import java.util.Random;
 
+/**
+ * The Trap class represents a mousetrap in the game. Traps are obstacles that players
+ * need to avoid. This class provides methods to initialize and manage trap objects.
+ */
 public class Trap implements Serializable {
     public Rectangle mousetrap;
 
@@ -15,10 +19,22 @@ public class Trap implements Serializable {
     public long timeCreated;
     public boolean taken = false;
 
+    /**
+     * Constructs a Trap object with specified row and column.
+     *
+     * @param row    The row position of the trap.
+     * @param column The column position of the trap.
+     */
     public Trap(int row, int column) {
         initializeTrap(row, column);
     }
 
+    /**
+     * Initializes the trap at specified row and column.
+     *
+     * @param row    The row position of the trap.
+     * @param column The column position of the trap.
+     */
     public void initializeTrap(int row, int column) {
         x = (column * (Block.getWidth())) + Block.getPaddingH() + ((double) Block.getWidth() / 2) - 15;
         y = (row * (Block.getHeight())) + Block.getPaddingTop() + ((double) Block.getHeight() / 2) - 15;

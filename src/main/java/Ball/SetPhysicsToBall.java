@@ -10,12 +10,28 @@ import brickGame.GameEngine;
 
 import javafx.stage.Stage;
 
-
+/**
+ * The SetPhysicsToBall class defines the physics behavior of the ball.
+ * It handles collisions with walls, blocks, and the break object, adjusting the ball's position and velocity accordingly.
+ */
 public class SetPhysicsToBall {
+
+    /**
+     * Sets the physics behavior of the ball based on its interactions with the game elements.
+     *
+     * @param stage        The primary stage of the JavaFX application.
+     * @param main         The main application instance.
+     * @param engine       The game engine responsible for running the game loop.
+     * @param bo           The BallObject representing the ball in the game.
+     * @param breakobject  The BreakObject representing the break in the game.
+     * @param blockobject  The BlockObject representing the blocks in the game.
+     * @param levelobject  The LevelObject containing information about the game level.
+     */
     public void setPhysicsToBall(Stage stage, Main main, GameEngine engine, BallObject bo, BreakObject breakobject, BlockObject blockobject, LevelObject levelobject) {
         ResetCollideFlags resetcollideflags = new ResetCollideFlags();
 
         synchronized (this) {
+            // Check if the ball is below the game scene and adjust its behavior
             if (bo.getyBall() >= levelobject.getSceneHeight() - bo.getBallRadius() && bo.isGoDownBall()) {
                 resetcollideflags.resetCollideFlags(bo);
                 bo.setGoDownBall(false);
@@ -35,6 +51,8 @@ public class SetPhysicsToBall {
                 }
             }
 
+
+            // Adjust the ball's position based on its direction
             if (bo.isGoDownBall()) {
                 bo.setyBall(bo.getyBall() + bo.getvY());
             } else {
@@ -47,6 +65,7 @@ public class SetPhysicsToBall {
                 bo.setxBall(bo.getxBall() - bo.getvX());
             }
 
+            // Check for collision with the top of the screen
             if (bo.getyBall() <= bo.getBallRadius()) {
                 resetcollideflags.resetCollideFlags(bo);
                 bo.setGoDownBall(true);
@@ -54,6 +73,7 @@ public class SetPhysicsToBall {
             }
         }
 
+        // Check for collision with the BreakObject
         if (bo.getyBall() >= breakobject.getyBreak() - bo.getBallRadius()) {
 
             if (bo.getxBall() >= breakobject.getxBreak() && bo.getxBall() <= breakobject.getxBreak() + breakobject.getBreakWidth()) {
@@ -71,6 +91,7 @@ public class SetPhysicsToBall {
                     bo.setvX((Math.abs(relation) * 2) + (levelobject.getLevel() / 3.500));
                 }
 
+                // Set the direction of the ball based on the BreakObject's position
                 if (bo.getxBall() - breakobject.getCenterBreakX() > 0) {
                     bo.setCollideToBreakAndMoveToRight(true);
                 } else {
@@ -80,11 +101,13 @@ public class SetPhysicsToBall {
             }
         }
 
+        // Check for collision with the right wall
         if (bo.getxBall() >= levelobject.getSceneWidth() - bo.getBallRadius()) {
             resetcollideflags.resetCollideFlags(bo);
             bo.setCollideToRightWall(true);
         }
 
+        // Check for collision with the left wall
         if (bo.getxBall() <= bo.getBallRadius()) {
             resetcollideflags.resetCollideFlags(bo);
             bo.setCollideToLeftWall(true);

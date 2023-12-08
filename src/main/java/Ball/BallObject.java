@@ -2,6 +2,12 @@ package Ball;
 
 import javafx.scene.shape.Circle;
 
+/**
+ * The BallObject class represents the ball in the Brick Game.
+ * It encapsulates the properties and behaviors of the ball, such as its position,
+ * direction, collision status, and movement velocities.
+ *
+ */
 public class BallObject {
 
     private Circle ball;
@@ -22,30 +28,65 @@ public class BallObject {
     private long goldTime = 0;
     private long time = 0;
 
+    /**
+     * Gets the radius of the ball.
+     *
+     * @return The radius of the ball.
+     */
     public double getBallRadius() {
         return 10;
     }
 
+    /**
+     * Gets the JavaFX Circle object representing the ball.
+     *
+     * @return The Circle object that representing the ball.
+     */
     public Circle getBall() {
         return ball;
     }
 
+    /**
+     * Sets the JavaFX Circle object that representing the ball.
+     *
+     * @param ball The Circle object that representing the ball.
+     */
     public void setBall(Circle ball) {
         this.ball = ball;
     }
 
+    /**
+     * Gets the X-coordinate of the ball's position.
+     *
+     * @return The X-coordinate of the ball's position.
+     */
     public double getxBall() {
         return xBall;
     }
 
+    /**
+     * Sets the X-coordinate of the ball's position.
+     *
+     * @param xBall The new X-coordinate of the ball's position.
+     */
     public void setxBall(double xBall) {
         this.xBall = xBall;
     }
 
+    /**
+     * Gets the Y-coordinate of ball's position.
+     *
+     * @return The Y-coordinate of ball's position.
+     */
     public double getyBall() {
         return yBall;
     }
 
+    /**
+     * Sets the Y-coordinate of the ball's position.
+     *
+     * @param yBall The new Y-coordinate of the ball's position.
+     */
     public void setyBall(double yBall) {
         this.yBall = yBall;
     }
@@ -130,30 +171,68 @@ public class BallObject {
         this.collideToTopBlock = collideToTopBlock;
     }
 
+    /**
+     * Gets the velocity in the X-direction.
+     *
+     * @return The velocity in the X-direction.
+     */
     public double getvX() {
         return vX;
     }
 
+    /**
+     * Sets the velocity in the X-direction.
+     *
+     * @param vX The new velocity in the X-direction.
+     */
     public void setvX(double vX) {
         this.vX = vX;
     }
 
+    /**
+     * Gets the velocity in the Y-direction.
+     *
+     * @return The velocity in the Y-direction.
+     */
     public double getvY() {
         return vY;
     }
 
+
+    /**
+     * Gets the time duration for which the ball is in the gold state.
+     *
+     * @return The time duration for the gold state.
+     */
     public long getGoldTime() {
         return goldTime;
     }
 
+
+    /**
+     * Sets the time duration for which the ball is in the gold state.
+     *
+     * @param goldTime The new gold state time duration.
+     */
     public void setGoldTime(long goldTime) {
         this.goldTime = goldTime;
     }
 
+    /**
+     * Gets the overall time elapsed.
+     *
+     * @return The overall time elapsed.
+     */
     public long getTime() {
         return time;
     }
 
+
+    /**
+     * Sets the overall time elapsed.
+     *
+     * @param time The new overall time elapsed.
+     */
     public void setTime(long time) {
         this.time = time;
     }

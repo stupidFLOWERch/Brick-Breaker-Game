@@ -16,9 +16,23 @@ import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 
+/**
+ * The SaveGame class provides functionality to save the current state of the game.
+ * It includes the state of various game objects such as levels, scores, and ball position.
+ */
 public class SaveGame {
     public static String savePath = "C:/save/save.mdds";
     public static String savePathDir = "C:/save/";
+
+    /**
+     * Saves the current game state to a file in a separate thread.
+     *
+     * @param main         The main application instance.
+     * @param bo           The BallObject containing ball-related parameters.
+     * @param blockobject  The BlockObject containing block-related parameters.
+     * @param levelobject  The LevelObject containing level-related parameters.
+     * @param breakobject  The BreakObject containing break-related parameters.
+     */
     public void saveGame(Main main, BallObject bo, BlockObject blockobject, LevelObject levelobject, BreakObject breakobject) {
 
         new Thread(() -> {
