@@ -20,28 +20,24 @@ Brick Breaker Game is a classic retro video game. The player's goal is to destro
 
 
 
-
-
-
-
-
-
 ## Compilation Instruction
         
-    1. Download the zip file.
-    2. Unzip the file to any path.
-    3. Open Intellij.
-    4. Go to file.
-    5. Go to Open.
-    6. Select the unzipped file to oepn.
-    7. Go to file again.
-    8. Go to project structure.
-    9. Go to libraries.
-    10. Press on + symbol above lib.
-    11. Select java.
-    12. Go to the path of your javafx-sdk-21.0.1
-    13. Select lib.
-    14. Press ok and apply.
+1. Download the zip file.
+2. Unzip the file to any path.
+3. Open Intellij.
+4. Go to file.
+5. Go to Open.
+6. Select the unzipped file to oepn.
+7. If you don't have javafx-sdk-21.0.1, go to [here](https://gluonhq.com/products/javafx/) and download SDK Version 21.0.1.
+8. Go to file again.
+9. Go to project structure.
+10. Go to libraries.
+11. Press on + symbol above lib.
+12. Select java.
+13. Go to the path of your javafx-sdk-21.0.1
+14. Select lib.
+15. Press ok and apply.
+16. Now you can start to play the game.
 
 
 ## Version Control
