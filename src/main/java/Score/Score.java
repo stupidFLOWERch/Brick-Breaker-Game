@@ -201,7 +201,7 @@ public class Score {
             bonusLevel.setTranslateY(310);
             bonusLevel.setOnAction(event -> startgame.startGame());
 
-            Button restart = new Button("Restart");
+            Button restart = new Button("Back to Main Menu");
             restart.setTranslateX(160);
             restart.setTranslateY(390);
             restart.setOnAction(event -> restartgame.restartGame(stage, main, bo, blockobject, levelobject));

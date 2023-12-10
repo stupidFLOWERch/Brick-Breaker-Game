@@ -1,5 +1,6 @@
 package Ball;
 
+import Break.InitBreak;
 import Score.Score;
 import PlayGame.LevelObject;
 import Break.BreakObject;
@@ -29,7 +30,8 @@ public class SetPhysicsToBall {
      */
     public void setPhysicsToBall(Stage stage, Main main, GameEngine engine, BallObject bo, BreakObject breakobject, BlockObject blockobject, LevelObject levelobject) {
         ResetCollideFlags resetcollideflags = new ResetCollideFlags();
-
+        InitBall initball = new InitBall();
+        InitBreak initbreak = new InitBreak();
         synchronized (this) {
             // Check if the ball is below the game scene and adjust its behavior
             if (bo.getyBall() >= levelobject.getSceneHeight() - bo.getBallRadius() && bo.isGoDownBall()) {
@@ -48,6 +50,13 @@ public class SetPhysicsToBall {
                         engine.stop();
                         return;
                     }
+                    System.out.println("Ops, you lost a heart");
+                    initball.initBall(main.getBo());
+                    main.getBo().getBall().setCenterX(main.getBo().getxBall());
+                    main.getBo().getBall().setCenterY(main.getBo().getyBall());
+                    main.getBreakobject().setxBreak(185);
+                    initbreak.initBreak(main.getBreakobject().getRect(), main.getBreakobject().getxBreak());
+
                 }
             }
 
