@@ -56,6 +56,7 @@ public class StartGame {
                     }
                 }
             }
+            System.out.println("\nSPACE to start the ball movement");
             main.getBo().setBall(new Circle());
             initball.initBall(main.getBo());
             main.getBo().getBall().setCenterX(main.getBo().getxBall());
