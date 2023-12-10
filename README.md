@@ -14,6 +14,8 @@ Brick Breaker Game is a classic retro video game. The player's goal is to destro
 - S      Save Game
 
 - Enter  Select Option
+  
+- Space  Start Ball Movement 
 
 
 
@@ -78,6 +80,7 @@ gitlink: https://github.com/stupidFLOWERch/COMP2042_CW_efyct3
 
 - ### Exit Game
         - When Exit Button is pressed, the game will exit.
+
 
 - ### Pause Game
         - When keyboard button 'P' is pressed, the game will pause and freeze at the moment paused.
@@ -173,6 +176,9 @@ gitlink: https://github.com/stupidFLOWERch/COMP2042_CW_efyct3
 - ### Gold ball
         - Change the ball image and background image when gold ball status.
 
+- ### The ball will not move unless SPACE button pressed
+        - After start a new game, go to next level or load a game, the ball will not move in the beginning unless SPACE button pressed.
+  
 ## Implemented but Not Working Properly
 
 - ### Paddle Extension
@@ -240,6 +246,9 @@ gitlink: https://github.com/stupidFLOWERch/COMP2042_CW_efyct3
         - This Java class is responsible for displaying and hiding the pause menu in a game, as well as managing actions such as resuming the game or exiting the application. It interacts with various components of the game, including the main game class (Main), the pause menu itself, and the game engine (GameEngine).
         - The class incorporates methods to show and hide the pause menu, resume the game, and exit the application.
 
+- ### StartBallMovement.java
+        - The Java class is responsible for initiating the movement of the game ball by setting the ball movement flag to true in the associated Main class instance. 
+    
 - ### LevelObject.java
         - This Java class represents the state and attributes of a game level, including the current level number, remaining hearts, player score, gold status, existence of heart blocks, count of destroyed blocks, and various labels for displaying information. 
         - It manages information related to restarting the game, loading from a saved state, and handles scores, levels, and file paths for high scores. The class encapsulates key parameters and labels relevant to the game's progression and scoring system.
@@ -268,6 +277,7 @@ gitlink: https://github.com/stupidFLOWERch/COMP2042_CW_efyct3
 
 - ### Win.java
         - The Win class is designed to play a win sound effect using the javax.sound.sampled library, with a nested SoundEffect class handling the loading and playing of the specified sound file when an instance of the Win class is created.
+
 ## Modified Java Classes
 - ### InitBall.java
         - This class is created by moving the initball method from Main.java to it.
