@@ -22,22 +22,26 @@ Brick Breaker Game is a classic retro video game. The player's goal is to destro
 
 ## Compilation Instruction
         
-1. Download the zip file.
-2. Unzip the file to any path.
-3. Open Intellij.
-4. Go to file.
-5. Go to Open.
-6. Select the unzipped file to oepn.
-7. If you don't have javafx-sdk-21.0.1, go to [here](https://gluonhq.com/products/javafx/) and download SDK Version 21.0.1.
-8. Go to file again.
-9. Go to project structure.
-10. Go to libraries.
-11. Press on + symbol above lib.
-12. Select java.
-13. Go to the path of your javafx-sdk-21.0.1
-14. Select lib.
-15. Press ok and apply.
-16. Now you can start to play the game.
+1. Download the zip file and extract the file to any path.
+2. Open Intellij and go to Open.
+3. Go the unzipped file path.
+4. Select Coursework-Game and press OK.
+5. If you don't have javafx-sdk-21.0.1, go to [here](https://gluonhq.com/products/javafx/) and download SDK Version 21.0.1.
+6. Extract the zip file downloaded to any path.
+7. Go to Main Menu or press 'Alt + \' on keyboard.
+8. Go to File and select Project Structure or press 'Ctrl + Alt + Shift + S' on keyboard.
+9. Select Libraries.
+10. Press on '+' symbol and select Java.
+11. Go to the path of your javafx-sdk-21.0.1
+12. Select lib.
+13. Press Ok and Apply.
+14. Go to src folder and select main folder.
+15. Open java folder and go to brickGame package.
+16. Go to Main.java and press on Run Button or press 'Shift + F10' on your keyboard.
+17. Now you can start to play the game.
+18. If you do not have SDK specified in your intellij, go to Project Structure again or press 'Ctrl + Alt + Shift + S' on keyboard.
+19. Select Project and go to SDK.
+20. Click on Download JDK and Download then Apply.
 
 
 ## Version Control
