@@ -88,6 +88,10 @@ public class LoadGame{
         blockobject.getCheeses().clear();
         blockobject.getTraps().clear();
 
+        main.getBo().getBall().setCenterX(main.getBo().getxBall());
+        main.getBo().getBall().setCenterY(main.getBo().getyBall());
+        main.getBreakobject().getRect().setX(main.getBreakobject().getxBreak());
+        main.getBreakobject().getRect().setY(main.getBreakobject().getyBreak());
         for (BlockSerializable ser : loadSave.blocks) {
             int r = random.nextInt(200);
             blockobject.getBlocks().add(new Block(ser.row, ser.column, blockobject.getColors()[r % blockobject.getColors().length], ser.type));

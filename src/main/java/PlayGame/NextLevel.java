@@ -38,7 +38,7 @@ public class NextLevel {
         engine.stop();
         // reset flags and game state
         resetcollidflags.resetCollideFlags(bo);
-        bo.setGoDownBall(true);
+        bo.setGoDownBall(false);
         bo.setGoRightBall(true);
         levelobject.setGoldStatus(false);
         levelobject.setExistHeartBlock(false);

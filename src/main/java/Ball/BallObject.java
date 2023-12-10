@@ -12,8 +12,8 @@ public class BallObject {
 
     private Circle ball;
     private double xBall;
-    private double yBall;
-    private boolean goDownBall = true;
+    private double yBall = 600;
+    private boolean goDownBall = false;
     private boolean goRightBall = true;
     private boolean collideToBreak = false;
     private boolean collideToBreakAndMoveToRight = true;
@@ -23,6 +23,7 @@ public class BallObject {
     private boolean collideToBottomBlock = false;
     private boolean collideToLeftBlock = false;
     private boolean collideToTopBlock = false;
+    private boolean ballMovementAllowed = false;
     private double vX = 1.000;
     private double vY = 1.000;
     private long goldTime = 0;
@@ -235,5 +236,23 @@ public class BallObject {
      */
     public void setTime(long time) {
         this.time = time;
+    }
+
+    /**
+     * Checks if ball movement is allowed.
+     *
+     * @return {@code true} if ball movement is allowed, {@code false} otherwise.
+     */
+    public boolean isBallMovementAllowed() {
+        return ballMovementAllowed;
+    }
+
+    /**
+     *  Sets the flag to allow or disallow ball movement.
+     *
+     * @param ballMovementAllowed The flag indicating whether ball movement is allowed.
+     */
+    public void setBallMovementAllowed(boolean ballMovementAllowed) {
+        this.ballMovementAllowed = ballMovementAllowed;
     }
 }

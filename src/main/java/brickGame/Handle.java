@@ -1,10 +1,10 @@
 package brickGame;
 
+import Ball.StartBallMovement;
 import Break.BreakObject;
 import LoadGameSaveGame.SaveGame;
 import Pause.PauseGame;
 import Sound.Bgm;
-import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.scene.input.KeyEvent;
 
@@ -31,6 +31,7 @@ public class Handle implements EventHandler<KeyEvent> {
      */
     public void handle(KeyEvent event) {
         SaveGame savegame = new SaveGame();
+        StartBallMovement startballmovement = new StartBallMovement();
 
         switch (event.getCode()) {
             case LEFT:
@@ -55,6 +56,10 @@ public class Handle implements EventHandler<KeyEvent> {
                     main.getShowPauseMenu().hidePauseMenu();
                 }
                 break;
+            case SPACE:
+                if(!main.getBo().isBallMovementAllowed()) {
+                    startballmovement.startBallMovement(main);
+                }
         }
     }
 }

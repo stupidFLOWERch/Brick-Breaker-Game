@@ -14,17 +14,14 @@ public class InitBall {
 
     /**
      * Initializes the properties of the ball, including its position, radius, and fill pattern.
-     *
-     * @param ball The JavaFX Circle object representing the ball.
-     * @param x    The initial X-coordinate of the ball's position.
-     * @param y    The initial Y-coordinate of the ball's position.
+     * @param bo The BallObject to be initialized.
      */
-    public void initBall(Circle ball, double x, double y) {
-        BallObject bo = new BallObject();
-        bo.setxBall(x);
-        bo.setyBall(y);
-        bo.setBall(ball);
+    public void initBall(BallObject bo) {
+
+        bo.setxBall(250);
+        bo.setyBall(630);
         bo.getBall().setRadius(bo.getBallRadius());
         bo.getBall().setFill(new ImagePattern(new Image("ball.png")));
+        bo.setBallMovementAllowed(false);
     }
 }

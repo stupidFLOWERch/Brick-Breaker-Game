@@ -27,7 +27,7 @@ public class RestartLevel {
         bo.setvX(1.000);
         levelobject.setDestroyedBlockCount(0);
         resetcollideflags.resetCollideFlags(bo);
-        bo.setGoDownBall(true);
+        bo.setGoDownBall(false);
         bo.setGoRightBall(true);
         levelobject.setGoldStatus(false);
         levelobject.setExistHeartBlock(false);

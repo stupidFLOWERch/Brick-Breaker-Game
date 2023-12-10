@@ -57,9 +57,9 @@ public class StartGame {
                 }
             }
             main.getBo().setBall(new Circle());
-            main.getBo().setxBall(250);
-            main.getBo().setyBall(500);
-            initball.initBall(main.getBo().getBall(), main.getBo().getxBall(), main.getBo().getyBall());
+            initball.initBall(main.getBo());
+            main.getBo().getBall().setCenterX(main.getBo().getxBall());
+            main.getBo().getBall().setCenterY(main.getBo().getyBall());
 
             main.getBreakobject().setRect(new Rectangle());
             main.getBreakobject().setxBreak(185);
