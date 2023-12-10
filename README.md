@@ -138,6 +138,8 @@ gitlink: https://github.com/stupidFLOWERch/COMP2042_CW_efyct3
 - ### Rewards if pass a level without lossing heart
         - If player pass a level without lossing any hearts, extra scores will be reward to the player.
 
+   ![FullHealth](src/main/resources/Full_Health.png)
+
 ## Refactoring
 
 - ### Load Game 
@@ -173,6 +175,8 @@ gitlink: https://github.com/stupidFLOWERch/COMP2042_CW_efyct3
 - ### Initialize the position of ball to the middle of the screen
         - Once player start a new game, pass a level or restart level, the position of ball will rese to the middle of the scrren and start dropping right down.
 
+   ![Ball](src/main/resources/Start_Ball_Movement.png)
+
 - ### Gold ball
         - Change the ball image and background image when gold ball status.
 
@@ -188,10 +192,6 @@ gitlink: https://github.com/stupidFLOWERch/COMP2042_CW_efyct3
         - This cause the paddle image and paddle's real width does not match and player can catch the ball although the paddle shows in the screen did not hit the ball.
         - The features already removed from the game.
 
-- ### Freeze the movement of ball and paddle at the start of game
-        - At the beginning, this feature is implemented but does not work properly. The ball freeze and when I press on Space it will start dropping down to the paddle.
-        - However when the ball hit the paddle, the speed of the ball will become very fast which should not be happened.
-        - The features is now removed from game.
 
 - ### Reset the position of ball and freeze it when loss 1 heart
         - This feature is implemented but it had same problem with the previous feature.
