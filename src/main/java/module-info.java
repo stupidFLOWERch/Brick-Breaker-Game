@@ -5,20 +5,21 @@ module brickGame {
 
     opens brickGame to javafx.fxml;
     exports brickGame;
-    exports Block;
     opens Block to javafx.fxml;
-    exports Ball;
+    exports Block;
     opens Ball to javafx.fxml;
-    exports Break;
+    exports Ball;
     opens Break to javafx.fxml;
-    exports Score;
+    exports Break;
     opens Score to javafx.fxml;
-    exports Menu;
+    exports Score;
     opens Menu to javafx.fxml;
-    exports LoadGameSaveGame;
+    exports Menu;
     opens LoadGameSaveGame to javafx.fxml;
-    exports Pause;
+    exports LoadGameSaveGame;
     opens Pause to javafx.fxml;
-    exports PlayGame;
+    exports Pause;
     opens PlayGame to javafx.fxml;
+    exports PlayGame;
+
 }
