@@ -140,9 +140,13 @@ gitlink: https://github.com/stupidFLOWERch/COMP2042_CW_efyct3
 
    ![FullHealth](src/main/resources/Full_Health.png)
 
+- ### Non-resizable window
+        - The game is set to non-resizable and player can only play the game in fixed size window.
+
 ## Refactoring
 
-- ### Load Game 
+- ### Load Game
+        - A load game button is added to the Main Menu.
         - When Load a Game button pressed, the game will load and start from the progress where the player saved for the previous game.
         
 - ### Restart Game
@@ -182,6 +186,43 @@ gitlink: https://github.com/stupidFLOWERch/COMP2042_CW_efyct3
 
 - ### The ball will not move unless SPACE button pressed
         - After start a new game, go to next level or load a game, the ball will not move in the beginning unless SPACE button pressed.
+  
+- ### The ball will not penetrate the screen
+        - In the original source code, the ball sometimes will penetrate the screen and go outside the screen.
+        - Now, the ball will not be penetrate the screen as condition related is changed.
+  
+- ### The paddle will not penetrate the screen
+        - The paddle will not be penetrate the screen as condition to check paddle reach the edge of screen changed.
+
+- ### The ball will not generate outside the screen as level increase
+        - In the original code given, the ball will generate outside the screen because of the increase of blocks and the random generation of ball's  position.
+        - If reach to high level, the block will generate more and more loweer which cause the random generation of ball reach outside to the screen.
+        - The problem overcome by fixed the position of ball generated.
+
+- ### Save Game
+        - The destroyed block count saved in the save game method cause logic error which sometimes cannot proceed to next level after load the game progress.
+        - The data saved is modified ti overcome the issue.
+
+- ### UI display
+        - The number display when player catch the cheese, destroyed the block or catch the trap sometimes will not disappear in the original code given.
+        - Platform.runLater() is added to the part related to UI update.
+        - The problem is solved.
+- ### Index Out of Bound
+        - When the ball hit two blocks at the same time, the error will produce.
+        - Change the related thread part to overcome the problem.
+
+- ### Null Pointer Exception
+        - Null pointer will produces sometimes when playing the game.
+        - Add error handling to related code.
+        - Make sure the related code is not null when access it.
+
+- ### Change the save game path to C drive
+        - Some computer d drive cannot be saved a file directly (I am the one)
+        - Change the path to C drive solve the error
+
+- ### Collision of the ball with blocks
+        - The collision condition is modify to check the position of ball and the direction hit to the block.
+  
   
 ## Implemented but Not Working Properly
 
