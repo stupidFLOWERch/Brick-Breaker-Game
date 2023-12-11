@@ -23,7 +23,8 @@ Brick Breaker Game is a classic retro video game. The player's goal is to destro
 
 
 ## Compilation Instruction
-        
+
+### First option
 1. Download the zip file and extract the file to any path.
 2. Open Intellij and go to Open.
 3. Go the unzipped file path.
@@ -45,7 +46,20 @@ Brick Breaker Game is a classic retro video game. The player's goal is to destro
 19. Select Project and go to SDK.
 20. Click on Download JDK and Download then Apply.
 
-
+### Second option
+1. If you do not have SDK specified in your intellij, go to Project Structure again or press 'Ctrl + Alt + Shift + S' on keyboard.
+2. Select Project and go to SDK.
+3. Click on Download JDK and Download then Apply.
+4. Download the zip file and extract the file to any path.
+5. Open Intellij and go to Open.
+6. Go the unzipped file path.
+7. Select Coursework-Game and press OK.
+8. Load the maven script found if required.
+9. Press the m symbol at the top right of the screen.
+10. Press on Execute Maven Goal
+11. Type mvn clean javafx:run
+12. Press Enter on keyboard.
+13. Now you can start to play the game. 
 ## Version Control
 
 Github is used for commit and push.
